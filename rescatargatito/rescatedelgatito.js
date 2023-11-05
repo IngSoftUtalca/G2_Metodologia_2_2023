@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" type="text/css" href="rescatedelgatito.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
-</head>
-<body>
-
-    <script>
-    class Example extends Phaser.Scene
+class Example extends Phaser.Scene
     {
         preload ()
         {
@@ -23,7 +11,8 @@
 
         create ()
         {
-            this.add.image(400, 300, 'sky');
+            var fondo = this.add.image(200, 600, 'sky');
+            
 
             const particles = this.add.particles(0, 0, 'red', {
                 speed: 100,
@@ -41,10 +30,12 @@
         }
     }
 
+    
+
     const config = {
         type: Phaser.AUTO,
-        width: 800,
-        height: 600,
+        width: 600,
+        height: 800,
         scene: Example,
         physics: {
             default: 'arcade',
@@ -55,7 +46,4 @@
     };
 
     const game = new Phaser.Game(config);
-    </script>
     
-</body>
-</html>
