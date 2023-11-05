@@ -46,4 +46,9 @@ class Example extends Phaser.Scene
     };
 
     const game = new Phaser.Game(config);
+
+    var gameContainer = document.getElementById("phaser-container");
+    gameContainer.style.position = "absolute";
+    gameContainer.style.left = 300 + "px";
+    gameContainer.style.top = 300 + "px";
     

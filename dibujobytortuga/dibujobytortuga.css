@@ -7,3 +7,17 @@ body{
     background-attachment: fixed;
     background-position: center;
 }
+
+.button-layout {
+    position: fixed;
+        left: 60px;    /* Coordenada X     */
+        top: 25px;     /* Coordenada Y     */
+}
+
+button {
+    width: 260px;   /* Ancho del botón  */
+    height: 110px;  /* Altura del botón */
+    background: transparent; /* Hace que el fondo del botón sea transparente */
+    border: none; /* Elimina el borde del botón */
+    color: transparent; /* Hace que el color del texto sea transparente */
+}
