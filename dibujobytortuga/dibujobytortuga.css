@@ -17,7 +17,12 @@ body{
 button {
     width: 260px;   /* Ancho del botón  */
     height: 110px;  /* Altura del botón */
-    background: transparent; /* Hace que el fondo del botón sea transparente */
-    border: none; /* Elimina el borde del botón */
-    color: transparent; /* Hace que el color del texto sea transparente */
+    /*background: transparent; /* Hace que el fondo del botón sea transparente */
+    /*border: none; /* Elimina el borde del botón */
+    /*color: transparent; /* Hace que el color del texto sea transparente */
+}
+
+#phaser-container {
+    width: 400%; /* Ancho deseado del juego */
+    height: 500%; /* Alto deseado del juego */
 }

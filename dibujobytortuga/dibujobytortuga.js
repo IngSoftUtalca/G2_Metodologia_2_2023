@@ -1,24 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" type="text/css" href="rescatedelgatito.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
-    
-
-</head>
-<body style="margin-right:19% ; margin-top:8%; display:flex;align-items: center">
-
-    <div class="button-layout">
-        <a href="../pagina_juegos/paginajuegos.html">
-            <button>Click</button>
-        </a>
-    </div>
-    <div id="phaser-container">
-    <script>
-      class Example extends Phaser.Scene
+class Example extends Phaser.Scene
     {
         preload ()
         {
@@ -54,8 +34,8 @@
 
     const config = {
         type: Phaser.AUTO,
-        width: 1050,
-        height: 600,
+        width: 600,
+        height: 800,
         scene: Example,
         physics: {
             default: 'arcade',
@@ -67,10 +47,7 @@
 
     const game = new Phaser.Game(config);
 
-    </script>
-
- </div>
-   
-    
-</body>
-</html>
+    var gameContainer = document.getElementById("phaser-container");
+    gameContainer.style.position = "absolute";
+    gameContainer.style.left = 300 + "px";
+    gameContainer.style.top = 300 + "px";

@@ -7,17 +7,25 @@ body{
     background-attachment: fixed;
     background-position: center;
     
-    margin-left:0px;
-    margin-top: 180px;
-    display: flex;
-    align-items:center;
-
-    
 }
 
 #phaser-container {
-    width: 400px; /* Ancho deseado del juego /
-    height: 500px; / Alto deseado del juego */
+    width: 400%; /* Ancho deseado del juego */
+    height: 500%; /* Alto deseado del juego */
+}
+
+.button-layout {
+    position: fixed;
+        left: 60px;    /* Coordenada X     */
+        top: 25px;     /* Coordenada Y     */
+}
+
+button {
+    width: 260px;   /* Ancho del botón  */
+    height: 110px;  /* Altura del botón */
+    /*background: transparent; /* Hace que el fondo del botón sea transparente */
+    /*border: none; /* Elimina el borde del botón */
+    /*color: transparent; /* Hace que el color del texto sea transparente */
 }
 
 
