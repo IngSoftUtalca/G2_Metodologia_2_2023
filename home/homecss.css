@@ -7,3 +7,14 @@ body{
     background-attachment: fixed;
     background-position: center;
 }
+
+.button-layout {
+    position: fixed;
+    left: 17vw;   /* 17% del ancho del viewport */
+    top: 77vh;    /* 77% de la altura del viewport */
+    width: 320px;   /* Ancho del botón  */
+    height: 120px;  /* Altura del botón */
+    background: transparent; /* Hace que el fondo del botón sea transparente */
+    border: none; /* Elimina el borde del botón */
+    color: transparent; /* Hace que el color del texto sea transparente */
+}

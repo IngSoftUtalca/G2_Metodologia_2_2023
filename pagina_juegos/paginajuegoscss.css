@@ -10,3 +10,58 @@ body{
 
 
 }
+
+.buttonBack-layout {
+    position: fixed;
+    left: 160px;    /* Coordenada X     */
+    top: 15px;     /* Coordenada Y     */
+    width: 145px;   /* Ancho del botón  */
+    height: 55px;  /* Altura del botón */
+    background: transparent; /* Hace que el fondo del botón sea transparente */
+    border: none; /* Elimina el borde del botón */
+    color: transparent; /* Hace que el color del texto sea transparente */ 
+}
+
+.buttonGato-layout {
+    position: fixed;
+    left: 230px;    /* Coordenada X     */
+    top: 520px;     /* Coordenada Y     */
+    width: 475px;   /* Ancho del botón  */
+    height: 370px;  /* Altura del botón */
+    background: transparent; /* Hace que el fondo del botón sea transparente */
+    border: none; /* Elimina el borde del botón */
+    color: transparent; /* Hace que el color del texto sea transparente */ 
+}
+
+.buttonTortuga-layout {
+    position: fixed;
+    left: 1134px;    /* Coordenada X     */
+    top: 123px;     /* Coordenada Y     */
+    width: 475px;   /* Ancho del botón  */
+    height: 370px;  /* Altura del botón */
+    background: transparent; /* Hace que el fondo del botón sea transparente */
+    border: none; /* Elimina el borde del botón */
+    color: transparent; /* Hace que el color del texto sea transparente */  
+}
+
+.buttonSimon-layout {
+    position: fixed;
+    left: 555px;    /* Coordenada X     */
+    top: 123px;     /* Coordenada Y     */
+    width: 483px;   /* Ancho del botón  */
+    height: 372px;  /* Altura del botón */
+    background: transparent; /* Hace que el fondo del botón sea transparente */
+    border: none; /* Elimina el borde del botón */
+    color: transparent; /* Hace que el color del texto sea transparente */  
+}
+
+.buttonTresEnLinea-layout {
+    position: fixed;
+    left: 897px;    /* Coordenada X     */
+    top: 519px;     /* Coordenada Y     */
+    width: 475px;   /* Ancho del botón  */
+    height: 371px;  /* Altura del botón */
+    background: transparent; /* Hace que el fondo del botón sea transparente */
+    border: none; /* Elimina el borde del botón */
+    color: transparent; /* Hace que el color del texto sea transparente */  
+}
