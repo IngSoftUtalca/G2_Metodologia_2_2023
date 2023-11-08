@@ -21,31 +21,54 @@
             class Example extends Phaser.Scene
            {
             preload (){
-                this.load.setBaseURL('https://labs.phaser.io');
-       
-                   this.load.image('sky', 'assets/skies/space3.png');
-                   this.load.image('logo', 'assets/sprites/phaser3-logo.png');
-                   this.load.image('red', 'assets/particles/red.png');
+                   
+                   this.load.image('tortuga', 'tortuga.png');
+                   this.load.image('arriba', 'arriba.png');
+                   this.load.image('abajo', 'abajo.png');
+                   this.load.image('izquierda', 'izquierda.png');
+                   this.load.image('derecha', 'derecha.png');
+                   this.load.image('avanzar', 'avanzar.png');
                }
        
                create ()
                {
-                   var fondo = this.add.image(200, 600, 'sky');
+
+                
+                     let graphics = this.add.graphics();
+                   graphics.lineStyle(2, 0x000000);
+
+                   let line = new Phaser.Geom.Line(500, 300, 500, 400);
+                   graphics.strokeLineShape(line);
+                   let line2 = new Phaser.Geom.Line(500, 400, 800, 400);
+                   graphics.strokeLineShape(line2);
+
+                   var tortuga = this.add.image(500, 300, 'tortuga');
+                   tortuga.displayWidth = 70;
+                   tortuga.displayHeight = 60;
+
+                   var arriba = this.add.image(150, 100, 'arriba');
+                   arriba.displayWidth = 70;
+                   arriba.displayHeight = 60;
+
+                   var derecha = this.add.image(200, 150, 'derecha');
+                   derecha.displayWidth = 60;
+                   derecha.displayHeight = 60;
                    
+                   var izquierda = this.add.image(100, 150, 'izquierda');
+                   izquierda.displayWidth = 70;
+                   izquierda.displayHeight = 60;
+
+                   var abajo = this.add.image(150, 200, 'abajo');
+                   abajo.displayWidth = 80;
+                   abajo.displayHeight = 60;
+
+                   var avanzar = this.add.image(150, 300, 'avanzar');
+                   avanzar.displayWidth = 160;
+                   avanzar.displayHeight = 100;
+
        
-                   const particles = this.add.particles(0, 0, 'red', {
-                       speed: 100,
-                       scale: { start: 1, end: 0 },
-                       blendMode: 'ADD'
-                   });
        
-                   const logo = this.physics.add.image(400, 100, 'logo');
-       
-                   logo.setVelocity(100, 200);
-                   logo.setBounce(1, 1);
-                   logo.setCollideWorldBounds(true);
-       
-                   particles.startFollow(logo);
+                  
                }
            }
 
@@ -53,13 +76,9 @@
                type: Phaser.AUTO,
                width: 1050,
                height: 600,
+               backgroundColor: '#ffffff',
                scene: Example,
-               physics: {
-                   default: 'arcade',
-                   arcade: {
-                       gravity: { y: 200 }
-                   }
-               }
+               
            };
        
            const game = new Phaser.Game(config);
