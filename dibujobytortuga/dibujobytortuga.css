@@ -21,6 +21,6 @@ body{
 
 
 #phaser-container {
-    width: 450%; /* Ancho deseado del juego */
+    width: 800%; /* Ancho deseado del juego */
     height: 800%; /* Alto deseado del juego */
 }

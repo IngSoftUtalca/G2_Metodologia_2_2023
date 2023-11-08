@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
 
 </head>
-<body style="margin-right:24% ; margin-top:11%; display:flex;align-items: center">
+<body style="margin-right:21% ; margin-top:11%; display:flex;align-items: center">
     
     <div>
         <a href="../pagina_juegos/paginajuegos.html" title="Librería de juegos">
@@ -72,24 +72,21 @@
                    avanzar.displayWidth = 160;
                    avanzar.displayHeight = 100;
 
-                   let rectangulo = this.add.rectangle(0, 700, 55500, 400, 0x005B6363)
+                   let rectangulo = this.add.rectangle(0, 650, 55700, 400, 0x005B6363)
                    
-                   var texto = this.add.text(500, 550, 'Instrucciones elegidas', { fill: '#FFFFFF' });
+                   var texto = this.add.text(500, 500, 'Instrucciones elegidas', { fill: '#FFFFFF' });
                    texto.setFontSize(24); // Cambiar el tamaño de fuente
                    texto.setColor('#FFFFFF'); // Cambiar el color del texto
                    texto.setFontStyle('bold'); // Establecer estilo de fuente (normal, itálica, negrita, etc.)
                    texto.setOrigin(0.5); // Cambiar el punto de origen (0.5 significa el centro)
 
-                   
-       
-       
                   
                }
            }
 
            const config = {
                type: Phaser.AUTO,
-               width: 1050,
+               width: 1100,
                height: 555,
                backgroundColor: '#ffffff',
                scene: Example,
