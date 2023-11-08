@@ -22,31 +22,98 @@
     {
         preload ()
         {
-            this.load.setBaseURL('https://labs.phaser.io');
+            
 
-            this.load.image('sky', 'assets/skies/space3.png');
-            this.load.image('logo', 'assets/sprites/phaser3-logo.png');
+            this.load.image('sky', './fondo-abstracto-azul-degradado-estudio-azul-oscuro-liso-vineta-negra_1258-67766.webp');
+            this.load.image('gato', 'gato.png');
+            this.load.image('plataforma', 'plataforma.png');
             this.load.image('red', 'assets/particles/red.png');
+            this.load.image('jugador', 'jugador.png');
+            this.load.image('nubes', 'nubes.png');
+            this.load.image('saltar', 'saltar.png');
+            this.load.image('saltarderecha', 'saltar derecha.png');
+            this.load.image('saltarizquierda', 'saltar izquierda.png');
+
         }
 
         create ()
         {
-            var fondo = this.add.image(200, 600, 'sky');
+            let fondo = this.add.image(600, 300, 'sky');
+            fondo.displayWidth = 2000;
+            fondo.displayHeight = 2000;
+
+            let gato = this.add.sprite (810,330,'gato')
+            gato.displayWidth = 80;
+            gato.displayHeight = 100;
+
+            let plataforma = this.add.sprite (820,400,'plataforma')
+            plataforma.displayWidth = 140;
+            plataforma.displayHeight = 140;
+
+            let plataforma2 = this.add.sprite (40,560,'plataforma')
+            plataforma2.displayWidth = 140;
+            plataforma2.displayHeight = 140;
+
+            let plataforma3 = this.add.sprite (120,560,'plataforma')
+            plataforma3.displayWidth = 140;
+            plataforma3.displayHeight = 140;
             
+            let plataforma4 = this.add.sprite (180,560,'plataforma')
+            plataforma4.displayWidth = 140;
+            plataforma4.displayHeight = 140;
 
-            const particles = this.add.particles(0, 0, 'red', {
-                speed: 100,
-                scale: { start: 1, end: 0 },
-                blendMode: 'ADD'
-            });
+            let plataforma5 = this.add.sprite (260,400,'plataforma')
+            plataforma5.displayWidth = 140;
+            plataforma5.displayHeight = 140;
 
-            const logo = this.physics.add.image(400, 100, 'logo');
+            let plataforma6 = this.add.sprite (340,400,'plataforma')
+            plataforma6.displayWidth = 140;
+            plataforma6.displayHeight = 140;
 
-            logo.setVelocity(100, 200);
-            logo.setBounce(1, 1);
-            logo.setCollideWorldBounds(true);
+            let plataforma7 = this.add.sprite (420,560,'plataforma')
+            plataforma7.displayWidth = 140;
+            plataforma7.displayHeight = 140;
 
-            particles.startFollow(logo);
+            let plataforma8 = this.add.sprite (500,560,'plataforma')
+            plataforma8.displayWidth = 140;
+            plataforma8.displayHeight = 140;
+
+            let plataforma9 = this.add.sprite (500,400,'plataforma')
+            plataforma9.displayWidth = 140;
+            plataforma9.displayHeight = 140;
+
+            let plataforma10 = this.add.sprite (660,400,'plataforma')
+            plataforma10.displayWidth = 140;
+            plataforma10.displayHeight = 140;
+
+            let jugador = this.add.sprite (40,500,'jugador')
+
+            let nubes = this.add.sprite (40,100,'nubes')
+            nubes.displayWidth = 300;
+            nubes.displayHeight = 140;
+
+            let nubes2 = this.add.sprite (800,100,'nubes')
+            nubes2.displayWidth = 300;
+            nubes2.displayHeight = 140;
+
+            let saltar = this.add.sprite (100,180,'saltar')
+            saltar.displayWidth = 180;
+            saltar.displayHeight = 40;
+
+            let saltarderecha = this.add.sprite (230,180,'saltarderecha')
+            saltarderecha.displayWidth = 180;
+            saltarderecha.displayHeight = 45;
+
+            let saltarizquierda = this.add.sprite (370,179,'saltarizquierda')
+            saltarizquierda.displayWidth = 180;
+            saltarizquierda.displayHeight = 43;
+            
+          
+
+
+
+
+            
         }
     }
 
