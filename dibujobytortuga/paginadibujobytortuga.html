@@ -36,51 +36,49 @@
                 
                     let graphics = this.add.graphics();
                     let graphics2 = this.add.graphics();
-                   graphics.lineStyle(2, 0x000000);
+                    graphics.lineStyle(2, 0x000000);
                   
 
 
-                   let line = new Phaser.Geom.Line(500, 300, 500, 400);
-                   graphics.strokeLineShape(line);
-                   let line2 = new Phaser.Geom.Line(500, 400, 800, 400);
-                   graphics.strokeLineShape(line2);
-                   graphics.lineStyle(2, 0x00999999); 
-                   let line3 = new Phaser.Geom.Line(0, 500, 1200, 500);
-                   graphics.strokeLineShape(line3);
+                    let line = new Phaser.Geom.Line(500, 300, 500, 400);
+                    graphics.strokeLineShape(line);
+                    let line2 = new Phaser.Geom.Line(500, 400, 800, 400);
+                    graphics.strokeLineShape(line2);
+                    graphics.lineStyle(2, 0x00999999); 
+                    let line3 = new Phaser.Geom.Line(0, 500, 1200, 500);
+                    graphics.strokeLineShape(line3);
 
-                   var tortuga = this.add.image(500, 300, 'tortuga');
-                   tortuga.displayWidth = 70;
-                   tortuga.displayHeight = 60;
+                    var tortuga = this.add.image(500, 300, 'tortuga');
+                    tortuga.displayWidth = 70;
+                    tortuga.displayHeight = 60;
 
-                   var arriba = this.add.image(150, 100, 'arriba');
-                   arriba.displayWidth = 70;
-                   arriba.displayHeight = 60;
+                    var arriba = this.add.image(150, 100, 'arriba');
+                    arriba.displayWidth = 70;
+                    arriba.displayHeight = 60;
 
-                   var derecha = this.add.image(200, 150, 'derecha');
-                   derecha.displayWidth = 60;
-                   derecha.displayHeight = 60;
+                    var derecha = this.add.image(200, 150, 'derecha');
+                    derecha.displayWidth = 60;
+                    derecha.displayHeight = 60;
                    
-                   var izquierda = this.add.image(100, 150, 'izquierda');
-                   izquierda.displayWidth = 70;
-                   izquierda.displayHeight = 60;
+                    var izquierda = this.add.image(100, 150, 'izquierda');
+                    izquierda.displayWidth = 70;
+                    izquierda.displayHeight = 60;
 
-                   var abajo = this.add.image(150, 200, 'abajo');
-                   abajo.displayWidth = 80;
-                   abajo.displayHeight = 60;
+                    var abajo = this.add.image(150, 200, 'abajo');
+                    abajo.displayWidth = 80;
+                    abajo.displayHeight = 60;
 
-                   var avanzar = this.add.image(150, 300, 'avanzar');
-                   avanzar.displayWidth = 160;
-                   avanzar.displayHeight = 100;
+                    var avanzar = this.add.image(150, 300, 'avanzar');
+                    avanzar.displayWidth = 160;
+                    avanzar.displayHeight = 100;
 
-                   let rectangulo = this.add.rectangle(0, 650, 55700, 400, 0x005B6363)
+                    let rectangulo = this.add.rectangle(0, 650, 55700, 400, 0x005B6363)
                    
-                   var texto = this.add.text(500, 500, 'Instrucciones elegidas', { fill: '#FFFFFF' });
-                   texto.setFontSize(24); // Cambiar el tamaño de fuente
-                   texto.setColor('#FFFFFF'); // Cambiar el color del texto
-                   texto.setFontStyle('bold'); // Establecer estilo de fuente (normal, itálica, negrita, etc.)
-                   texto.setOrigin(0.5); // Cambiar el punto de origen (0.5 significa el centro)
-
-                  
+                    var texto = this.add.text(500, 500, 'Instrucciones elegidas', { fill: '#FFFFFF' });
+                    texto.setFontSize(24); // Cambiar el tamaño de fuente
+                    texto.setColor('#FFFFFF'); // Cambiar el color del texto
+                    texto.setFontStyle('bold'); // Establecer estilo de fuente (normal, itálica, negrita, etc.)
+                    texto.setOrigin(0.5); // Cambiar el punto de origen (0.5 significa el centro)
                }
            }
 
@@ -90,13 +88,11 @@
                height: 555,
                backgroundColor: '#ffffff',
                scene: Example,
-               
            };
        
            const game = new Phaser.Game(config);
        
            </script>
         </div>
-    
 </body>
 </html>
