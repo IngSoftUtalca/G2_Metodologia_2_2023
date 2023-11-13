@@ -7,14 +7,43 @@ body{
     background-attachment: fixed;
     background-position: center;
 }
-
+@keyframes beat {
+  0%, 50%, 100% { transform: scale(1, 1); }
+  30%, 80% { transform: scale(0.95, 0.95); }
+}
 .button-layout {
     position: fixed;
-    left: 17vw;   /* 17% del ancho del viewport */
-    top: 77vh;    /* 77% de la altura del viewport */
-    width: 320px;   /* Ancho del botón  */
-    height: 120px;  /* Altura del botón */
+    
+    left: 15vw;   /* 17% del ancho del viewport */
+    top: 74vh;    /* 77% de la altura del viewport */
+    width: 400px;   /* Ancho del botón  */
+    height: 190px;  /* Altura del botón */
+    background-image: url(comenzar.png);
     background: transparent; /* Hace que el fondo del botón sea transparente */
     border: none; /* Elimina el borde del botón */
-    color: transparent; /* Hace que el color del texto sea transparente */
+    color: transparent; /* Hace que el color del texto sea transparente */ 
+    background-image: url('comenzar.png'); /* Ruta de la imagen de fondo */
+    background-size:cover;/*Ajusta la imagen al tamaño del botón */
+    background-repeat: no-repeat; /* Evita la repetición de la imagen */
+    cursor: pointer;
+    /*animation: .pulso 1s infinite;  Nombre de la animación, duración y repetición infinita */
+    animation: 1.5s ease 0s infinite beat;
 }
+
+.button-layout:before,
+.button-layout:after{
+    position: absolute;
+    content: "";
+    left: 50px;
+    top: 0;
+    width: 80px;
+    height: 110px;
+    transform: rotate(-45deg);
+            transform-origin: 0 100%;
+}
+.button-leyout:after{
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin :100% 100%;
+}
+
