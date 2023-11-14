@@ -222,5 +222,11 @@ div#imagenrescate:hover div#info {
   border: .2rem;
   width: 3rem; /* Ajusta el ancho según tus necesidades */
   margin: .5rem; /* Ajusta el margen según tus necesidades */
-    background-color: darkseagreen;
+    background-color: #296DFD;
+}
+.recuadro1 {
+  border: .2rem;
+  width: 3rem; /* Ajusta el ancho según tus necesidades */
+  margin: .5rem; /* Ajusta el margen según tus necesidades */
+    background-color: #9857F2;
 }
