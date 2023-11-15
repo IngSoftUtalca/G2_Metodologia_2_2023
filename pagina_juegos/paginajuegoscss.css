@@ -39,6 +39,7 @@ body{
     cursor: pointer;
     border: none; /* Elimina el borde del botón */
     color: transparent; /* Hace que el color del texto sea transparente */  
+    
 }
 
 .buttonTortuga-layout {

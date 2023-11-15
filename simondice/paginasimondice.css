@@ -1,8 +1,18 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-image: url('simon.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
 #phaser-container {
     width: 400%; /* Ancho deseado del juego */
     height: 500%; /* Alto deseado del juego */
 }
-
+ 
 .buttonBack-layout {
     position: fixed;
     left: 50px;    /* Coordenada X     */
