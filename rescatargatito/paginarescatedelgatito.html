@@ -127,8 +127,8 @@
 
     gameOver(){
     this.physics.pause();
-    let gameOverText = this.add.text(500, 300, 'Game Over', { fontSize: '32px', fill: '#FF0000' });
-    gameOverText.setOrigin(0.5);
+    let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '32px', fill: '#FF0000' });
+    gameOver.setOrigin(0.5);
 
     // Detén el juego o haz lo que necesites hacer cuando el juego termine
     console.log("¡Game Over!");
@@ -143,8 +143,8 @@
 
     victory(){
     this.physics.pause();
-    let victoryText = this.add.text(500, 300, '¡Victoria!', { fontSize: '32px', fill: '#00FF00' });
-    victoryText.setOrigin(0.5);
+    let victoria = this.add.text(500, 300, '¡Victoria!', { fontSize: '32px', fill: '#00FF00' });
+    victoria.setOrigin(0.5);
 
     console.log("¡Victoria!");
     let botony=400;
