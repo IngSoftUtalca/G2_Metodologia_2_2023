@@ -48,7 +48,7 @@
         gato = this.physics.add.sprite (810,300,'gato')
         gato.setScale(0.23)
         gato.body.setSize(250, 300);
-        gato.body.setImmovable(false);
+  
         
 
         let plataforma1 = this.physics.add.sprite (820,400,'plataforma')
@@ -87,7 +87,7 @@
         this.physics.add.collider(jugador, plataformas);
         this.physics.add.collider(jugador, plataforma1);
         this.physics.add.collider(gato, plataforma1);
-        this.physics.add.collider(gato, jugador);
+  
         
         this.physics.add.overlap(jugador, gato, this.gameOver, null, this);
     }
