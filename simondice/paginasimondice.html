@@ -8,8 +8,6 @@
 </head>
 <style>
 
-
-
     /* Estilos CSS para el canvas */
     canvas {
             border: 1px solid #000; /* Borde negro para visualización */
@@ -18,6 +16,7 @@
             position: absolute;
             top: 197px; /* Posición desde la parte superior */
             left: 349px; /* Posición desde la parte izquierda */
+            background-color: white;
             
 }
 </style>
@@ -44,10 +43,30 @@
         // Obtener el contexto de dibujo 2D del canvas
         const ctx = canvas.getContext('2d');
 
-       
-        
-        // Aquí puedes agregar más código para interactuar con el canvas
-        // Por ejemplo, dibujar líneas, círculos, texto, etc.
+        const squareSize = 300; // Tamaño del cuadrado negro
+        const squareX = 250; // Posición x del cuadrado negro
+        const squareY = 140; // Posición y del cuadrado negro
+
+        // Dibujar el cuadrado negro
+        ctx.fillStyle = 'black'; // Color del cuadrado
+        ctx.fillRect(squareX, squareY, squareSize, squareSize); // (x, y, ancho, alto) del cuadrado
+
+        // Calcular el tamaño de los cuadrados de colores
+        const colorSquareSize = squareSize / 2; // Tamaño relativo a la mitad del cuadrado negro
+
+        // Crear objetos para cada cuadrado
+        const squares = [
+            { x: squareX + (squareSize - colorSquareSize), y: squareY, size: colorSquareSize, color: 'red' },
+            { x: squareX + (squareSize - colorSquareSize), y: squareY + (squareSize - colorSquareSize), size: colorSquareSize, color: 'blue' },
+            { x: squareX, y: squareY, size: colorSquareSize, color: 'green' },
+            { x: squareX, y: squareY + (squareSize - colorSquareSize), size: colorSquareSize, color: 'yellow' }
+        ];
+
+        // Dibujar cada cuadrado dentro del cuadrado negro
+        squares.forEach(square => {
+            ctx.fillStyle = square.color;
+            ctx.fillRect(square.x+10, square.y+10, square.size-20, square.size-20);
+        });
     </script>
    
     
