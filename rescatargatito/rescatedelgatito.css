@@ -1,12 +1,11 @@
 body{
     margin: 0;
     padding: 0;
-    background-image: url('rescategatitohd.png');
+    background-image: url('fondo.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
-    
 }
 
 #phaser-container {
@@ -30,8 +29,8 @@ body{
     cursor: pointer;
     animation: .pulso 1s infinite; /* Nombre de la animación, duración y repetición infinita */
 }
-
-
-
+.buttonBack-layout:active {
+   transform: scale(0.9);
+ }
 
 
