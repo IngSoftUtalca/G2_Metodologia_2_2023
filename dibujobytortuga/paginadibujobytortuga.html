@@ -5,11 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- Este código hace un párrafo 
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Tortuga</title>
+    <style>
+        #canvas {
+            position: absolute; 
+            left: 370px; 
+            top: 100px;
+            border: 0px solid #000;
+        }
 
+    </style>
 </head>
 <body style="margin-right:21% ; margin-top:11%; display:flex;align-items: center">
     
+    <canvas id="canvas" width="850" height="500"></canvas>
+    
+    <br>
+    <label for="instrucciones">Instrucciones:</label>
+    <input type="text" id="instrucciones" placeholder="Avanzar 50, Girar 90, ..." />
+    <button onclick="ejecutarInstrucciones()">Ejecutar</button>
+    <button onclick="dibujarTortuga()">Crear tortuga</button>
+
     <div>
         <a href="../pagina_juegos/paginajuegos.html" title="Librería de juegos">
             <button class="buttonBack-layout" tittle="Librería de juegos">Back</button>
@@ -18,81 +39,97 @@
 
     <div id="phaser-container">
         <script>
-            class Example extends Phaser.Scene
-           {
-            preload (){
-                   
-                   this.load.image('tortuga', 'tortuga.png');
-                   this.load.image('arriba', 'arriba.png');
-                   this.load.image('abajo', 'abajo.png');
-                   this.load.image('izquierda', 'izquierda.png');
-                   this.load.image('derecha', 'derecha.png');
-                   this.load.image('avanzar', 'avanzar.png');
-               }
-       
-               create ()
-               {
+            // Código en JavaScript
+        // Obtener el lienzo y su contexto
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
 
-                
-                    let graphics = this.add.graphics();
-                    let graphics2 = this.add.graphics();
-                    graphics.lineStyle(2, 0x000000);
-                  
+        // Objeto Tortuga para mantener el estado
+        const tortuga = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            angulo: 0 // Ángulo en grados
+        };
 
+        function ejecutarInstrucciones() {
+            const instruccionesInput = document.getElementById('instrucciones');
+            const instrucciones = instruccionesInput.value.split(',');
 
-                    let line = new Phaser.Geom.Line(500, 300, 500, 400);
-                    graphics.strokeLineShape(line);
-                    let line2 = new Phaser.Geom.Line(500, 400, 800, 400);
-                    graphics.strokeLineShape(line2);
-                    graphics.lineStyle(2, 0x00999999); 
-                    let line3 = new Phaser.Geom.Line(0, 500, 1200, 500);
-                    graphics.strokeLineShape(line3);
+            instrucciones.forEach(instruccion => {
+                const dividir = instruccion.trim().split(' ');
+                const comando = dividir[0].toLowerCase();
+                const valor = parseInt(dividir[1]);
 
-                    var tortuga = this.add.image(500, 300, 'tortuga');
-                    tortuga.displayWidth = 70;
-                    tortuga.displayHeight = 60;
+                switch (comando) {
+                    case 'avanzar':
+                        moverTortuga(valor);
+                        break;
+                    case 'girar':
+                        girarTortuga(valor);
+                        break;  
+                    default:
+                        console.log('Instrucción no reconocida:', instruccion);
+                }
+            });
+            dibujarTortuga();
+        }
+        // Función para dibujar la tortuga en el canvas
+        function dibujarTortuga() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                    var arriba = this.add.image(150, 100, 'arriba');
-                    arriba.displayWidth = 70;
-                    arriba.displayHeight = 60;
+            // Dibujar el rectángulo para representar la tortuga
+            const anchoTortuga = 20;
+            const altoTortuga = 15;
 
-                    var derecha = this.add.image(200, 150, 'derecha');
-                    derecha.displayWidth = 60;
-                    derecha.displayHeight = 60;
-                   
-                    var izquierda = this.add.image(100, 150, 'izquierda');
-                    izquierda.displayWidth = 70;
-                    izquierda.displayHeight = 60;
+            ctx.save();
+            ctx.translate(tortuga.x, tortuga.y);
+            ctx.rotate(tortuga.angulo * (Math.PI / 180)); // Rotar según el ángulo
 
-                    var abajo = this.add.image(150, 200, 'abajo');
-                    abajo.displayWidth = 80;
-                    abajo.displayHeight = 60;
+            ctx.fillStyle = 'green';
+            ctx.fillRect(-anchoTortuga / 2, -altoTortuga / 2, anchoTortuga, altoTortuga);
+            ctx.strokeRect(-anchoTortuga / 2, -altoTortuga / 2, anchoTortuga, altoTortuga);
 
-                    var avanzar = this.add.image(150, 300, 'avanzar');
-                    avanzar.displayWidth = 160;
-                    avanzar.displayHeight = 100;
+            ctx.restore();
+        }
 
-                    let rectangulo = this.add.rectangle(0, 650, 55700, 400, 0x005B6363)
-                   
-                    var texto = this.add.text(500, 500, 'Instrucciones elegidas', { fill: '#FFFFFF' });
-                    texto.setFontSize(24); // Cambiar el tamaño de fuente
-                    texto.setColor('#FFFFFF'); // Cambiar el color del texto
-                    texto.setFontStyle('bold'); // Establecer estilo de fuente (normal, itálica, negrita, etc.)
-                    texto.setOrigin(0.5); // Cambiar el punto de origen (0.5 significa el centro)
-               }
-           }
+        // Función para girar la tortuga
+        function girarTortuga(grados) {
+            tortuga.angulo += grados;
+            tortuga.angulo = (tortuga.angulo + 360) % 360;
+            dibujarTortuga();
+        }
 
-           const config = {
-               type: Phaser.AUTO,
-               width: 1100,
-               height: 555,
-               backgroundColor: '#ffffff',
-               scene: Example,
-           };
-       
-           const game = new Phaser.Game(config);
-       
-           </script>
+        // Función para desplazar la tortuga
+        function moverTortuga(distancia) {
+            // Convertir el ángulo a radianes
+            const radianes = tortuga.angulo * (Math.PI / 180);
+
+            // Calcular las nuevas coordenadas después de desplazarse
+            tortuga.x += distancia * Math.cos(radianes);
+            tortuga.y += distancia * Math.sin(radianes);
+
+            rastroTortuga(distancia);
+        }
+
+        // Modifica la función para desplazar la tortuga y dibujar el rastro
+        function rastroTortuga(distancia) {
+            const radianes = tortuga.angulo * (Math.PI / 180);
+
+            // Almacena la posición actual antes de actualizarla
+            const ultimaPosicionTortuga = { x: tortuga.x, y: tortuga.y };
+
+            // Actualiza las coordenadas de la tortuga
+            tortuga.x += distancia * Math.cos(radianes);
+            tortuga.y += distancia * Math.sin(radianes);
+
+            // Dibuja el rastro (línea recta) desde la posición anterior a la actual
+            ctx.beginPath();
+            ctx.moveTo(ultimaPosicionTortuga.x, ultimaPosicionTortuga.y);
+            ctx.lineTo(tortuga.x, tortuga.y);
+            ctx.strokeStyle = 'black';  // Puedes ajustar el color del rastro
+            ctx.stroke();
+        }
+        </script>
         </div>
 </body>
 </html>

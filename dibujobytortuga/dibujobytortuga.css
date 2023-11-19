@@ -1,7 +1,7 @@
 body{
     margin: 0;
     padding: 0;
-    background-image: url('dibujobytortuga.png');
+    background-image: url('dibujo.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -21,7 +21,7 @@ body{
     background-position: center; /* Centra la imagen en el botón */
     background-repeat: no-repeat; /* Evita la repetición de la imagen */
     cursor: pointer;
-    animation: .pulso 1s infinite; /* Nombre de la animación, duración y repetición infinita */
+    animation: pulso 1s infinite; /* Nombre de la animación, duración y repetición infinita */
 }
 
 .buttonBack-layout:active {
