@@ -16,19 +16,25 @@
             position: absolute; 
             left: 370px; 
             top: 100px;
-            border: 0px solid #000;
+            border: 1px solid #000;
+        }
+
+        #botonejecutar{
+            position: absolute; 
+            left: 100px; 
+            top: 700px;
         }
 
     </style>
 </head>
 <body style="margin-right:21% ; margin-top:11%; display:flex;align-items: center">
     
-    <canvas id="canvas" width="850" height="500"></canvas>
+    <canvas id="canvas" width="900" height="560"></canvas>
     
     <br>
     <label for="instrucciones">Instrucciones:</label>
     <input type="text" id="instrucciones" placeholder="Avanzar 50, Girar 90, ..." />
-    <button onclick="ejecutarInstrucciones()">Ejecutar</button>
+    <button botonejecutar onclick="ejecutarInstrucciones()">Ejecutar</button>
     <button onclick="dibujarTortuga()">Crear tortuga</button>
 
     <div>
