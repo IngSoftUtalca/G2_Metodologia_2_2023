@@ -6,14 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+
+
+
+    /* Estilos CSS para el canvas */
+    canvas {
+            border: 1px solid #000; /* Borde negro para visualización */
+            width: 1180px; /* Ancho del canvas */
+            height: 600px; /* Alto del canvas */
+            position: absolute;
+            top: 197px; /* Posición desde la parte superior */
+            left: 349px; /* Posición desde la parte izquierda */
+            
+}
+</style>
+
 <body style="margin-right:19% ; margin-top:8%; display:flex;align-items: center">
+
+
+
+
     <div>
         <a href="../pagina_juegos/paginajuegos.html">
             <button class="buttonBack-layout" title="Librería de juegos">Back</button>
         </a>
+
+
+
+
     </div>
-    
-    <!-- Contenido eliminado relacionado con Phaser -->
+    <canvas id="myCanvas" width="800" height="600"></canvas>
+
+    <script>
+        // Obtener el canvas por su ID
+        const canvas = document.getElementById('myCanvas');
+        // Obtener el contexto de dibujo 2D del canvas
+        const ctx = canvas.getContext('2d');
+
+       
+        
+        // Aquí puedes agregar más código para interactuar con el canvas
+        // Por ejemplo, dibujar líneas, círculos, texto, etc.
+    </script>
+   
     
 </body>
 </html>
