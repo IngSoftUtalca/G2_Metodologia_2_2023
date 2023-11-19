@@ -18,110 +18,157 @@
     </div>
     <div id="phaser-container">
     <script>
-      class Example extends Phaser.Scene
+
+    var gato;
+     var jugador;
+     let cursors;
+     var estado = 'idle';
+
+     class Example extends Phaser.Scene
+{
+    preload ()
     {
-        preload ()
-        {
-            this.load.image('sky', './fondo-abstracto-azul-degradado-estudio-azul-oscuro-liso-vineta-negra_1258-67766.webp');
-            this.load.image('gato', 'gato.png');
-            this.load.image('plataforma', 'plataforma.png');
-            this.load.image('red', 'assets/particles/red.png');
-            this.load.image('jugador', 'jugador.png');
-            this.load.image('nubes', 'nubes.png');
-            this.load.image('saltar', 'saltar.png');
-            this.load.image('saltarderecha', 'saltar derecha.png');
-            this.load.image('saltarizquierda', 'saltar izquierda.png');
-
-        }
-
-        create ()
-        {
-            let fondo = this.add.image(600, 300, 'sky');
-            fondo.displayWidth = 2000;
-            fondo.displayHeight = 2000;
-
-            let gato = this.add.sprite (810,330,'gato')
-            gato.displayWidth = 80;
-            gato.displayHeight = 100;
-
-            let plataforma = this.add.sprite (820,400,'plataforma')
-            plataforma.displayWidth = 140;
-            plataforma.displayHeight = 140;
-
-            let plataforma2 = this.add.sprite (40,560,'plataforma')
-            plataforma2.displayWidth = 140;
-            plataforma2.displayHeight = 140;
-
-            let plataforma3 = this.add.sprite (120,560,'plataforma')
-            plataforma3.displayWidth = 140;
-            plataforma3.displayHeight = 140;
-            
-            let plataforma4 = this.add.sprite (180,560,'plataforma')
-            plataforma4.displayWidth = 140;
-            plataforma4.displayHeight = 140;
-
-            let plataforma5 = this.add.sprite (260,400,'plataforma')
-            plataforma5.displayWidth = 140;
-            plataforma5.displayHeight = 140;
-
-            let plataforma6 = this.add.sprite (340,400,'plataforma')
-            plataforma6.displayWidth = 140;
-            plataforma6.displayHeight = 140;
-
-            let plataforma7 = this.add.sprite (420,560,'plataforma')
-            plataforma7.displayWidth = 140;
-            plataforma7.displayHeight = 140;
-
-            let plataforma8 = this.add.sprite (500,560,'plataforma')
-            plataforma8.displayWidth = 140;
-            plataforma8.displayHeight = 140;
-
-            let plataforma9 = this.add.sprite (500,400,'plataforma')
-            plataforma9.displayWidth = 140;
-            plataforma9.displayHeight = 140;
-
-            let plataforma10 = this.add.sprite (660,400,'plataforma')
-            plataforma10.displayWidth = 140;
-            plataforma10.displayHeight = 140;
-
-            let jugador = this.add.sprite (40,500,'jugador')
-
-            let nubes = this.add.sprite (40,100,'nubes')
-            nubes.displayWidth = 300;
-            nubes.displayHeight = 140;
-
-            let nubes2 = this.add.sprite (800,100,'nubes')
-            nubes2.displayWidth = 300;
-            nubes2.displayHeight = 140;
-
-            let saltar = this.add.sprite (100,180,'saltar')
-            saltar.displayWidth = 180;
-            saltar.displayHeight = 40;
-
-            let saltarderecha = this.add.sprite (230,180,'saltarderecha')
-            saltarderecha.displayWidth = 180;
-            saltarderecha.displayHeight = 45;
-
-            let saltarizquierda = this.add.sprite (370,179,'saltarizquierda')
-            saltarizquierda.displayWidth = 180;
-            saltarizquierda.displayHeight = 43;      
-        }
+        this.load.image('sky', './fondo-abstracto-azul-degradado-estudio-azul-oscuro-liso-vineta-negra_1258-67766.webp');
+        this.load.image('gato', 'gato.png');
+        this.load.image('plataforma', 'plataforma.png');
+        this.load.image('red', 'assets/particles/red.png');
+        this.load.image('jugador', 'jugador.png');
+        this.load.image('nubes', 'nubes.png');
+        this.load.image('saltar', 'saltar.png');
+        this.load.image('saltarderecha', 'saltar derecha.png');
+        this.load.image('saltarizquierda', 'saltar izquierda.png');
     }
 
-    const config = {
-        type: Phaser.AUTO,
-        width: 1050,
-        height: 600,
-        scene: Example,
-        physics: {
-            default: 'arcade',
-            arcade: {
-                gravity: { y: 200 }
-            }
-        }
-    };
+    create ()
+    {   
+        let fondo = this.add.image(600, 300, 'sky');
+        fondo.displayWidth = 2000;
+        fondo.displayHeight = 2000;
 
-    const game = new Phaser.Game(config);
+        gato = this.physics.add.sprite (810,300,'gato')
+        gato.setScale(0.23)
+        gato.body.setSize(250, 300);
+        gato.body.setImmovable(false);
+        
+
+        let plataforma1 = this.physics.add.sprite (820,400,'plataforma')
+        plataforma1.setScale(0.27)
+        plataforma1.body.setAllowGravity(false);
+        plataforma1.body.setImmovable(true);
+        plataforma1.body.setSize(400, 230);
+        plataforma1.body.setOffset(120, 100);
+    
+
+        jugador = this.physics.add.sprite (40,100,'jugador')
+        jugador.body.setSize(65, 80);
+        jugador.body.setOffset(8, 10); // mueve la hitbox respecto al sprite 
+
+        cursors = this.input.keyboard.createCursorKeys();
+        var plataformas= this.physics.add.group();
+        plataformas.createMultiple({
+            key: 'plataforma',
+            repeat: 5,
+            setXY: {x:40,y:600,stepX: 200,stepY:-100 },
+        });
+
+        plataformas.children.iterate(function(child) {
+            child.setScale(0.27, 0.27);
+            child.body.setAllowGravity(false);
+            child.body.setImmovable(true);
+            child.body.setSize(400, 230);
+            child.body.setOffset(120, 100);
+            
+        });
+
+
+    
+
+      
+        this.physics.add.collider(jugador, plataformas);
+        this.physics.add.collider(jugador, plataforma1);
+        this.physics.add.collider(gato, plataforma1);
+        this.physics.add.collider(gato, jugador);
+        
+        this.physics.add.overlap(jugador, gato, this.gameOver, null, this);
+    }
+
+    update()  {
+    if (cursors.left.isDown){
+        jugador.setVelocityX(-200);
+        jugador.setFlipX(true);
+        estado = 'moviendose';
+    } else if(cursors.right.isDown){
+        jugador.setVelocityX(200);
+        jugador.setFlipX(false); 
+        estado = 'moviendose';
+    } else {
+        jugador.setVelocityX(0);
+        estado = 'quieto';
+    }
+    if (cursors.up.isDown && jugador.body.touching.down){
+        jugador.setVelocityY(-600);
+        estado = 'saltando';
+    }
+
+    else if(jugador.y > 1000 || jugador.x<0 || jugador.x>1000){
+        this.gameOver();
+    }
+
+    if (estado === 'quieto') {
+        // Reproduce la animación de idle
+         }   
+    else if (estado === 'movviendose') {
+        // Reproduce la animación de movimiento
+         }
+    else if (estado === 'saltando') {
+        // Reproduce la animación de salto
+         }    
+    }
+
+    gameOver(){
+    this.physics.pause();
+    let gameOverText = this.add.text(400, 300, 'Game Over', { fontSize: '32px', fill: '#FF0000' });
+    gameOverText.setOrigin(0.5);
+
+    // Detén el juego o haz lo que necesites hacer cuando el juego termine
+    console.log("¡Game Over!");
+    let botony=500;
+    let botonReinicio = this.add.rectangle(400, botony, 150, 50, 0xFFFFFF).setInteractive();
+    let textoBoton = this.add.text(400, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
+
+    botonReinicio.on('pointerdown', () => this.reiniciarJuego());
+  
+
+    }
+
+    reiniciarJuego() {
+    // Código para reiniciar el juego
+    this.scene.restart();
+    }
+
+    
+}
+
+const config = {
+    type: Phaser.AUTO,
+    width: 1050,
+    height: 600,
+    scene: Example,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 800 },
+            debug: true
+        }
+    }
+};
+
+
+
+const game = new Phaser.Game(config);
+    
+
+        
 
     </script>
 
