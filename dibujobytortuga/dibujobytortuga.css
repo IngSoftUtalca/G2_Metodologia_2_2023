@@ -21,7 +21,7 @@ body{
     background-position: center; /* Centra la imagen en el botón */
     background-repeat: no-repeat; /* Evita la repetición de la imagen */
     cursor: pointer;
-    animation: .pulso 1s infinite; /* Nombre de la animación, duración y repetición infinita */
+    animation: pulso 1s infinite; /* Nombre de la animación, duración y repetición infinita */
 }
 
 .buttonBack-layout:active {
