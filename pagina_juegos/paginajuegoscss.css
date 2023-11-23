@@ -1,67 +1,232 @@
 body{
     margin: 0;
     padding: 0;
-    background-color: #F2E529;
-    background-image: url('pantallajuegos.png');
-    background-size: contain;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-
+    background-size: cover;
+    background-image: url(fondoMenu.png);
+    
 
 }
 
 .buttonBack-layout {
     position: fixed;
-    left: 160px;    /* Coordenada X     */
-    top: 15px;     /* Coordenada Y     */
-    width: 145px;   /* Ancho del botón  */
-    height: 55px;  /* Altura del botón */
+    left: 50px;    /* Coordenada X     */
+    top: 9px;     /* Coordenada Y     */
+    width: 200px;   /* Ancho del botón  */
+    height: 100px;  /* Altura del botón */
     background: transparent; /* Hace que el fondo del botón sea transparente */
     border: none; /* Elimina el borde del botón */
     color: transparent; /* Hace que el color del texto sea transparente */ 
+    background-image: url('back.png'); /* Ruta de la imagen de fondo */
+    background-size: cover; /* Ajusta la imagen al tamaño del botón */
+    background-position: center; /* Centra la imagen en el botón */
+    background-repeat: no-repeat; /* Evita la repetición de la imagen */
+    cursor: pointer;
+    animation: .pulso 1s infinite; /* Nombre de la animación, duración y repetición infinita */
 }
+.buttonBack-layout:active {
+   transform: scale(0.9);
+ }
 
 .buttonGato-layout {
-    position: fixed;
-    left: 230px;    /* Coordenada X     */
-    top: 520px;     /* Coordenada Y     */
-    width: 475px;   /* Ancho del botón  */
-    height: 370px;  /* Altura del botón */
-    background: transparent; /* Hace que el fondo del botón sea transparente */
-    border: none; /* Elimina el borde del botón */
-    color: transparent; /* Hace que el color del texto sea transparente */ 
-}
-
-.buttonTortuga-layout {
-    position: fixed;
-    left: 1134px;    /* Coordenada X     */
-    top: 123px;     /* Coordenada Y     */
-    width: 475px;   /* Ancho del botón  */
-    height: 370px;  /* Altura del botón */
-    background: transparent; /* Hace que el fondo del botón sea transparente */
+     position: fixed;
+    left: 15vw;    /* Coordenada X     */
+    top: 500px;     /* Coordenada Y     */
+    width: 25vw;   /* Ancho del botón  */
+    height: 35vh;  /* Altura del botón */
+    background-image: url(juegoRescate.png);
+    background-size:cover;/*Ajusta la imagen al tamaño del botón */
+    background-repeat: no-repeat; /* Evita la repetición de la imagen */
+    cursor: pointer;
     border: none; /* Elimina el borde del botón */
     color: transparent; /* Hace que el color del texto sea transparente */  
 }
 
-.buttonSimon-layout {
+.buttonTortuga-layout {
     position: fixed;
-    left: 555px;    /* Coordenada X     */
-    top: 123px;     /* Coordenada Y     */
-    width: 483px;   /* Ancho del botón  */
-    height: 372px;  /* Altura del botón */
-    background: transparent; /* Hace que el fondo del botón sea transparente */
+    left: 65vw;    /* Coordenada X     */
+    top: 130px;     /* Coordenada Y     */
+    width: 25vw;   /* Ancho del botón  */
+    height: 35vh;  /* Altura del botón */
+    cursor: pointer;
+    border: none; /* Elimina el borde del botón */  
+}
+
+.buttonSimon-layout {
+    
+    position: fixed;
+    left: 30vw;    /* Coordenada X     */
+    top: 130px;     /* Coordenada Y     */
+    width: 25vw;   /* Ancho del botón  */
+    height: 35vh;  /* Altura del botón */
+    background-size:cover;/*Ajusta la imagen al tamaño del botón */
+    background-repeat: no-repeat; /* Evita la repetición de la imagen */
+    cursor: pointer;
     border: none; /* Elimina el borde del botón */
     color: transparent; /* Hace que el color del texto sea transparente */  
 }
 
 .buttonTresEnLinea-layout {
     position: fixed;
-    left: 897px;    /* Coordenada X     */
-    top: 519px;     /* Coordenada Y     */
-    width: 475px;   /* Ancho del botón  */
-    height: 371px;  /* Altura del botón */
-    background: transparent; /* Hace que el fondo del botón sea transparente */
+    left: 60vw;    /* Coordenada X     */
+    top: 500px;     /* Coordenada Y     */
+    width: 25vw;   /* Ancho del botón  */
+    height: 35vh;  /* Altura del botón */
+    background-image: url(juegoTres.png);
+    background-size:cover;/*Ajusta la imagen al tamaño del botón */
+    background-repeat: no-repeat; /* Evita la repetición de la imagen */
+    cursor: pointer;
     border: none; /* Elimina el borde del botón */
-    color: transparent; /* Hace que el color del texto sea transparente */  
+    color: transparent; /* Hace que el color del texto sea transparente */
+}
+
+* {
+  margin:0;
+  padding:0;
+  color:black;
+  font-family:Arial;
+}
+
+div#imagen {
+  background-size: cover;/*sólo para ejemplo*/
+  background-image: url("juegoDibujo.png");
+  margin: 30px;
+  position: fixed;
+  left: 65vw;    /* Coordenada X     */
+  top: 130px;     /* Coordenada Y     */
+  width: 25vw;   /* Ancho del botón  */
+  height: 35vh;  /* Altura del botón */
+  cursor: pointer;
+  border: none; /* Elimina el borde del botón */  
+    
+}
+
+div#info {
+  position:absolute;
+  overflow:hidden;
+  width: 25vw;
+  height: 35vh;
+  background-color: whitesmoke;
+  opacity:0;
+  transition: opacity 0.3s;
+}
+
+div#imagen:hover div#info {
+  opacity:1;
+}
+
+p#headline {
+  position: absolute;
+  font-size: 2rem;
+  margin-left: -80px;
+  margin-top: 20px;
+  transition: margin-left 0.3s;
+}
+
+div#imagen:hover p#headline {
+  margin-left: 115px;
+}
+
+p#descripcion {
+  margin:1.4rem; 
+  font-size: 1.5rem;
+  text-align:center;
+  margin-top: 3rem;
+  transition: margin-top 0.4s;
+    
+}
+
+div#imagen:hover p#descripcion {
+  margin-top: 75px;
+}
+
+div#imagensimon{
+  background-size: cover;/*sólo para ejemplo*/
+  background-image: url("juegoSimon.png");
+  margin: 30px;
+  position: cover;
+  left: 65vw;    /* Coordenada X     */
+  top: 130px;     /* Coordenada Y     */
+  width: 25vw;   /* Ancho del botón  */
+  height: 35vh;  /* Altura del botón */
+  cursor: pointer;
+  border: none; /* Elimina el borde del botón */
+    
+}
+
+div#imagensimon:hover p#descripcion {
+  margin-top: 75px;
+}
+div#imagensimon:hover p#headline {
+  margin-left: 115px;
+}
+div#imagensimon:hover div#info {
+  opacity:1;
+}
+
+div#imagentres{
+  position: fixed;
+    left: 60vw;    /* Coordenada X     */
+    top: 500px;     /* Coordenada Y     */
+    width: 25vw;   /* Ancho del botón  */
+    height: 35vh;  /* Altura del botón */
+    background-image: url(juegoTres.png);
+    background-size:cover;/*Ajusta la imagen al tamaño del botón */
+    background-repeat: no-repeat; /* Evita la repetición de la imagen */
+    cursor: pointer;
+    border: none; /* Elimina el borde del botón */
+    color: transparent; /* Hace que el color del texto sea transparente */
+    
+}
+div#imagentres:hover div#info {
+  opacity:1;
+}
+div#imagentres:hover p#descripcion {
+  margin-top: 75px;
+}
+div#imagentres:hover p#headline {
+  margin-left: 115px;
+}
+div#imagentres:hover div#info {
+  opacity:1;
+}
+
+
+div#imagenrescate{
+  background-size: cover;/*sólo para ejemplo*/
+  background-image: url("juegoRescate.png");
+  margin: 30px;
+  position: cover;
+  left: 11vw;    /* Coordenada X     */
+  top: 40rem;     /* Coordenada Y     */
+  width: 25vw;   /* Ancho del botón  */
+  height: 35vh;  /* Altura del botón */
+  cursor: pointer;
+  border: none; /* Elimina el borde del botón */
+  color: transparent;
+    
+}
+div#imagenrescate:hover div#info {
+  opacity:1;
+}
+div#imagenrescate:hover p#descripcion {
+  margin-top: 75px;
+}
+div#imagenrescate:hover p#headline {
+  margin-left: 115px;
+}
+div#imagenrescate:hover div#info {
+  opacity:1;
+}
+
+.recuadro {
+  border: .2rem;
+  width: 3rem; /* Ajusta el ancho según tus necesidades */
+  margin: .5rem; /* Ajusta el margen según tus necesidades */
+    background-color: #296DFD;
+}
+.recuadro1 {
+  border: .2rem;
+  width: 3rem; /* Ajusta el ancho según tus necesidades */
+  margin: .5rem; /* Ajusta el margen según tus necesidades */
+    background-color: #9857F2;
 }
