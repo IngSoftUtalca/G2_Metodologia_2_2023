@@ -7,7 +7,7 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
 </head>
-<body style="margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh;">
+<body style="margin-right:19% ; margin-top:8%; display:flex;align-items: center">
     <div id="phaser-container"></div>
     <script>
         class Example extends Phaser.Scene {
@@ -36,8 +36,8 @@
                 particles.startFollow(logo);
 
                 // botones
-                var option1 = this.add.text(400, 300, 'Opción 1', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true });
-                var option2 = this.add.text(400, 400, 'Opción 2', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+                var option1 = this.add.text(525, 250, 'Opción 1', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+                var option2 = this.add.text(525, 350, 'Opción 2', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true });
 
                 // pa que se puedan seleccionar
                 option1.on('pointerup', function () {
@@ -54,7 +54,7 @@
 
         const config = {
             type: Phaser.AUTO,
-            width: 800,
+            width: 1050,
             height: 600,
             scene: Example,
             physics: {
