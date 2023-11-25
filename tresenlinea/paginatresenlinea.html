@@ -7,10 +7,10 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
 </head>
-<body style="margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh;">
+<body style="margin-right:19% ; margin-top:8%; display:flex;align-items: center">
     <div id="phaser-container"></div>
     <script>
-        class Example extends Phaser.Scene {
+        class Menu_modalidad extends Phaser.Scene {
             preload() {
                 this.load.setBaseURL('https://labs.phaser.io%27/');
                 this.load.image('sky', 'assets/skies/space3.png');
@@ -36,14 +36,13 @@
                 particles.startFollow(logo);
 
                 // botones
-                var option1 = this.add.text(400, 300, 'Opción 1', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true });
-                var option2 = this.add.text(400, 400, 'Opción 2', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+                var option1 = this.add.text(525, 250, 'Jugador vs Jugador', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true })
+                .setInteractive().on('pointerdown', () => this.scene.start('Escena_jvj'));
+
+                var option2 = this.add.text(525, 350, 'Jugador vs Máquina', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true });
 
                 // pa que se puedan seleccionar
-                option1.on('pointerup', function () {
-                    console.log('Has seleccionado la Opción 1');
-                    // Aca iria la pagina que abriria al clickear
-                });
+                
 
                 option2.on('pointerup', function () {
                     console.log('Has seleccionado la Opción 2');
@@ -52,11 +51,74 @@
             }
         }
 
+        class Escena_jvj extends Phaser.Scene{
+            constructor() {
+                super('Escena_jvj'); // 'Escena_jvj' es la clave única de esta escena
+            }
+
+            create(){
+                this.cameras.main.setBackgroundColor('#608BA6'); //ajustar el fondo a blanco
+
+                let graphics1 = this.add.graphics();
+                graphics1.lineStyle(5, 0x000000); // grosor y color del borde
+                graphics1.strokeRect(0, 0, this.game.config.width, this.game.config.height); // Dibuja el borde
+
+                //Creación de lineas
+                let linea1 = this.add.graphics().lineStyle(10, 0x5A6973);
+                linea1.beginPath();
+                linea1.moveTo(180, 100);
+                linea1.lineTo(180, 500);
+                linea1.closePath();
+                linea1.strokePath();
+
+                let linea2 = this.add.graphics().lineStyle(10, 0x5A6973);
+                linea2.beginPath();
+                linea2.moveTo(310, 100);
+                linea2.lineTo(310, 500);
+                linea2.closePath();
+                linea2.strokePath();
+
+                let linea3 = this.add.graphics().lineStyle(10, 0x5A6973);
+                linea3.beginPath();
+                linea3.moveTo(45, 235);
+                linea3.lineTo(445, 235);
+                linea3.closePath();
+                linea3.strokePath();
+
+                let linea4 = this.add.graphics().lineStyle(10, 0x5A6973);
+                linea4.beginPath();
+                linea4.moveTo(45, 365);
+                linea4.lineTo(445, 365);
+                linea4.closePath();
+                linea4.strokePath();
+
+                let texto = this.add.text(500, 150, 'Turno actual:', { font: '40px Arial', fill: '#5A6973', fontStyle: 'bold' });
+
+                let x;
+                let y;
+
+                var self = this; // Guardar el contexto de 'this'
+                var lienzo = self.add.graphics(0,0);
+                self.input.on('pointerdown', function (pointer) {
+                    x = pointer.x;
+                    y = pointer.y;
+                    console.log(x);
+                    console.log(y);
+                    lienzo.clear(); // Limpiar el lienzo
+                    lienzo.beginFill(0xfa33aa); // Especificar el color del relleno
+                    lienzo.drawCircle(x, y, 50); // Dibujar el círculo en las coordenadas del clic
+                    lienzo.endFill(); // Finalizar el relleno
+                });
+
+            }
+
+        }
+
         const config = {
             type: Phaser.AUTO,
-            width: 800,
+            width: 1050,
             height: 600,
-            scene: Example,
+            scene: [Menu_modalidad, Escena_jvj],
             physics: {
                 default: 'arcade',
                 arcade: {
