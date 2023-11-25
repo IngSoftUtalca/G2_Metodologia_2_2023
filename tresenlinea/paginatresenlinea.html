@@ -10,7 +10,7 @@
 <body style="margin-right:19% ; margin-top:8%; display:flex;align-items: center">
     <div id="phaser-container"></div>
     <script>
-        class Example extends Phaser.Scene {
+        class Menu_modalidad extends Phaser.Scene {
             preload() {
                 this.load.setBaseURL('https://labs.phaser.io%27/');
                 this.load.image('sky', 'assets/skies/space3.png');
@@ -52,6 +52,10 @@
         }
 
         class Escena_jvj extends Phaser.Scene{
+            constructor() {
+                super('Escena_jvj'); // 'Escena_jvj' es la clave única de esta escena
+            }
+
             create(){
                 this.cameras.main.setBackgroundColor('#608BA6'); //ajustar el fondo a blanco
 
@@ -93,14 +97,18 @@
                 let x;
                 let y;
 
-                this.input.on('pointerdown', function (pointer) {
+                var self = this; // Guardar el contexto de 'this'
+                var lienzo = self.add.graphics(0,0);
+                self.input.on('pointerdown', function (pointer) {
                     x = pointer.x;
                     y = pointer.y;
                     console.log(x);
                     console.log(y);
+                    lienzo.clear(); // Limpiar el lienzo
+                    lienzo.beginFill(0xfa33aa); // Especificar el color del relleno
+                    lienzo.drawCircle(x, y, 50); // Dibujar el círculo en las coordenadas del clic
+                    lienzo.endFill(); // Finalizar el relleno
                 });
-
-                
 
             }
 
@@ -110,7 +118,7 @@
             type: Phaser.AUTO,
             width: 1050,
             height: 600,
-            scene: Escena_jvj,
+            scene: [Menu_modalidad, Escena_jvj],
             physics: {
                 default: 'arcade',
                 arcade: {
