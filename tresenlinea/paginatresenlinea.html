@@ -89,6 +89,19 @@
                 linea4.strokePath();
 
                 let texto = this.add.text(500, 150, 'Turno actual:', { font: '40px Arial', fill: '#5A6973', fontStyle: 'bold' });
+
+                let x;
+                let y;
+
+                this.input.on('pointerdown', function (pointer) {
+                    x = pointer.x;
+                    y = pointer.y;
+                    console.log(x);
+                    console.log(y);
+                });
+
+                
+
             }
 
         }
