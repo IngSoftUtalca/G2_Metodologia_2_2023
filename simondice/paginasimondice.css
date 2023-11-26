@@ -7,14 +7,17 @@ body {
     background-attachment: fixed;
     background-position: center;
     display: flex;
-    align-items: center; /* Centra verticalmente */
+
+
+    align-items: start; /* Centra verticalmente */
     justify-content: center; /* Centra horizontalmente */
-    height: 100vh; /* Toma el 100% de la altura de la ventana */
+    height: 70vh; /* Toma el 100% de la altura de la ventana */
+    width: 190vh;
     font-family: 'Merriweather', serif;
 }
 
 .simon {
-    margin-top: 50px;
+    margin-top: 20px;
     margin-left: 100px;
     padding: 100px;
     border-radius: 5px;
