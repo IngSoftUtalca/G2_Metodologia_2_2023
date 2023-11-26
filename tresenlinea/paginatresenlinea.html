@@ -99,21 +99,46 @@
 
                 var self = this; // Guardar el contexto de 'this'
                 var lienzo = self.add.graphics(0,0);
+
+                var contador = 0;
+                var turnoX= true;
                 self.input.on('pointerdown', function (pointer) {
-                    console.log(x);
-                    console.log(y);
-                    x = pointer.x;
-                    y = pointer.y;
-                    var circulo = new Phaser.Geom.Circle(x, y, 50); // Crear un círculo
+                    if(contador<9){
+                        if(turnoX){
+                            console.log(x);
+                            console.log(y);
+                            x = pointer.x;
+                            y = pointer.y;
+                            var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0x5A6973 } }); // Crear un objeto de gráficos
 
-                    var figura = self.add.graphics({ lineStyle: { width: 10, color: 0x5A6973 } }); // Crear un objeto de gráficos
-                    figura.strokeCircleShape(circulo); // Dibujar el círculo
+                            var tamano = 40; // Tamaño de la "X"
+
+                            // Dibujar la primera línea de la "X"
+                            lienzo.beginPath();
+                            lienzo.moveTo(x - tamano, y - tamano);
+                            lienzo.lineTo(x + tamano, y + tamano);
+                            lienzo.strokePath();
+
+                            // Dibujar la segunda línea de la "X"
+                            lienzo.beginPath();
+                            lienzo.moveTo(x + tamano, y - tamano);
+                            lienzo.lineTo(x - tamano, y + tamano);
+                            lienzo.strokePath();
+                            turnoX = false;
+
+                        }else{
+                            x = pointer.x;
+                            y = pointer.y;
+                            var circulo = new Phaser.Geom.Circle(x, y, 40); // Crear un círculo
+
+                            var figura = self.add.graphics({ lineStyle: { width: 10, color: 0x5A6973 } }); // Crear un objeto de gráficos
+                            figura.strokeCircleShape(circulo); // Dibujar el círculo
+                            turnoX=true;
+                        }
+                        
+                        contador++;
+                    }
                 });
-
-                var circulo = new Phaser.Geom.Circle(x, y, 50); // Crear un círculo
-
-                var figura = this.add.graphics({ lineStyle: { width: 10, color: 0x5A6973 } }); // Crear un objeto de gráficos
-                figura.strokeCircleShape(circulo); // Dibujar el círculo
 
             }
 
