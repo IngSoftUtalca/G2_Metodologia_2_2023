@@ -79,30 +79,44 @@
 
                 var contador = 0;
                 var turnoX= true;
+                var fila;
+                var columna;
+                var x_centrado;
+                var y_centrado;
                 let x;
                 let y;
                 self.input.on('pointerdown', function (pointer) {
                     if(contador < 9){
                         x = pointer.x;
                         y = pointer.y;
-                        if(self.determina_fila(y)!=-1 && self.determina_columna(x)!=-1){ //Verifica que la posición en donde se hizo click esté dentro del tablero
-                            x = self.centra_X(self.determina_columna(x));
-                            y = self.centra_Y(self.determina_fila(y));
-                            if(turnoX){
-                                //Dibuja la cruz
-                                var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0x5A6973 } });
-                                self.dibuja_X(x,y,lienzo);
+                        fila = self.determina_fila(y);
+                        columna = self.determina_columna(x);
+                        if(fila!=-1 && columna !=-1){ //Verifica que la posición en donde se hizo click esté dentro del tablero
 
-                                turnoX = false;
-                            }
-                            else{
-                                //Dibujo el circulo
-                                var figura = self.add.graphics({ lineStyle: { width: 10, color: 0x5A6973 } });
-                                self.dibuja_O(x,y, figura);
+                            //centra las coordenadas del click para que la figura se dibuje en el centro de la celda
+                            x_centrado = self.centra_X(columna);
+                            y_centrado = self.centra_Y(fila);
 
-                                turnoX = true;
+                            //verifica que la celda seleccionada no esté ocupada
+                            if(tablero[fila][columna]==1){
+                                if(turnoX){
+                                    //Dibuja la cruz
+                                    var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0x5A6973 } });
+                                    self.dibuja_X(x_centrado, y_centrado, lienzo);
+
+                                    tablero[fila][columna]= 'x';
+                                    turnoX = false;
+                                }
+                                else{
+                                    //Dibujo el circulo
+                                    var figura = self.add.graphics({ lineStyle: { width: 10, color: 0x5A6973 } });
+                                    self.dibuja_O(x_centrado, y_centrado, figura);
+                                    tablero[fila][columna]= 'o';
+
+                                    turnoX = true;
+                                }
+                                contador++;
                             }
-                            contador++;
                         }    
                     }
                 });
