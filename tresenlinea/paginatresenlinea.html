@@ -39,7 +39,8 @@
                 var option1 = this.add.text(525, 250, 'Jugador vs Jugador', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true })
                 .setInteractive().on('pointerdown', () => this.scene.start('Escena_seleccionfigura'));
 
-                var option2 = this.add.text(525, 350, 'Jugador vs Máquina', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+                var option2 = this.add.text(525, 350, 'Jugador vs Máquina', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true })
+                .setInteractive().on('pointerdown', () => this.scene.start('Escena_seleccionfigura'));
 
                 // pa que se puedan seleccionar
                 
@@ -131,7 +132,8 @@
                 var option1 = this.add.text(525, 250, 'Figura X', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true })
                 .setInteractive().on('pointerdown', () => this.scene.start('Escena_jvj'));
 
-                var option2 = this.add.text(525, 350, 'Figura O', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+                var option2 = this.add.text(525, 350, 'Figura O', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true })
+                .setInteractive().on('pointerdown', () => this.scene.start('Escena_jvj'));
 
                 // pa que se puedan seleccionar
                 
