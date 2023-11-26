@@ -10,6 +10,10 @@
 <body style="margin-right:19% ; margin-top:8%; display:flex;align-items: center">
     <div id="phaser-container"></div>
     <script>
+        // variable global (prueba)
+        let modalidadSeleccionada = null;
+        let figuraSeleccionada = null;
+
         class Menu_modalidad extends Phaser.Scene {
             preload() {
                 this.load.setBaseURL('https://labs.phaser.io%27/');
@@ -36,18 +40,20 @@
                 particles.startFollow(logo);
 
                 // botones
-                var option1 = this.add.text(525, 250, 'Jugador vs Jugador', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true })
-                .setInteractive().on('pointerdown', () => this.scene.start('Escena_seleccionfigura'));
+                var option1 = this.add.text(525, 250, 'Jugador vs Jugador', { fontSize: '32px', fill: '#fff' })
+                    .setOrigin(0.5).setInteractive({ useHandCursor: true })
+                    .setInteractive().on('pointerdown', () => {
+                        modalidadSeleccionada = 'Jugador vs Jugador';
+                        this.scene.start('Escena_seleccionfigura');
+                    });
 
-                var option2 = this.add.text(525, 350, 'Jugador vs Máquina', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true })
-                .setInteractive().on('pointerdown', () => this.scene.start('Escena_seleccionfigura'));
+                var option2 = this.add.text(525, 350, 'Jugador vs Máquina', { fontSize: '32px', fill: '#fff' })
+                    .setOrigin(0.5).setInteractive({ useHandCursor: true });
 
                 // pa que se puedan seleccionar
-                
-
                 option2.on('pointerup', function () {
                     console.log('Has seleccionado la Opción 2');
-                    // Aca iria la pagina que abriria al clickear
+
                 });
             }
         }
@@ -109,12 +115,14 @@
                     lienzo.beginFill(0xfa33aa); // Especificar el color del relleno
                     lienzo.drawCircle(x, y, 50); // Dibujar el círculo en las coordenadas del clic
                     lienzo.endFill(); // Finalizar el relleno
+
+                    //  lógica de las variables
+            
+                    console.log('Modalidad seleccionada:', modalidadSeleccionada);
+                    console.log('Figura seleccionada:', figuraSeleccionada);
                 });
-
             }
-
         }
-
 
         class Escena_seleccionfigura extends Phaser.Scene{
             constructor() {
@@ -129,22 +137,21 @@
                 graphics1.strokeRect(0, 0, this.game.config.width, this.game.config.height); // Dibuja el borde
 
                 // botones
-                var option1 = this.add.text(525, 250, 'Figura X', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true })
-                .setInteractive().on('pointerdown', () => this.scene.start('Escena_jvj'));
+                var option1 = this.add.text(525, 250, 'Figura X', { fontSize: '32px', fill: '#fff' })
+                    .setOrigin(0.5).setInteractive({ useHandCursor: true })
+                    .setInteractive().on('pointerdown', () => {
+                        figuraSeleccionada = 'Figura X';
+                        this.scene.start('Escena_jvj');
+                    });
 
-                var option2 = this.add.text(525, 350, 'Figura O', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true })
-                .setInteractive().on('pointerdown', () => this.scene.start('Escena_jvj'));
-
-                // pa que se puedan seleccionar
-                
-
-                option2.on('pointerup', function () {
-                    console.log('Has seleccionado la Opción 2');
-                    // Aca iria la pagina que abriria al clickear
-                });
-
+                var option2 = this.add.text(525, 350, 'Figura O', { fontSize: '32px', fill: '#fff' })
+                    .setOrigin(0.5).setInteractive({ useHandCursor: true })
+                    .setInteractive().on('pointerdown', () => {
+                        figuraSeleccionada = 'Figura O';
+                        this.scene.start('Escena_jvj')
+                    
+                    });
             }
-
         }
 
         const config = {
@@ -164,5 +171,4 @@
 
     </script>
 </body>
-
 </html>
