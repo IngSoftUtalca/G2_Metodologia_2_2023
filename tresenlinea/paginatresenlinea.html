@@ -100,15 +100,20 @@
                 var self = this; // Guardar el contexto de 'this'
                 var lienzo = self.add.graphics(0,0);
                 self.input.on('pointerdown', function (pointer) {
-                    x = pointer.x;
-                    y = pointer.y;
                     console.log(x);
                     console.log(y);
-                    lienzo.clear(); // Limpiar el lienzo
-                    lienzo.beginFill(0xfa33aa); // Especificar el color del relleno
-                    lienzo.drawCircle(x, y, 50); // Dibujar el círculo en las coordenadas del clic
-                    lienzo.endFill(); // Finalizar el relleno
+                    x = pointer.x;
+                    y = pointer.y;
+                    var circulo = new Phaser.Geom.Circle(x, y, 50); // Crear un círculo
+
+                    var figura = self.add.graphics({ lineStyle: { width: 10, color: 0x5A6973 } }); // Crear un objeto de gráficos
+                    figura.strokeCircleShape(circulo); // Dibujar el círculo
                 });
+
+                var circulo = new Phaser.Geom.Circle(x, y, 50); // Crear un círculo
+
+                var figura = this.add.graphics({ lineStyle: { width: 10, color: 0x5A6973 } }); // Crear un objeto de gráficos
+                figura.strokeCircleShape(circulo); // Dibujar el círculo
 
             }
 
@@ -118,7 +123,7 @@
             type: Phaser.AUTO,
             width: 1050,
             height: 600,
-            scene: [Menu_modalidad, Escena_jvj],
+            scene: Escena_jvj,
             physics: {
                 default: 'arcade',
                 arcade: {
