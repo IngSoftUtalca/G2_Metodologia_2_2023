@@ -145,8 +145,11 @@
                 }
             }, interval);
         }
+        
+        
+        // Variable para almacenar el rastro acumulado
+        const rastroAcumulado = [];
 
-        /*
         // Modifica la función para desplazar la tortuga y dibujar el rastro
         function rastroTortuga(distancia) {
             const radianes = tortuga.angulo * (Math.PI / 180);
@@ -158,13 +161,22 @@
             tortuga.x += distancia * Math.cos(radianes);
             tortuga.y += distancia * Math.sin(radianes);
 
-            // Dibuja el rastro (línea recta) desde la posición anterior a la actual
-            ctx.beginPath();
-            ctx.moveTo(ultimaPosicionTortuga.x, ultimaPosicionTortuga.y);
-            ctx.lineTo(tortuga.x, tortuga.y);
-            ctx.strokeStyle = 'black';  // Puedes ajustar el color del rastro
-            ctx.stroke();
-        }*/
+            // Agrega la posición al rastro acumulado
+            rastroAcumulado.push({ inicio: ultimaPosicionTortuga, fin: { x: tortuga.x, y: tortuga.y } });
+
+            // Dibuja todo el rastro acumulado
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            dibujarTortuga(); // Dibuja la tortuga en su posición actual
+
+            rastroAcumulado.forEach(({ inicio, fin }) => {
+                ctx.beginPath();
+                ctx.moveTo(inicio.x, inicio.y);
+                ctx.lineTo(fin.x, fin.y);
+                ctx.strokeStyle = 'black';
+                ctx.stroke();
+            });
+        }
+
         </script>
         </div>
 </body>
