@@ -98,25 +98,55 @@
             ctx.restore();
         }
 
-        // Función para girar la tortuga
+        // Función para girar la tortuga suavemente
         function girarTortuga(grados) {
-            tortuga.angulo += grados;
-            tortuga.angulo = (tortuga.angulo + 360) % 360;
-            dibujarTortuga();
+            // Número de pasos para suavizar el giro
+            const pasosgiro = 20;
+            const duracion = 500;
+            const stepAngle = grados / pasosgiro;
+            const intervalo = duracion / pasosgiro;
+
+            // Animación de giro suave
+            let step = 0;
+            const turnos = setInterval(() => {
+                tortuga.angulo += stepAngle;
+                dibujarTortuga();
+                step++;
+                if (step === pasosgiro) {
+                    clearInterval(turnos);
+                }
+            }, intervalo);
         }
 
-        // Función para desplazar la tortuga
+        // Función para desplazar la tortuga suavemente
         function moverTortuga(distancia) {
-            // Convertir el ángulo a radianes
             const radianes = tortuga.angulo * (Math.PI / 180);
+            const deltaX = distancia * Math.cos(radianes);
+            const deltaY = distancia * Math.sin(radianes);
+            const pasos = 20;
+            const duracion = 500;
+            const interval = duracion / pasos;
+            const stepDeltaX = deltaX / pasos;
+            const stepDeltaY = deltaY / pasos;
 
-            // Calcular las nuevas coordenadas después de desplazarse
-            tortuga.x += distancia * Math.cos(radianes);
-            tortuga.y += distancia * Math.sin(radianes);
-
-            rastroTortuga(distancia);
+            // Animación de movimiento suave
+            let pasos_const = 0;
+            const smoothMove = setInterval(() => {
+                // Actualizar las coordenadas de la tortuga
+                tortuga.x += stepDeltaX;
+                tortuga.y += stepDeltaY;
+                //Dibujar la tortuga otra vez
+                dibujarTortuga();
+                pasos_const++;
+                //Comprobar todos los pasos
+                if (pasos_const === pasos) {
+                    clearInterval(smoothMove);
+                    rastroTortuga(distancia);
+                }
+            }, interval);
         }
 
+        /*
         // Modifica la función para desplazar la tortuga y dibujar el rastro
         function rastroTortuga(distancia) {
             const radianes = tortuga.angulo * (Math.PI / 180);
@@ -134,7 +164,7 @@
             ctx.lineTo(tortuga.x, tortuga.y);
             ctx.strokeStyle = 'black';  // Puedes ajustar el color del rastro
             ctx.stroke();
-        }
+        }*/
         </script>
         </div>
 </body>
