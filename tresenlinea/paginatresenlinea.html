@@ -80,6 +80,7 @@
                 var contador = 0;
                 var turnoX = true; //booleano que determina qué figura toca dibujar
                 var ganador = 0;
+                var verifica = [0,0];
                 var fila;
                 var columna;
                 var x_centrado;
@@ -118,7 +119,15 @@
                                 }
                                 contador++;
 
-                                if(self.verifica_ganador(tablero)=='x' || self.verifica_ganador(tablero)=='o' ){
+                                verifica = self.verifica_ganador(tablero);
+                                
+                                if(verifica[0]!= 0){
+
+                                    var color;
+                                    if (verifica[1]=='x') {color = 0xA68960;}
+                                    else {color = 0xA6609A};
+
+                                    self.linea_ganador(verifica[0],color)
                                     contador = 9;
                                 }
 
@@ -220,84 +229,143 @@
             }
 
             verifica_ganador(tablero){
+
+                //arreglo que contiene la información del número de la forma en qué se ganó (8 posibles formas de ganar), y cuál figura ganó
+                var info = [0,'0'];
+
+
                 //Verifica fila por fila si hay algún ganador
                 if((tablero[0][0]!=1)&&(tablero[0][0]==tablero[0][1] && tablero[0][1]==tablero[0][2])){ //fila 0
+                    info[0] = 1;
                     if(tablero[0][0]=='x'){
-                        console.log('Ganó la X');
-                        return 'x';
+                        info[1] = 'x';
+                        return info;
                     }else{
-                        console.log('Ganó el O');
-                        return 'o';
+                        info[1] = 'o';
+                        return info;
                     }
                 }
                 if((tablero[1][0]!=1)&&(tablero[1][0]==tablero[1][1] && tablero[1][1]==tablero[1][2])){ //fila 1
+                    info[0] = 2;
                     if(tablero[1][0]=='x'){
-                        console.log('Ganó la X');
-                        return 'x';
+                        info[1] = 'x';
+                        return info;
                     }else{
-                        console.log('Ganó el O');
-                        return 'o';
+                        info[1] = 'o';
+                        return info;
                     }
                 }
                 if((tablero[2][0]!=1)&&(tablero[2][0]==tablero[2][1] && tablero[2][1]==tablero[2][2])){ //fila 2
+                    info[0] = 3;
                     if(tablero[2][0]=='x'){
-                        console.log('Ganó la X');
-                        return 'x';
+                        info[1] = 'x';
+                        return info;
                     }else{
-                        console.log('Ganó el O');
-                        return 'o';
+                        info[1] = 'o';
+                        return info;
                     }
                 }
 
                 //Verifica columna por columna si hay algún ganador
                 if((tablero[0][0]!=1)&&(tablero[0][0]==tablero[1][0] && tablero[1][0]==tablero[2][0])){ //columna 0
+                    info[0] = 4;
                     if(tablero[0][0]=='x'){
-                        console.log('Ganó la X');
-                        return 'x';
+                        info[1] = 'x';
+                        return info;
                     }else{
-                        console.log('Ganó el O');
-                        return 'o';
+                        info[1] = 'o';
+                        return info;
                     }
                 }
                 if((tablero[0][1]!=1)&&(tablero[0][1]==tablero[1][1] && tablero[1][1]==tablero[2][1])){ //columna 1
+                    info[0] = 5;
                     if(tablero[0][1]=='x'){
-                        console.log('Ganó la X');
-                        return 'x';
+                        info[1] = 'x';
+                        return info;
                     }else{
-                        console.log('Ganó el O');
-                        return 'o';
+                        info[1] = 'o';
+                        return info;
                     }
                 }
                 if((tablero[0][2]!=1)&&(tablero[0][2]==tablero[1][2] && tablero[1][2]==tablero[2][2])){ //columna 2
+                    info[0] = 6;
                     if(tablero[0][2]=='x'){
-                        console.log('Ganó la X');
-                        return 'x';
+                        info[1] = 'x';
+                        return info;
                     }else{
-                        console.log('Ganó el O');
-                        return 'o';
+                        info[1] = 'o';
+                        return info;
                     }
                 }
 
                 //Verifica las diagonales para ver si hay algún ganador
                 if((tablero[0][0]!=1)&&(tablero[0][0]==tablero[1][1] && tablero[1][1]==tablero[2][2])){ //columna 0
+                    info[0] = 7;
                     if(tablero[0][0]=='x'){
-                        console.log('Ganó la X');
-                        return 'x';
+                        info[1] = 'x';
+                        return info;
                     }else{
-                        console.log('Ganó el O');
-                        return 'o';
+                        info[1] = 'o';
+                        return info;
                     }
                 }
                 if((tablero[0][2]!=1)&&(tablero[0][2]==tablero[1][1] && tablero[1][1]==tablero[2][0])){ //columna 1
+                    info[0] = 8;
                     if(tablero[0][2]=='x'){
-                        console.log('Ganó la X');
-                        return 'x';
+                        info[1] = 'x';
+                        return info;
                     }else{
-                        console.log('Ganó el O');
-                        return 'o';
+                        info[1] = 'o';
+                        return info;
                     }
                 }
+                return info;
             }
+
+            linea_ganador(caso_ganador, color){
+
+                let linea1 = this.add.graphics().lineStyle(10, color);
+                linea1.beginPath();
+
+                switch(caso_ganador){
+                    case 1: //fila 0
+                        linea1.moveTo(45, 167.5);
+                        linea1.lineTo(445, 167.5);
+                        break;
+                    case 2: //fila 1
+                        linea1.moveTo(45, 300);
+                        linea1.lineTo(445, 300);
+                        break;
+                    case 3: //fila 2
+                        linea1.moveTo(45, 432.5);
+                        linea1.lineTo(445, 432.5);
+                        break;
+
+                    case 4: //columna 0
+                        linea1.moveTo(112.5, 100);
+                        linea1.lineTo(112.5, 500);    
+                        break;
+                    case 5: //columna 1
+                        linea1.moveTo(245, 100);
+                        linea1.lineTo(245, 500);
+                        break;
+                    case 6: //columna 2
+                        linea1.moveTo(377.5, 100);
+                        linea1.lineTo(377.5, 500);
+                        break;
+
+                    case 7: //primera diagonal
+                        linea1.moveTo(45, 100);
+                        linea1.lineTo(445, 500);
+                        break;
+                    case 8: //segunda diagonal
+                        linea1.moveTo(45, 500);
+                        linea1.lineTo(445, 100);
+                        break;                                    
+                }
+                linea1.closePath();
+                linea1.strokePath();
+            }    
         }
 
         const config = {
