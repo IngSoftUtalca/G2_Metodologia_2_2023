@@ -16,58 +16,37 @@
             position: absolute;
             top: 197px; /* Posición desde la parte superior */
             left: 349px; /* Posición desde la parte izquierda */
-            background-color: white;
+            background-color: black;
             
 }
 </style>
-
+    <canvas id="myCanvas" width="800" height="600"></canvas>
 <body style="margin-right:19% ; margin-top:8%; display:flex;align-items: center">
-
-
-
-
+    <a href="../pagina_juegos/paginajuegos.html">
+        <button class="buttonBack-layout" title="Librería de juegos">Back</button>
+    </a>
     <div>
-        <a href="../pagina_juegos/paginajuegos.html">
-            <button class="buttonBack-layout" title="Librería de juegos">Back</button>
-        </a>
 
+       
+            
+            <button id="startButton">INICIAR</button>
+            <div class="buttonContainer">
+                <div class="square red"></div>
+                <div class="square yellow"></div>
+                <div class="square blue"></div>
+                <div class="square green"></div>
+            </div>
+            <div id="round"></div>
+     
 
 
 
     </div>
-    <canvas id="myCanvas" width="800" height="600"></canvas>
 
-    <script>
-        // Obtener el canvas por su ID
-        const canvas = document.getElementById('myCanvas');
-        // Obtener el contexto de dibujo 2D del canvas
-        const ctx = canvas.getContext('2d');
 
-        const squareSize = 300; // Tamaño del cuadrado negro
-        const squareX = 250; // Posición x del cuadrado negro
-        const squareY = 140; // Posición y del cuadrado negro
 
-        // Dibujar el cuadrado negro
-        ctx.fillStyle = 'black'; // Color del cuadrado
-        ctx.fillRect(squareX, squareY, squareSize, squareSize); // (x, y, ancho, alto) del cuadrado
+    
 
-        // Calcular el tamaño de los cuadrados de colores
-        const colorSquareSize = squareSize / 2; // Tamaño relativo a la mitad del cuadrado negro
-
-        // Crear objetos para cada cuadrado
-        const squares = [
-            { x: squareX + (squareSize - colorSquareSize), y: squareY, size: colorSquareSize, color: 'red' },
-            { x: squareX + (squareSize - colorSquareSize), y: squareY + (squareSize - colorSquareSize), size: colorSquareSize, color: 'blue' },
-            { x: squareX, y: squareY, size: colorSquareSize, color: 'green' },
-            { x: squareX, y: squareY + (squareSize - colorSquareSize), size: colorSquareSize, color: 'yellow' }
-        ];
-
-        // Dibujar cada cuadrado dentro del cuadrado negro
-        squares.forEach(square => {
-            ctx.fillStyle = square.color;
-            ctx.fillRect(square.x+10, square.y+10, square.size-20, square.size-20);
-        });
-    </script>
    
     
 </body>

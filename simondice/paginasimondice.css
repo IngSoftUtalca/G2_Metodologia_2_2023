@@ -1,4 +1,4 @@
-body{
+body {
     margin: 0;
     padding: 0;
     background-image: url('simon.png');
@@ -6,7 +6,93 @@ body{
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
+    display: flex;
+
+
+    align-items: start; /* Centra verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    height: 70vh; /* Toma el 100% de la altura de la ventana */
+    width: 190vh;
+    font-family: 'Merriweather', serif;
 }
+
+.simon {
+    margin-top: 20px;
+    margin-left: 100px;
+    padding: 100px;
+    border-radius: 5px;
+}
+
+.square {
+    border-radius: 5px;
+    width: 150px;
+    height: 150px;
+    cursor: pointer;
+    margin-top: 5px; /* Ajusta la posición vertical de todos los cuadrados */
+    margin-left: 0px; /* Ajusta la posición horizontal de todos los cuadrados */
+    margin-right: 5px; /* Ajusta la distancia entre los cuadrados */
+    position: static;
+}
+
+.buttonContainer {
+    display: inline-grid;
+    grid-gap: 10px;
+    grid-template-columns: auto auto;
+    transform: rotate(90deg);
+}
+
+.square:active,
+.active {
+    filter: brightness(150%);
+}
+
+.red {
+    background-color: #e82232;
+}
+
+.blue {
+    background-color:  #1e77c2;
+}
+
+.green {
+    background-color: #38a633;
+}
+
+.yellow {
+    background-color: #f6e725 ;
+}
+
+
+
+
+#startButton {
+    width: 75px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    font-family: 'Merriweather', serif;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #587792;
+    padding: 5px;
+}
+
+#startButton:disabled {
+    background-color: #eee;
+}
+
+.title {
+    width: min-content;
+}
+
+.winner {
+    animation: spin 1s ease-in-out;
+}
+
+@keyframes spin { 
+    100% { transform:rotate(180deg) } }
 
 #phaser-container {
     width: 400%; /* Ancho deseado del juego */
@@ -29,6 +115,7 @@ body{
     cursor: pointer;
     animation: pulso 1s infinite; /* Nombre de la animación, duración y repetición infinita */
 }
+
 .buttonBack-layout:active {
-   transform: scale(0.9);
- }
+   transform: scale(0.9);
+}
