@@ -8,13 +8,12 @@
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
 </head>
 <body style="margin-right:19% ; margin-top:8%; display:flex;align-items: center">
-    <div>
-        <a href="../pagina_juegos/paginajuegos.html">
-            <button class="buttonBack-layout" title="Librería de juegos">Back</button>
-        </a>
-    </div>
     <div id="phaser-container"></div>
     <script>
+        // variable global (prueba)
+        let modalidadSeleccionada = null;
+        let figuraSeleccionada = null;
+
         class Menu_modalidad extends Phaser.Scene {
             preload() {
                 this.load.setBaseURL('https://labs.phaser.io%27/');
@@ -41,21 +40,23 @@
                 particles.startFollow(logo);
 
                 // botones
-                var option1 = this.add.text(525, 250, 'Jugador vs Jugador', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true })
-                .setInteractive().on('pointerdown', () => this.scene.start('Escena_jvj'));
+                var option1 = this.add.text(525, 250, 'Jugador vs Jugador', { fontSize: '32px', fill: '#fff' })
+                    .setOrigin(0.5).setInteractive({ useHandCursor: true })
+                    .setInteractive().on('pointerdown', () => {
+                        modalidadSeleccionada = 'Jugador vs Jugador';
+                        this.scene.start('Escena_seleccionfigura');
+                    });
 
-                var option2 = this.add.text(525, 350, 'Jugador vs Máquina', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+                var option2 = this.add.text(525, 350, 'Jugador vs Máquina', { fontSize: '32px', fill: '#fff' })
+                    .setOrigin(0.5).setInteractive({ useHandCursor: true });
 
                 // pa que se puedan seleccionar
-                
-
                 option2.on('pointerup', function () {
                     console.log('Has seleccionado la Opción 2');
-                    // Aca iria la pagina que abriria al clickear
+
                 });
             }
         }
-
 
         class Escena_jvj extends Phaser.Scene{
             constructor() {
@@ -63,88 +64,13 @@
             }
 
             create(){
-                this.cameras.main.setBackgroundColor('#608BA6'); //ajustar el color del fondo
+                this.cameras.main.setBackgroundColor('#608BA6'); //ajustar el fondo a blanco
 
                 let graphics1 = this.add.graphics();
-                graphics1.lineStyle(25, 0x5A6973); // grosor y color del borde de la ventana
+                graphics1.lineStyle(5, 0x000000); // grosor y color del borde
                 graphics1.strokeRect(0, 0, this.game.config.width, this.game.config.height); // Dibuja el borde
 
-                this.crea_tablero(); // se dibuja el tablero de juego
-
-                let texto = this.add.text(500, 150, 'Turno actual:', { font: '40px Arial', fill: '#5A6973', fontStyle: 'bold' });
-
-                var self = this; // Guardar el contexto de 'this'
-
-                //matriz bidimensional que representa el tablero de juego
-                let tablero = [
-                    [1,1,1],
-                    [1,1,1],
-                    [1,1,1]
-                ]
-
-                var contador = 0;
-                var turnoX = true; //booleano que determina qué figura toca dibujar
-                var ganador = 0;
-                var verifica = [0,0];
-                var fila;
-                var columna;
-                var x_centrado;
-                var y_centrado;
-                let x;
-                let y;
-                self.input.on('pointerdown', function (pointer) {
-                    if(contador < 9){
-                        x = pointer.x;
-                        y = pointer.y;
-                        fila = self.determina_fila(y);
-                        columna = self.determina_columna(x);
-                        if(fila!=-1 && columna !=-1){ //Verifica que la posición en donde se hizo click esté dentro del tablero
-
-                            //centra las coordenadas del click para que la figura se dibuje en el centro de la celda
-                            x_centrado = self.centra_X(columna);
-                            y_centrado = self.centra_Y(fila);
-
-                            //verifica que la celda seleccionada no esté ocupada
-                            if(tablero[fila][columna]==1){
-                                if(turnoX){
-                                    //Dibuja la cruz
-                                    var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
-                                    self.dibuja_X(x_centrado, y_centrado, lienzo);
-
-                                    tablero[fila][columna]= 'x';
-                                    turnoX = false;
-                                }
-                                else{
-                                    //Dibujo el circulo
-                                    var figura = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
-                                    self.dibuja_O(x_centrado, y_centrado, figura);
-                                    tablero[fila][columna]= 'o';
-
-                                    turnoX = true;
-                                }
-                                contador++;
-
-                                verifica = self.verifica_ganador(tablero);
-                                
-                                if(verifica[0]!= 0){
-
-                                    var color;
-                                    if (verifica[1]=='x') {color = 0xA68960;}
-                                    else {color = 0xA6609A};
-
-                                    self.linea_ganador(verifica[0],color)
-                                    contador = 9;
-                                }
-
-
-                            }
-                        }    
-                    }
-                });
-
-            }
-
-            crea_tablero(){
+                //Creación de lineas
                 let linea1 = this.add.graphics().lineStyle(10, 0x5A6973);
                 linea1.beginPath();
                 linea1.moveTo(180, 100);
@@ -172,212 +98,67 @@
                 linea4.lineTo(445, 365);
                 linea4.closePath();
                 linea4.strokePath();
+
+                let texto = this.add.text(500, 150, 'Turno actual:', { font: '40px Arial', fill: '#5A6973', fontStyle: 'bold' });
+
+                let x;
+                let y;
+
+                var self = this; // Guardar el contexto de 'this'
+                var lienzo = self.add.graphics(0,0);
+                self.input.on('pointerdown', function (pointer) {
+                    x = pointer.x;
+                    y = pointer.y;
+                    console.log(x);
+                    console.log(y);
+                    lienzo.clear(); // Limpiar el lienzo
+                    lienzo.beginFill(0xfa33aa); // Especificar el color del relleno
+                    lienzo.drawCircle(x, y, 50); // Dibujar el círculo en las coordenadas del clic
+                    lienzo.endFill(); // Finalizar el relleno
+
+                    //  lógica de las variables
+            
+                    console.log('Modalidad seleccionada:', modalidadSeleccionada);
+                    console.log('Figura seleccionada:', figuraSeleccionada);
+                });
+            }
+        }
+
+        class Escena_seleccionfigura extends Phaser.Scene{
+            constructor() {
+                super('Escena_seleccionfigura'); // seleccionfigura' es la clave única de esta escena
             }
 
-            dibuja_X(x,y,lienzo){
-                var tamano = 40; // Tamaño de la "X"
+            create(){
+                this.cameras.main.setBackgroundColor('#608BA6'); //ajustar el fondo a blanco
 
-                // Dibujar la primera línea de la "X"
-                lienzo.beginPath();
-                lienzo.moveTo(x - tamano, y - tamano);
-                lienzo.lineTo(x + tamano, y + tamano);
-                lienzo.strokePath();
+                let graphics1 = this.add.graphics();
+                graphics1.lineStyle(5, 0x000000); // grosor y color del borde
+                graphics1.strokeRect(0, 0, this.game.config.width, this.game.config.height); // Dibuja el borde
 
-                // Dibujar la segunda línea de la "X"
-                lienzo.beginPath();
-                lienzo.moveTo(x + tamano, y - tamano);
-                lienzo.lineTo(x - tamano, y + tamano);
-                lienzo.strokePath();
+                // botones
+                var option1 = this.add.text(525, 250, 'Figura X', { fontSize: '32px', fill: '#fff' })
+                    .setOrigin(0.5).setInteractive({ useHandCursor: true })
+                    .setInteractive().on('pointerdown', () => {
+                        figuraSeleccionada = 'Figura X';
+                        this.scene.start('Escena_jvj');
+                    });
 
+                var option2 = this.add.text(525, 350, 'Figura O', { fontSize: '32px', fill: '#fff' })
+                    .setOrigin(0.5).setInteractive({ useHandCursor: true })
+                    .setInteractive().on('pointerdown', () => {
+                        figuraSeleccionada = 'Figura O';
+                        this.scene.start('Escena_jvj')
+                    
+                    });
             }
-
-            dibuja_O(x,y, figura){
-                var circulo = new Phaser.Geom.Circle(x, y, 40); // Crear un círculo
-                figura.strokeCircleShape(circulo); // Dibujar el círculo
-            }
-
-            determina_columna(x){
-                if(x > 45 && x < 445  ){ //verifica si el valor del eje x está dentro de los límites del tablero
-                    if(x < 180){
-                        return 0;
-                    }
-                    else if(x<310){
-                        return 1;
-                    }
-                    else if(x<445){
-                        return 2;
-                    }
-                }else{
-                    return -1;
-                }
-            }
-
-            determina_fila(y){
-                if(y > 100 && y < 500  ){ //verifica si el valor del eje y está dentro de los límites del tablero
-                    if(y < 235){return 0;}
-                    if(y < 365){return 1;}
-                    if(y < 500){return 2;}
-                }
-                else{return -1;}                
-            }
-
-            centra_X(columna){
-                if(columna == 0) {return 112.5;}
-                if(columna == 1) {return 245;}
-                if(columna == 2) {return 377.5;}
-            }
-
-            centra_Y(fila){
-                if(fila == 0) {return 167.5;}
-                if(fila == 1) {return 300;}
-                if(fila == 2) {return 432.5;}
-            }
-
-            verifica_ganador(tablero){
-
-                //arreglo que contiene la información del número de la forma en qué se ganó (8 posibles formas de ganar), y cuál figura ganó
-                var info = [0,'0'];
-
-
-                //Verifica fila por fila si hay algún ganador
-                if((tablero[0][0]!=1)&&(tablero[0][0]==tablero[0][1] && tablero[0][1]==tablero[0][2])){ //fila 0
-                    info[0] = 1;
-                    if(tablero[0][0]=='x'){
-                        info[1] = 'x';
-                        return info;
-                    }else{
-                        info[1] = 'o';
-                        return info;
-                    }
-                }
-                if((tablero[1][0]!=1)&&(tablero[1][0]==tablero[1][1] && tablero[1][1]==tablero[1][2])){ //fila 1
-                    info[0] = 2;
-                    if(tablero[1][0]=='x'){
-                        info[1] = 'x';
-                        return info;
-                    }else{
-                        info[1] = 'o';
-                        return info;
-                    }
-                }
-                if((tablero[2][0]!=1)&&(tablero[2][0]==tablero[2][1] && tablero[2][1]==tablero[2][2])){ //fila 2
-                    info[0] = 3;
-                    if(tablero[2][0]=='x'){
-                        info[1] = 'x';
-                        return info;
-                    }else{
-                        info[1] = 'o';
-                        return info;
-                    }
-                }
-
-                //Verifica columna por columna si hay algún ganador
-                if((tablero[0][0]!=1)&&(tablero[0][0]==tablero[1][0] && tablero[1][0]==tablero[2][0])){ //columna 0
-                    info[0] = 4;
-                    if(tablero[0][0]=='x'){
-                        info[1] = 'x';
-                        return info;
-                    }else{
-                        info[1] = 'o';
-                        return info;
-                    }
-                }
-                if((tablero[0][1]!=1)&&(tablero[0][1]==tablero[1][1] && tablero[1][1]==tablero[2][1])){ //columna 1
-                    info[0] = 5;
-                    if(tablero[0][1]=='x'){
-                        info[1] = 'x';
-                        return info;
-                    }else{
-                        info[1] = 'o';
-                        return info;
-                    }
-                }
-                if((tablero[0][2]!=1)&&(tablero[0][2]==tablero[1][2] && tablero[1][2]==tablero[2][2])){ //columna 2
-                    info[0] = 6;
-                    if(tablero[0][2]=='x'){
-                        info[1] = 'x';
-                        return info;
-                    }else{
-                        info[1] = 'o';
-                        return info;
-                    }
-                }
-
-                //Verifica las diagonales para ver si hay algún ganador
-                if((tablero[0][0]!=1)&&(tablero[0][0]==tablero[1][1] && tablero[1][1]==tablero[2][2])){ //columna 0
-                    info[0] = 7;
-                    if(tablero[0][0]=='x'){
-                        info[1] = 'x';
-                        return info;
-                    }else{
-                        info[1] = 'o';
-                        return info;
-                    }
-                }
-                if((tablero[0][2]!=1)&&(tablero[0][2]==tablero[1][1] && tablero[1][1]==tablero[2][0])){ //columna 1
-                    info[0] = 8;
-                    if(tablero[0][2]=='x'){
-                        info[1] = 'x';
-                        return info;
-                    }else{
-                        info[1] = 'o';
-                        return info;
-                    }
-                }
-                return info;
-            }
-
-            linea_ganador(caso_ganador, color){
-
-                let linea1 = this.add.graphics().lineStyle(10, color);
-                linea1.beginPath();
-
-                switch(caso_ganador){
-                    case 1: //fila 0
-                        linea1.moveTo(45, 167.5);
-                        linea1.lineTo(445, 167.5);
-                        break;
-                    case 2: //fila 1
-                        linea1.moveTo(45, 300);
-                        linea1.lineTo(445, 300);
-                        break;
-                    case 3: //fila 2
-                        linea1.moveTo(45, 432.5);
-                        linea1.lineTo(445, 432.5);
-                        break;
-
-                    case 4: //columna 0
-                        linea1.moveTo(112.5, 100);
-                        linea1.lineTo(112.5, 500);    
-                        break;
-                    case 5: //columna 1
-                        linea1.moveTo(245, 100);
-                        linea1.lineTo(245, 500);
-                        break;
-                    case 6: //columna 2
-                        linea1.moveTo(377.5, 100);
-                        linea1.lineTo(377.5, 500);
-                        break;
-
-                    case 7: //primera diagonal
-                        linea1.moveTo(45, 100);
-                        linea1.lineTo(445, 500);
-                        break;
-                    case 8: //segunda diagonal
-                        linea1.moveTo(45, 500);
-                        linea1.lineTo(445, 100);
-                        break;                                    
-                }
-                linea1.closePath();
-                linea1.strokePath();
-            }    
         }
 
         const config = {
             type: Phaser.AUTO,
             width: 1050,
             height: 600,
-            scene: Escena_jvj,
+            scene: [Menu_modalidad, Escena_seleccionfigura, Escena_jvj],
             physics: {
                 default: 'arcade',
                 arcade: {
@@ -387,6 +168,7 @@
         };
 
         const game = new Phaser.Game(config);
+
     </script>
 </body>
 </html>
