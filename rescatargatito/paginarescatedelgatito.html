@@ -5,22 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
     <script src="./package/blockly_compressed.js"></script>
     <script src="./package/blocks_compressed.js"></script>
     <script src="./package/javascript_compressed.js"></script>
     <script src="./package/msg/es.js"></script>
-
+    
+    
 </head>
 <body style="margin-right:22% ; margin-top:9%; display:flex;align-items: center">
-
+    <xml id="toolbox" style="display: none">
+        <block type="move_left"></block>
+      </xml>
     <div>
         <a href="../pagina_juegos/paginajuegos.html">
             <button class="buttonBack-layout" title="Librería de juegos">Back</button>
         </a>
     </div>
+    <button onclick="runCode()">Run Code</button>
     <div id="phaser-container">
+       
     <script>
-
+    
     var gato;
      var jugador;
      let cursors;
@@ -181,13 +187,18 @@ const config = {
 
 
 const game = new Phaser.Game(config);
-    
+  
+
+
+
 
         
 
     </script>
 
  </div>
+
+
    
     
 </body>
