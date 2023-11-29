@@ -9,12 +9,16 @@ body {
     display: flex;
 
 
-    align-items: start; /* Centra verticalmente */
-    justify-content: center; /* Centra horizontalmente */
-    height: 70vh; /* Toma el 100% de la altura de la ventana */
+    align-items: start;
+    /* Centra verticalmente */
+    justify-content: center;
+    /* Centra horizontalmente */
+    height: 70vh;
+    /* Toma el 100% de la altura de la ventana */
     width: 190vh;
     font-family: 'Merriweather', serif;
 }
+
 
 .simon {
     margin-top: 20px;
@@ -28,9 +32,12 @@ body {
     width: 150px;
     height: 150px;
     cursor: pointer;
-    margin-top: 5px; /* Ajusta la posición vertical de todos los cuadrados */
-    margin-left: 0px; /* Ajusta la posición horizontal de todos los cuadrados */
-    margin-right: 5px; /* Ajusta la distancia entre los cuadrados */
+    margin-top: 5px;
+    /* Ajusta la posición vertical de todos los cuadrados */
+    margin-left: 0px;
+    /* Ajusta la posición horizontal de todos los cuadrados */
+    margin-right: 5px;
+    /* Ajusta la distancia entre los cuadrados */
     position: static;
 }
 
@@ -40,6 +47,10 @@ body {
     grid-template-columns: auto auto;
     transform: rotate(90deg);
 }
+
+
+
+
 
 .square:active,
 .active {
@@ -51,7 +62,7 @@ body {
 }
 
 .blue {
-    background-color:  #1e77c2;
+    background-color: #1e77c2;
 }
 
 .green {
@@ -59,7 +70,7 @@ body {
 }
 
 .yellow {
-    background-color: #f6e725 ;
+    background-color: #f6e725;
 }
 
 
@@ -68,8 +79,8 @@ body {
 #startButton {
     width: 75px;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 500px;
+    right: 600px;
     border: none;
     font-family: 'Merriweather', serif;
     cursor: pointer;
@@ -91,31 +102,48 @@ body {
     animation: spin 1s ease-in-out;
 }
 
-@keyframes spin { 
-    100% { transform:rotate(180deg) } }
+@keyframes spin {
+    100% {
+        transform: rotate(180deg)
+    }
+}
 
 #phaser-container {
-    width: 400%; /* Ancho deseado del juego */
-    height: 500%; /* Alto deseado del juego */
+    width: 400%;
+    /* Ancho deseado del juego */
+    height: 500%;
+    /* Alto deseado del juego */
 }
- 
+
 .buttonBack-layout {
     position: fixed;
-    left: 50px;    /* Coordenada X     */
-    top: 9px;     /* Coordenada Y     */
-    width: 200px;   /* Ancho del botón  */
-    height: 100px;  /* Altura del botón */
-    background: transparent; /* Hace que el fondo del botón sea transparente */
-    border: none; /* Elimina el borde del botón */
-    color: transparent; /* Hace que el color del texto sea transparente */ 
-    background-image: url('back.png'); /* Ruta de la imagen de fondo */
-    background-size: cover; /* Ajusta la imagen al tamaño del botón */
-    background-position: center; /* Centra la imagen en el botón */
-    background-repeat: no-repeat; /* Evita la repetición de la imagen */
+    left: 50px;
+    /* Coordenada X     */
+    top: 9px;
+    /* Coordenada Y     */
+    width: 200px;
+    /* Ancho del botón  */
+    height: 100px;
+    /* Altura del botón */
+    background: transparent;
+    /* Hace que el fondo del botón sea transparente */
+    border: none;
+    /* Elimina el borde del botón */
+    color: transparent;
+    /* Hace que el color del texto sea transparente */
+    background-image: url('back.png');
+    /* Ruta de la imagen de fondo */
+    background-size: cover;
+    /* Ajusta la imagen al tamaño del botón */
+    background-position: center;
+    /* Centra la imagen en el botón */
+    background-repeat: no-repeat;
+    /* Evita la repetición de la imagen */
     cursor: pointer;
-    animation: pulso 1s infinite; /* Nombre de la animación, duración y repetición infinita */
+    animation: pulso 1s infinite;
+    /* Nombre de la animación, duración y repetición infinita */
 }
 
 .buttonBack-layout:active {
-   transform: scale(0.9);
+    transform: scale(0.9);
 }
