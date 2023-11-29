@@ -57,14 +57,14 @@ body {
     filter: brightness(150%);
 }
 
-.red {
-    background-color: #e82232;
-}
+
 
 .blue {
     background-color: #1e77c2;
 }
-
+.red {
+    background-color: #e82232;
+}
 .green {
     background-color: #38a633;
 }
