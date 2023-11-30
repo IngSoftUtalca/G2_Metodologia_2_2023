@@ -89,7 +89,7 @@
                 var circulo_rebotando = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
                 this.dibuja_O(0,0, circulo_rebotando);
                 const circulo = self.physics.add.existing(circulo_rebotando);
-                circulo.body.setVelocity(200, 300);
+                circulo.body.setVelocity(100, 200);
                 circulo.body.setBounce(1, 1);
                 circulo.body.setCollideWorldBounds(true);
                 circulo_rebotando.setVisible(false);
@@ -98,7 +98,7 @@
                 var cruz_rebotando = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
                 this.dibuja_X(0,0, cruz_rebotando);
                 const cruz = self.physics.add.existing(cruz_rebotando);
-                cruz.body.setVelocity(200, 300);
+                cruz.body.setVelocity(100, 200);
                 cruz.body.setBounce(1, 1);
                 cruz.body.setCollideWorldBounds(true);
                 cruz_rebotando.setVisible(false);
