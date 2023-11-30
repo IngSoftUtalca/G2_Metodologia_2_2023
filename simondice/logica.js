@@ -1,78 +1,69 @@
-class Simon {
-    constructor(simonButtons, startButton, round) {
-        this.round = 0;
-        this.userPosition = 0;
-        this.totalRounds = 1;
-        this.sequence = [];
-        this.speed = 1000;
-        this.blockedButtons = true;
-        this.buttons = Array.from(simonButtons);
-        this.display = { startButton, round };
-        this.errorSound = new Audio('./sonidos/error.wav');
-        this.buttonSounds = [
-            new Audio('./sonidos/1.mp3'),
-            new Audio('./sonidos/2.mp3'),
-            new Audio('./sonidos/3.mp3'),
-            new Audio('./sonidos/4.mp3'),
-        ];
+class JuegoSimon {
+    constructor(botonesSimon, botonInicio, tablero) {
+        // ... (definición del constructor)
     }
 
-    init() {
-        this.display.startButton.onclick = () => this.startGame();
+    iniciar() {
+        // Inicia el juego de Simon
+        this.interfaz.botonInicio.onclick = () => this.iniciarJuego();
     }
 
-    startGame() {
-        this.display.startButton.disabled = true; 
-        this.updateRound(0);
-        this.userPosition = 0;
-        this.sequence = this.createSequence();
-        this.buttons.forEach((element, i) => {
-            element.onclick = () => this.buttonClick(i);
-        });
-        this.showSequence();
+    iniciarJuego() {
+        // Comienza el juego
+        // ... (inicio del juego)
     }
 
-    updateRound(value) {
-        this.round = value;
-        // Código relacionado con la interfaz visual
+    actualizarRonda(valor) {
+        // Actualiza la ronda y el tablero
+        // ... (actualización de la ronda)
     }
 
-    createSequence() {
-        return Array.from({ length: this.totalRounds }, () =>  this.getRandomColor());
+    crearSecuencia() {
+        // Crea una secuencia aleatoria de botones
+        // ... (creación de secuencia aleatoria)
     }
 
-    getRandomColor() {
-        return Math.floor(Math.random() * 4);
+    getColorAleatorio() {
+        // Genera un número aleatorio entre 0 y 3
+        // ... (obtención de color aleatorio)
     }
 
-    buttonClick(value) {
-        !this.blockedButtons && this.validateChosenColor(value);
+    clickBoton(valor) {
+        // Ejecuta una función cuando se hace click en un botón
+        // ... (manejo de click en botón)
     }
 
-    validateChosenColor(value) {
-        // Lógica de validación del color elegido por el usuario
+    validarColorElegido(valor) {
+        // Valida si el botón que toca el usuario coincide con el valor de la secuencia
+        // ... (validación del color elegido)
     }
 
-    isGameOver() {
-        // Lógica de fin de juego
+    verificarFinJuego() {
+        // Verifica si se ha acabado el juego
+        // ... (verificación del fin del juego)
     }
 
-    showSequence() {
-        // Lógica para mostrar la secuencia
+    mostrarSecuencia() {
+        // Muestra la secuencia de botones que el usuario debe tocar
+        // ... (muestra la secuencia)
     }
 
-    toggleButtonStyle(button) {
-        // Cambio de estilo de los botones durante la secuencia
+    cambiarEstiloBoton(boton) {
+        // Cambia el estilo de los botones cuando se muestra la secuencia
+        // ... (cambia el estilo del botón)
     }
 
-    gameLost() {
-        // Acciones cuando el jugador pierde
+    juegoPerdido() {
+        // Actualiza el juego de Simon cuando el jugador pierde
+        // ... (acciones cuando el jugador pierde)
     }
 
-    gameWon() {
-        // Acciones cuando el jugador gana
+    juegoGanado() {
+        // Muestra la animación de victoria y actualiza el juego cuando el jugador gana
+        // ... (acciones cuando el jugador gana)
     }
 }
 
-const simon = new Simon(simonButtons, startButton, round);
-simon.init();
+const juegoSimon = new JuegoSimon(botonesSimon, botonInicio, tablero);
+juegoSimon.iniciar();
+
