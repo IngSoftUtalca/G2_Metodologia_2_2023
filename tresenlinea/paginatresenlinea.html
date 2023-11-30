@@ -57,6 +57,8 @@
                 super('Escena_jvj'); // 'Escena_jvj' es la clave única de esta escena
             }
 
+
+
             create(){
                 this.cameras.main.setBackgroundColor('#608BA6'); //ajustar el color del fondo
 
@@ -69,6 +71,12 @@
                 let texto = this.add.text(500, 150, 'Turno actual:', { font: '60px Harlow Solid Italic', fill: '#5A6973', fontStyle: 'bold' });
 
                 var self = this; // Guardar el contexto de 'this'
+
+                //const particles = this.add.particles(500, 500, 'blue', {
+                    //speed: 100,
+                    //scale: { start: 1, end: 0 },
+                    //blendMode: 'ADD'
+                //});
 
                 //matriz bidimensional que representa el tablero de juego
                 let tablero = [
@@ -89,6 +97,7 @@
                 let y;
                 var figura_turno_X = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960} });
                 var figura_turno_O = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A} });
+                let texto_ganador;
                 if(turnoX){
                     self.dibuja_X(880, 180, figura_turno_X);
                 }else{
@@ -137,17 +146,27 @@
                                 
                                 if(verifica[0]!= 0){
 
-                                    var color;
-                                    if (verifica[1]=='x') {color = 0xA68960;}
-                                    else {color = 0xA6609A};
+                                    var color_linea;
+                                    if (verifica[1]=='x') {color_linea = 0xA68960;}
+                                    else {color_linea = 0xA6609A};
 
-                                    self.linea_ganador(verifica[0],color)
+                                    self.linea_ganador(verifica[0],color_linea)
+
+                                    if(verifica[1]=='x'){
+                                        let texto_ganador1 = self.add.text(500, 300, 'Ha ganado la X', { font: '70px Arial', fill: '#5A6973', fontStyle: 'bold' });
+                                        console.log('ha ganado la X');
+                                    }else{
+                                        let texto_ganador2 = self.add.text(500, 300, 'Ha ganado el O', { font: '70px Arial', fill: '#5A6973', fontStyle: 'bold' });
+                                        console.log('ha ganado el O');
+                                    }
+
                                     contador = 9;
                                 }
 
                                 if(contador == 9){
                                     if(turnoX){
                                         figura_turno_X.clear();
+                                        
                                     }else{
                                         figura_turno_O.clear();
                                     }
@@ -390,8 +409,13 @@
             }
             
             texto_ganador(figura_ganadora){
+                let texto;
                 if(figura_ganadora=='x'){
-                    let texto = this.add.text(500, 150, 'hola', { font: '55px Arial', fill: '#5A6973', fontStyle: 'bold' });
+                    texto = this.add.text(500, 600, 'Ha ganado la X', { font: '55px Arial', fill: '#5A6973', fontStyle: 'bold' });
+                    console.log('ha ganado la X');
+                }else{
+                    texto = this.add.text(500, 600, 'Ha ganado el O', { font: '55px Arial', fill: '#5A6973', fontStyle: 'bold' });
+                    console.log('ha ganado el O');
                 }
             }
         }
