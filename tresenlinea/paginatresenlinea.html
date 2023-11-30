@@ -78,6 +78,24 @@
                     //blendMode: 'ADD'
                 //});
 
+                // Circulo invisible rebotando de fondo, que se hará visible en caso de que gane el O
+                var circulo_rebotando = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                this.dibuja_O(0,0, circulo_rebotando);
+                const circulo = self.physics.add.existing(circulo_rebotando);
+                circulo.body.setVelocity(100, 200);
+                circulo.body.setBounce(1, 1);
+                circulo.body.setCollideWorldBounds(true);
+                circulo_rebotando.setVisible(false);
+
+                // Cruz invisible rebotando de fondo, que se hará visible en caso de que gane la X
+                var cruz_rebotando = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                this.dibuja_X(0,0, cruz_rebotando);
+                const cruz = self.physics.add.existing(cruz_rebotando);
+                cruz.body.setVelocity(100, 200);
+                cruz.body.setBounce(1, 1);
+                cruz.body.setCollideWorldBounds(true);
+                cruz_rebotando.setVisible(false);
+
                 //matriz bidimensional que representa el tablero de juego
                 let tablero = [
                     [1,1,1],
@@ -153,11 +171,17 @@
                                     self.linea_ganador(verifica[0],color_linea)
 
                                     if(verifica[1]=='x'){
-                                        let texto_ganador1 = self.add.text(500, 300, 'Ha ganado la X', { font: '70px Arial', fill: '#5A6973', fontStyle: 'bold' });
-                                        console.log('ha ganado la X');
+                                        let texto_ganador1 = self.add.text(550, 300, 'Ha ganado', { font: '70px Harlow Solid Italic', fill: '#A68960', fontStyle: 'bold' });
+                                        var lienzo_ganador1 = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                                        self.dibuja_X(710,450,lienzo_ganador1);
+                                        cruz_rebotando.setVisible(true);
+                                        
                                     }else{
-                                        let texto_ganador2 = self.add.text(500, 300, 'Ha ganado el O', { font: '70px Arial', fill: '#5A6973', fontStyle: 'bold' });
-                                        console.log('ha ganado el O');
+                                        let texto_ganador2 = self.add.text(550, 300, 'Ha ganado', { font: '70px Harlow Solid Italic', fill: '#A6609A', fontStyle: 'bold' });
+                                        var lienzo_ganador2 = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                                        self.dibuja_O(710,450,lienzo_ganador2);
+                                        circulo_rebotando.setVisible(true);
+                                        
                                     }
 
                                     contador = 9;
@@ -225,11 +249,14 @@
                 lienzo.lineTo(x - tamano, y + tamano);
                 lienzo.strokePath();
 
+                return lienzo;
+
             }
 
             dibuja_O(x,y, figura){
                 var circulo = new Phaser.Geom.Circle(x, y, 40); // Crear un círculo
                 figura.strokeCircleShape(circulo); // Dibujar el círculo
+                return figura;
             }
 
             determina_columna(x){
