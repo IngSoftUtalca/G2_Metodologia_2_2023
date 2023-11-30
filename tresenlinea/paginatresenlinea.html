@@ -10,6 +10,10 @@
 <body style="margin-right:19% ; margin-top:8%; display:flex;align-items: center">
     <div id="phaser-container"></div>
     <script>
+        // variable global (prueba)
+        let modalidadSeleccionada = null;
+        let figuraSeleccionada = null;
+
         class Menu_modalidad extends Phaser.Scene {
             preload() {
                 this.load.setBaseURL('https://labs.phaser.io%27/');
@@ -36,17 +40,20 @@
                 particles.startFollow(logo);
 
                 // botones
-                var option1 = this.add.text(525, 250, 'Jugador vs Jugador', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true })
-                .setInteractive().on('pointerdown', () => this.scene.start('Escena_jvj'));
+                var option1 = this.add.text(525, 250, 'Jugador vs Jugador', { fontSize: '32px', fill: '#fff' })
+                    .setOrigin(0.5).setInteractive({ useHandCursor: true })
+                    .setInteractive().on('pointerdown', () => {
+                        modalidadSeleccionada = 'Jugador vs Jugador';
+                        this.scene.start('Escena_seleccionfigura');
+                    });
 
-                var option2 = this.add.text(525, 350, 'Jugador vs Máquina', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+                var option2 = this.add.text(525, 350, 'Jugador vs Máquina', { fontSize: '32px', fill: '#fff' })
+                    .setOrigin(0.5).setInteractive({ useHandCursor: true });
 
                 // pa que se puedan seleccionar
-                
-
                 option2.on('pointerup', function () {
                     console.log('Has seleccionado la Opción 2');
-                    // Aca iria la pagina que abriria al clickear
+
                 });
             }
         }
@@ -451,7 +458,7 @@
             type: Phaser.AUTO,
             width: 1050,
             height: 600,
-            scene: Escena_jvj,
+            scene: [Menu_modalidad, Escena_seleccionfigura, Escena_jvj],
             physics: {
                 default: 'arcade',
                 arcade: {
@@ -461,6 +468,7 @@
         };
 
         const game = new Phaser.Game(config);
+
     </script>
 </body>
 </html>
