@@ -14,7 +14,42 @@
         let modalidadSeleccionada = null;
         let figuraSeleccionada = null;
 
+        class Inicio extends Phaser.Scene{
+            constructor() {
+                super('Inicio'); // 'Menu_modalidad' es la clave única de esta escena
+            }
+
+            create(){
+
+                this.cameras.main.setBackgroundColor('#7BB2D4');
+
+                var titulo = this.add.text(270, 100, '¡Tres en linea! ', { font: '85px Harlow Solid Italic', fill: '#344B59' });
+
+                var boton_incio = this.add.text(515, 400, 'Iniciar ', { font: '55px Harlow Solid Italic', fill: '#344B59' })
+                    .setOrigin(0.5).setInteractive({ useHandCursor: true })
+                    .setInteractive().on('pointerdown', () => {
+                        this.scene.start('Menu_modalidad');
+                    });
+
+                    //Animación de pulsación
+                    this.tweens.add({
+                        targets: boton_incio,
+                        scaleX: 1.2,
+                        scaleY: 1.2,
+                        ease: 'Linear',
+                        duration: 500,
+                        repeat: -1, // Repite la animación infinitamente
+                        yoyo: true // Hace que la animación vuelva a su estado original
+                    });
+            }
+
+        }
+
         class Menu_modalidad extends Phaser.Scene {
+            constructor() {
+                super('Menu_modalidad'); // 'Menu_modalidad' es la clave única de esta escena
+            }
+
             preload() {
                 this.load.setBaseURL('https://labs.phaser.io%27/');
                 this.load.image('sky', 'assets/skies/space3.png');
@@ -23,7 +58,8 @@
             }
 
             create() {
-                var fondo = this.add.image(200, 300, 'sky');
+
+                this.cameras.main.setBackgroundColor('#7BB2D4');
 
                 const particles = this.add.particles(0, 0, 'red', {
                     speed: 100,
@@ -40,14 +76,14 @@
                 particles.startFollow(logo);
 
                 // botones
-                var option1 = this.add.text(525, 250, 'Jugador vs Jugador', { fontSize: '32px', fill: '#fff' })
+                var option1 = this.add.text(525, 250, 'Jugador vs Jugador', { font: '40px Harlow Solid Italic', fill: '#fff' })
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
                         modalidadSeleccionada = 'Jugador vs Jugador';
                         this.scene.start('Escena_seleccionfigura');
                     });
 
-                var option2 = this.add.text(525, 350, 'Jugador vs Máquina', { fontSize: '32px', fill: '#fff' })
+                var option2 = this.add.text(525, 350, 'Jugador vs Máquina', { font: '40px Harlow Solid Italic', fill: '#fff' })
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
                         modalidadSeleccionada = 'Jugador vs Maquina';
@@ -60,7 +96,6 @@
                 });
             }
         }
-
 
         class Escena_jvj extends Phaser.Scene{
             constructor() {
@@ -114,7 +149,14 @@
                 ]
 
                 var contador = 0;
-                var turnoX = true; //booleano que determina qué figura toca dibujar
+
+                var turnoX; //booleano que determina qué figura toca dibujar
+                if(figuraSeleccionada == 'x'){
+                    turnoX = true;
+                }else{
+                    turnoX = false;
+                }
+
                 var ganador = 0;
                 var verifica = [0,0];
                 var fila;
@@ -181,14 +223,14 @@
                                     self.linea_ganador(verifica[0],color_linea)
 
                                     if(verifica[1]=='x'){
-                                        let texto_ganador1 = self.add.text(550, 300, '¡Ha ganado!', { font: '70px Harlow Solid Italic', fill: '#A68960', fontStyle: 'bold' });
+                                        let texto_ganador1 = self.add.text(550, 300, '¡Ha ganado! ', { font: '70px Harlow Solid Italic', fill: '#A68960', fontStyle: 'bold' });
                                         var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
                                         self.dibuja_X(730, 450, lienzo);
                                         cruz_rebotando.setVisible(true);
 
                                         console.log('ha ganado la X');
                                     }else{
-                                        let texto_ganador2 = self.add.text(550, 300, '¡Ha ganado!', { font: '70px Harlow Solid Italic', fill: '#A6609A', fontStyle: 'bold' });
+                                        let texto_ganador2 = self.add.text(550, 300, '¡Ha ganado! ', { font: '70px Harlow Solid Italic', fill: '#A6609A', fontStyle: 'bold' });
                                         var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
                                         self.dibuja_O(730, 450, lienzo);
                                         circulo_rebotando.setVisible(true);
@@ -468,10 +510,10 @@
                 graphics1.strokeRect(0, 0, this.game.config.width, this.game.config.height); // Dibuja el borde
 
                 // botones
-                var option1 = this.add.text(525, 250, 'Figura X', { fontSize: '32px', fill: '#fff' })
+                var option1 = this.add.text(525, 250, 'Figura X', { fontSize: '32px Harlow Solid Italic', fill: '#fff' })
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
-                        figuraSeleccionada = 'Figura X';
+                        figuraSeleccionada = 'x';
                         if(modalidadSeleccionada == 'Jugador vs Jugador'){
                             this.scene.start('Escena_jvj');
                             console.log('jugador vs jugador');
@@ -481,10 +523,10 @@
                         }
                     });
 
-                var option2 = this.add.text(525, 350, 'Figura O', { fontSize: '32px', fill: '#fff' })
+                var option2 = this.add.text(525, 350, 'Figura O', { fontSize: '32px Harlow Solid Italic', fill: '#fff' })
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
-                        figuraSeleccionada = 'Figura O';
+                        figuraSeleccionada = 'o';
                         if(modalidadSeleccionada == 'Jugador vs Jugador'){
                             this.scene.start('Escena_jvj');
                             console.log('jugador vs jugador');
@@ -549,7 +591,14 @@
                 ]
 
                 var contador = 0;
-                var turnoX = true; //booleano que determina qué figura toca dibujar
+
+                var turnoX; //booleano que determina qué figura toca dibujar
+                if(figuraSeleccionada == 'x'){
+                    turnoX = true;
+                }else{
+                    turnoX = false;
+                }
+                
                 var ganador = 0;
                 var verifica = [0,0];
                 var fila;
@@ -894,7 +943,7 @@
             type: Phaser.AUTO,
             width: 1050,
             height: 600,
-            scene: [Menu_modalidad, Escena_seleccionfigura, Escena_jvj, Escena_jvm],
+            scene: [Inicio, Menu_modalidad, Escena_seleccionfigura, Escena_jvj, Escena_jvm],
             physics: {
                 default: 'arcade',
                 arcade: {
