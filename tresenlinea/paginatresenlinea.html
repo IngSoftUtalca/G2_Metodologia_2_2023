@@ -48,7 +48,10 @@
                     });
 
                 var option2 = this.add.text(525, 350, 'Jugador vs Máquina', { fontSize: '32px', fill: '#fff' })
-                    .setOrigin(0.5).setInteractive({ useHandCursor: true });
+                    .setOrigin(0.5).setInteractive({ useHandCursor: true })
+                    .setInteractive().on('pointerdown', () => {
+                        modalidadSeleccionada = 'Jugador vs Maquina';
+                        this.scene.start('Escena_seleccionfigura')});
 
                 // pa que se puedan seleccionar
                 option2.on('pointerup', function () {
@@ -469,16 +472,421 @@
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
                         figuraSeleccionada = 'Figura X';
-                        this.scene.start('Escena_jvj');
+                        if(modalidadSeleccionada == 'Jugador vs Jugador'){
+                            this.scene.start('Escena_jvj');
+                            console.log('jugador vs jugador');
+                        }else{
+                            this.scene.start('Escena_jvm');
+                            console.log('jugador vs maquina');
+                        }
                     });
 
                 var option2 = this.add.text(525, 350, 'Figura O', { fontSize: '32px', fill: '#fff' })
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
                         figuraSeleccionada = 'Figura O';
-                        this.scene.start('Escena_jvj')
+                        if(modalidadSeleccionada == 'Jugador vs Jugador'){
+                            this.scene.start('Escena_jvj');
+                            console.log('jugador vs jugador');
+                        }else{
+                            this.scene.start('Escena_jvm');
+                            console.log('jugador vs maquina');
+                        }
                     
                     });
+            }
+        }
+
+        class Escena_jvm extends Phaser.Scene{
+            constructor() {
+                super('Escena_jvm'); // 'Escena_jvm' es la clave única de esta escena
+            }
+
+
+
+            create(){
+                this.cameras.main.setBackgroundColor('#FFFFFF'); //ajustar el color del fondo
+
+                let graphics1 = this.add.graphics();
+                graphics1.lineStyle(25, 0x5A6973); // grosor y color del borde de la ventana
+                graphics1.strokeRect(0, 0, this.game.config.width, this.game.config.height); // Dibuja el borde
+
+                this.crea_tablero(); // se dibuja el tablero de juego
+
+                let texto = this.add.text(500, 150, 'Turno actual:', { font: '60px Harlow Solid Italic', fill: '#5A6973', fontStyle: 'bold' });
+
+                var self = this; // Guardar el contexto de 'this'
+
+                //const particles = this.add.particles(500, 500, 'blue', {
+                    //speed: 100,
+                    //scale: { start: 1, end: 0 },
+                    //blendMode: 'ADD'
+                //});
+
+                // Circulo invisible rebotando de fondo, que se hará visible en caso de que gane el O
+                var circulo_rebotando = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                this.dibuja_O(0,0, circulo_rebotando);
+                const circulo = self.physics.add.existing(circulo_rebotando);
+                circulo.body.setVelocity(200, 300);
+                circulo.body.setBounce(1, 1);
+                circulo.body.setCollideWorldBounds(true);
+                circulo_rebotando.setVisible(false);
+
+                // Cruz invisible rebotando de fondo, que se hará visible en caso de que gane la X
+                var cruz_rebotando = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                this.dibuja_X(0,0, cruz_rebotando);
+                const cruz = self.physics.add.existing(cruz_rebotando);
+                cruz.body.setVelocity(200, 300);
+                cruz.body.setBounce(1, 1);
+                cruz.body.setCollideWorldBounds(true);
+                cruz_rebotando.setVisible(false);
+
+                //matriz bidimensional que representa el tablero de juego
+                let tablero = [
+                    [1,1,1],
+                    [1,1,1],
+                    [1,1,1]
+                ]
+
+                var contador = 0;
+                var turnoX = true; //booleano que determina qué figura toca dibujar
+                var ganador = 0;
+                var verifica = [0,0];
+                var fila;
+                var columna;
+                var x_centrado;
+                var y_centrado;
+                let x;
+                let y;
+                var figura_turno_X = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960} });
+                var figura_turno_O = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A} });
+                let texto_ganador;
+                if(turnoX){
+                    self.dibuja_X(880, 180, figura_turno_X);
+                }else{
+                    self.dibuja_O(880, 180, figura_turno_O);
+                }
+
+                self.input.on('pointerdown', function (pointer) { //evento que detecta el click
+                    if(contador < 9){
+                        x = pointer.x;
+                        y = pointer.y;
+                        fila = self.determina_fila(y);
+                        columna = self.determina_columna(x);
+                        if(fila!=-1 && columna !=-1){ //Verifica que la posición en donde se hizo click esté dentro del tablero
+
+                            //centra las coordenadas del click para que la figura se dibuje en el centro de la celda
+                            x_centrado = self.centra_X(columna);
+                            y_centrado = self.centra_Y(fila);
+
+                            //verifica que la celda seleccionada no esté ocupada
+                            if(tablero[fila][columna]==1){
+                                if(turnoX){
+                                    //Dibuja la cruz
+                                    var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                                    self.dibuja_X(x_centrado, y_centrado, lienzo);
+
+                                    tablero[fila][columna]= 'x';
+                                    figura_turno_X.clear();
+                                    self.dibuja_O(880, 180, figura_turno_O);
+                                    
+                                    turnoX = false;
+                                }
+                                else{
+                                    //Dibujo el circulo
+                                    var figura = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                                    self.dibuja_O(x_centrado, y_centrado, figura);
+                                    tablero[fila][columna]= 'o';
+
+                                    figura_turno_O.clear();
+                                    self.dibuja_X(880, 180, figura_turno_X);
+
+                                    turnoX = true;
+                                }
+                                contador++;
+
+                                verifica = self.verifica_ganador(tablero);
+                                
+                                if(verifica[0]!= 0){
+
+                                    var color_linea;
+                                    if (verifica[1]=='x') {color_linea = 0xA68960;}
+                                    else {color_linea = 0xA6609A};
+
+                                    self.linea_ganador(verifica[0],color_linea)
+
+                                    if(verifica[1]=='x'){
+                                        let texto_ganador1 = self.add.text(550, 300, '¡Ha ganado!', { font: '70px Harlow Solid Italic', fill: '#A68960', fontStyle: 'bold' });
+                                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                                        self.dibuja_X(730, 450, lienzo);
+                                        cruz_rebotando.setVisible(true);
+
+                                        console.log('ha ganado la X');
+                                    }else{
+                                        let texto_ganador2 = self.add.text(550, 300, '¡Ha ganado!', { font: '70px Harlow Solid Italic', fill: '#A6609A', fontStyle: 'bold' });
+                                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                                        self.dibuja_O(730, 450, lienzo);
+                                        circulo_rebotando.setVisible(true);
+                                        console.log('ha ganado el O');
+                                    }
+
+                                    contador = 9;
+                                }
+
+                                if(contador == 9){
+                                    if(turnoX){
+                                        figura_turno_X.clear();
+                                        
+                                    }else{
+                                        figura_turno_O.clear();
+                                    }
+                                }
+
+
+                            }
+                        }    
+                    }
+                });
+
+            }
+
+            crea_tablero(){
+                let linea1 = this.add.graphics().lineStyle(10, 0x5A6973);
+                linea1.beginPath();
+                linea1.moveTo(180, 100);
+                linea1.lineTo(180, 500);
+                linea1.closePath();
+                linea1.strokePath();
+
+                let linea2 = this.add.graphics().lineStyle(10, 0x5A6973);
+                linea2.beginPath();
+                linea2.moveTo(310, 100);
+                linea2.lineTo(310, 500);
+                linea2.closePath();
+                linea2.strokePath();
+
+                let linea3 = this.add.graphics().lineStyle(10, 0x5A6973);
+                linea3.beginPath();
+                linea3.moveTo(45, 235);
+                linea3.lineTo(445, 235);
+                linea3.closePath();
+                linea3.strokePath();
+
+                let linea4 = this.add.graphics().lineStyle(10, 0x5A6973);
+                linea4.beginPath();
+                linea4.moveTo(45, 365);
+                linea4.lineTo(445, 365);
+                linea4.closePath();
+                linea4.strokePath();
+            }
+
+            dibuja_X(x,y,lienzo){
+                var tamano = 40; // Tamaño de la "X"
+
+                // Dibujar la primera línea de la "X"
+                lienzo.beginPath();
+                lienzo.moveTo(x - tamano, y - tamano);
+                lienzo.lineTo(x + tamano, y + tamano);
+                lienzo.strokePath();
+
+                // Dibujar la segunda línea de la "X"
+                lienzo.beginPath();
+                lienzo.moveTo(x + tamano, y - tamano);
+                lienzo.lineTo(x - tamano, y + tamano);
+                lienzo.strokePath();
+
+            }
+
+            dibuja_O(x,y, figura){
+                var circulo = new Phaser.Geom.Circle(x, y, 40); // Crear un círculo
+                figura.strokeCircleShape(circulo); // Dibujar el círculo
+            }
+
+            determina_columna(x){
+                if(x > 45 && x < 445  ){ //verifica si el valor del eje x está dentro de los límites del tablero
+                    if(x < 180){
+                        return 0;
+                    }
+                    else if(x<310){
+                        return 1;
+                    }
+                    else if(x<445){
+                        return 2;
+                    }
+                }else{
+                    return -1;
+                }
+            }
+
+            determina_fila(y){
+                if(y > 100 && y < 500  ){ //verifica si el valor del eje y está dentro de los límites del tablero
+                    if(y < 235){return 0;}
+                    if(y < 365){return 1;}
+                    if(y < 500){return 2;}
+                }
+                else{return -1;}                
+            }
+
+            centra_X(columna){
+                if(columna == 0) {return 112.5;}
+                if(columna == 1) {return 245;}
+                if(columna == 2) {return 377.5;}
+            }
+
+            centra_Y(fila){
+                if(fila == 0) {return 167.5;}
+                if(fila == 1) {return 300;}
+                if(fila == 2) {return 432.5;}
+            }
+
+            verifica_ganador(tablero){
+
+                //arreglo que contiene la información del número de la forma en qué se ganó (8 posibles formas de ganar), y cuál figura ganó
+                var info = [0,'0'];
+
+
+                //Verifica fila por fila si hay algún ganador
+                if((tablero[0][0]!=1)&&(tablero[0][0]==tablero[0][1] && tablero[0][1]==tablero[0][2])){ //fila 0
+                    info[0] = 1;
+                    if(tablero[0][0]=='x'){
+                        info[1] = 'x';
+                        return info;
+                    }else{
+                        info[1] = 'o';
+                        return info;
+                    }
+                }
+                if((tablero[1][0]!=1)&&(tablero[1][0]==tablero[1][1] && tablero[1][1]==tablero[1][2])){ //fila 1
+                    info[0] = 2;
+                    if(tablero[1][0]=='x'){
+                        info[1] = 'x';
+                        return info;
+                    }else{
+                        info[1] = 'o';
+                        return info;
+                    }
+                }
+                if((tablero[2][0]!=1)&&(tablero[2][0]==tablero[2][1] && tablero[2][1]==tablero[2][2])){ //fila 2
+                    info[0] = 3;
+                    if(tablero[2][0]=='x'){
+                        info[1] = 'x';
+                        return info;
+                    }else{
+                        info[1] = 'o';
+                        return info;
+                    }
+                }
+
+                //Verifica columna por columna si hay algún ganador
+                if((tablero[0][0]!=1)&&(tablero[0][0]==tablero[1][0] && tablero[1][0]==tablero[2][0])){ //columna 0
+                    info[0] = 4;
+                    if(tablero[0][0]=='x'){
+                        info[1] = 'x';
+                        return info;
+                    }else{
+                        info[1] = 'o';
+                        return info;
+                    }
+                }
+                if((tablero[0][1]!=1)&&(tablero[0][1]==tablero[1][1] && tablero[1][1]==tablero[2][1])){ //columna 1
+                    info[0] = 5;
+                    if(tablero[0][1]=='x'){
+                        info[1] = 'x';
+                        return info;
+                    }else{
+                        info[1] = 'o';
+                        return info;
+                    }
+                }
+                if((tablero[0][2]!=1)&&(tablero[0][2]==tablero[1][2] && tablero[1][2]==tablero[2][2])){ //columna 2
+                    info[0] = 6;
+                    if(tablero[0][2]=='x'){
+                        info[1] = 'x';
+                        return info;
+                    }else{
+                        info[1] = 'o';
+                        return info;
+                    }
+                }
+
+                //Verifica las diagonales para ver si hay algún ganador
+                if((tablero[0][0]!=1)&&(tablero[0][0]==tablero[1][1] && tablero[1][1]==tablero[2][2])){ //columna 0
+                    info[0] = 7;
+                    if(tablero[0][0]=='x'){
+                        info[1] = 'x';
+                        return info;
+                    }else{
+                        info[1] = 'o';
+                        return info;
+                    }
+                }
+                if((tablero[0][2]!=1)&&(tablero[0][2]==tablero[1][1] && tablero[1][1]==tablero[2][0])){ //columna 1
+                    info[0] = 8;
+                    if(tablero[0][2]=='x'){
+                        info[1] = 'x';
+                        return info;
+                    }else{
+                        info[1] = 'o';
+                        return info;
+                    }
+                }
+                return info;
+            }
+
+            linea_ganador(caso_ganador, color){
+
+                let linea1 = this.add.graphics().lineStyle(10, color);
+                linea1.beginPath();
+
+                switch(caso_ganador){
+                    case 1: //fila 0
+                        linea1.moveTo(45, 167.5);
+                        linea1.lineTo(445, 167.5);
+                        break;
+                    case 2: //fila 1
+                        linea1.moveTo(45, 300);
+                        linea1.lineTo(445, 300);
+                        break;
+                    case 3: //fila 2
+                        linea1.moveTo(45, 432.5);
+                        linea1.lineTo(445, 432.5);
+                        break;
+
+                    case 4: //columna 0
+                        linea1.moveTo(112.5, 100);
+                        linea1.lineTo(112.5, 500);    
+                        break;
+                    case 5: //columna 1
+                        linea1.moveTo(245, 100);
+                        linea1.lineTo(245, 500);
+                        break;
+                    case 6: //columna 2
+                        linea1.moveTo(377.5, 100);
+                        linea1.lineTo(377.5, 500);
+                        break;
+
+                    case 7: //primera diagonal
+                        linea1.moveTo(45, 100);
+                        linea1.lineTo(445, 500);
+                        break;
+                    case 8: //segunda diagonal
+                        linea1.moveTo(45, 500);
+                        linea1.lineTo(445, 100);
+                        break;                                    
+                }
+                linea1.closePath();
+                linea1.strokePath();
+            }
+            
+            texto_ganador(figura_ganadora){
+                let texto;
+                if(figura_ganadora=='x'){
+                    texto = this.add.text(500, 600, 'Ha ganado la X', { font: '55px Arial', fill: '#5A6973', fontStyle: 'bold' });
+                    console.log('ha ganado la X');
+                }else{
+                    texto = this.add.text(500, 600, 'Ha ganado el O', { font: '55px Arial', fill: '#5A6973', fontStyle: 'bold' });
+                    console.log('ha ganado el O');
+                }
             }
         }
 
@@ -486,7 +894,7 @@
             type: Phaser.AUTO,
             width: 1050,
             height: 600,
-            scene: [Menu_modalidad, Escena_seleccionfigura, Escena_jvj],
+            scene: [Menu_modalidad, Escena_seleccionfigura, Escena_jvj, Escena_jvm],
             physics: {
                 default: 'arcade',
                 arcade: {
