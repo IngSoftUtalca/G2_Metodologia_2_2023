@@ -22,7 +22,7 @@
             <button class="buttonBack-layout" title="Librería de juegos">Back</button>
         </a>
     </div>
-    <button onclick="runCode()">Run Code</button>
+
     <div id="phaser-container">
        
     <script>
@@ -31,7 +31,9 @@
      var jugador;
      let cursors;
      var estado = 'idle';
-
+     let direccion = 0; // 0 = quieto, -1 = izquierda, 1 = derecha
+     let tiempoMovimiento = null;
+     let acciones;
      class Example extends Phaser.Scene
 {
     preload ()
@@ -53,9 +55,11 @@
         fondo.displayWidth = 2000;
         fondo.displayHeight = 2000;
 
+
         gato = this.physics.add.sprite (810,300,'gato')
         gato.setScale(0.23)
         gato.body.setSize(250, 300);
+        gato.setInteractive
   
         
 
@@ -68,40 +72,124 @@
     
 
         jugador = this.physics.add.sprite (40,100,'jugador')
-        jugador.body.setSize(65, 80);
-        jugador.body.setOffset(8, 10); // mueve la hitbox respecto al sprite 
+        jugador.body.setSize(40, 80);
+        jugador.body.setOffset(20, 10); // mueve la hitbox respecto al sprite 
 
         cursors = this.input.keyboard.createCursorKeys();
         var plataformas= this.physics.add.group();
         plataformas.createMultiple({
             key: 'plataforma',
             repeat: 5,
-            setXY: {x:40,y:600,stepX: 200,stepY:-100 },
+            setXY: {x:40,y:400,stepX: 200,stepY:0 },
         });
 
         plataformas.children.iterate(function(child) {
             child.setScale(0.27, 0.27);
             child.body.setAllowGravity(false);
             child.body.setImmovable(true);
-            child.body.setSize(400, 230);
-            child.body.setOffset(120, 100);
+            child.body.setSize(380, 230);
+            child.body.setOffset(130, 100);
             
         });
 
+        
+        let saltar1= this.add.sprite(370,28,'saltar');
+        saltar1.visible=false;
+        let saltar2= this.add.sprite(370,28,'saltar');
+        saltar2.visible=false;
+        let saltar3= this.add.sprite(370,28,'saltar');
+        saltar3.visible=false;
+        let saltar4= this.add.sprite(370,28,'saltar');
+        saltar4.visible=false;
+        let saltar5= this.add.sprite(370,28,'saltar');
+        saltar5.visible=false;
+        let saltar6= this.add.sprite(370,28,'saltar');
+        saltar6.visible=false;
+        let saltar7= this.add.sprite(370,28,'saltar');
+        saltar7.visible=false;
+        let saltar8= this.add.sprite(370,28,'saltar');
+        saltar8.visible=false;
+        let saltar9= this.add.sprite(370,28,'saltar');
+        saltar9.visible=false;
+        let saltar10= this.add.sprite(370,28,'saltar');
+        saltar10.visible=false;
 
-    
+        let instrucciones = [];
 
-      
+        let boton1= this.add.sprite(370,28,'saltar');
+        
+        boton1.setScale(0.7);
+        boton1.setInteractive();
+        boton1.on('pointerdown', () => {
+                instrucciones.push("Saltar");
+                console.log('¡Botón presionado!');
+                //se imprimen las instrucciones para saber si se estan agreagando al arraylist
+                for(let i = 0; i < instrucciones.length; i++) {
+                console.log(instrucciones[i]);
+}
+            });
+
+        let boton2= this.add.sprite(235,30,'saltarderecha');
+        boton2.setScale(0.7);
+        boton2.setInteractive();
+        boton2.on('pointerdown', () => {
+                instrucciones.push("Saltar Derecha");
+                console.log('¡Botón presionado!');
+                //se imprimen las instrucciones para saber si se estan agreagando al arraylist
+                for(let i = 0; i < instrucciones.length; i++) {
+                console.log(instrucciones[i]);
+}
+            });    
+        let boton3= this.add.sprite(95,30,'saltarizquierda');
+        boton3.setScale(0.7);
+        boton3.setInteractive();
+        boton3.on('pointerdown', () => {
+                instrucciones.push("Saltar izquierda");
+                console.log('¡Botón presionado!');
+                //se imprimen las instrucciones para saber si se estan agreagando al arraylist
+                for(let i = 0; i < instrucciones.length; i++) {
+                console.log(instrucciones[i]);
+}
+            });                
+
+       
+
         this.physics.add.collider(jugador, plataformas);
         this.physics.add.collider(jugador, plataforma1);
-        this.physics.add.collider(gato, plataforma1);
-  
+        this.physics.add.collider(gato, plataforma1); 
+       // this.physics.add.overlap(jugador, gato, this.victory, null, this);
+
+        let botonEjecutar = this.add.sprite(500, 30, 'botonEjecutar');
+        botonEjecutar.setInteractive();
+       
+                // Define las acciones y sus tiempos de espera
+        acciones = {
+            "Saltar": {funcion: () => jugador.setVelocityY(-800), tiempo: 1000},
+            "Saltar Derecha": {funcion: () => {jugador.setVelocityX(200); jugador.setVelocityY(-800); direccion = 1; tiempoMovimiento = Date.now();}, tiempo: 1000},
+            "Saltar Izquierda": {funcion: () => {jugador.setVelocityX(-200); jugador.setVelocityY(-800); direccion = -1; tiempoMovimiento = Date.now();}, tiempo: 1000}
+        };
+
+        botonEjecutar.on('pointerdown', () => {
+            botonEjecutar.setVisible(false); // Hace desaparecer el botón
+            let tiempoTotal = 0;
+            for(let i = 0; i < instrucciones.length; i++) {
+                tiempoTotal += acciones[instrucciones[i]].tiempo;
+                setTimeout(() => {
+                    if(acciones[instrucciones[i]]) {
+                        acciones[instrucciones[i]].funcion();
+                    }
+                }, tiempoTotal);
+            }
+            // Vacía el array de instrucciones después de programarlas todas y hace reaparecer el botón
+            setTimeout(() => {instrucciones = []; botonEjecutar.setVisible(true);}, tiempoTotal);
+        });
+      
+
         
-        this.physics.add.overlap(jugador, gato, this.victory, null, this);
     }
 
     update()  {
-    if (cursors.left.isDown){
+    /*if (cursors.left.isDown){
         jugador.setVelocityX(-200);
         jugador.setFlipX(true);
         estado = 'moviendose';
@@ -118,19 +206,22 @@
         estado = 'saltando';
     }
 
-    else if(jugador.y > 1000 || jugador.x<0 || jugador.x>1000){
+   */
+
+   if (direccion === 1 && !jugador.body.touching.down) {
+        jugador.setVelocityX(200);
+    } 
+    if (jugador.body.touching.down) {
+        if (direccion === 1) {
+            jugador.setVelocityX(0); // Restablece la velocidad en el eje X
+        }
+        direccion = 0; // Restablece la dirección cuando el jugador toca el suelo
+    }
+    if(jugador.y > 1000 || jugador.x<0 || jugador.x>1000){
+        this.physics.pause();
         this.gameOver();
     }
 
-    if (estado === 'quieto') {
-        // Reproduce la animación de idle
-         }   
-    else if (estado === 'movviendose') {
-        // Reproduce la animación de movimiento
-         }
-    else if (estado === 'saltando') {
-        // Reproduce la animación de salto
-         }    
     }
 
     gameOver(){
@@ -174,12 +265,13 @@ const config = {
     type: Phaser.AUTO,
     width: 1050,
     height: 600,
+   
     scene: Example,
     physics: {
         default: 'arcade',
         arcade: {
             gravity: { y: 1500 },
-            
+            debug: true
         }
     }
 };
