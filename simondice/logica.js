@@ -1,10 +1,31 @@
+const tablero = document.getElementById('round');
+const botonesSimon = document.getElementsByClassName('square');
+const botonInicio = document.getElementById('startButton');
+
 class JuegoSimon {
     constructor(botonesSimon, botonInicio, tablero) {
-        // ... (definición del constructor)
+        this.ronda = 0;
+        this.posicionUsuario = 0;
+        this.totalRondas = 1; // Acá podemos modificar la cantidad de niveles disponibles 
+        this.secuencia = [];
+        this.velocidad = 1000;
+        this.botonesBloqueados = true;
+        this.botones = Array.from(botonesSimon);
+        this.interfaz = {
+            botonInicio,
+            tablero
+        }
+        this.sonidoError = new Audio('./sonidos/error.wav');
+        this.sonidosBotones = [
+            new Audio('./sonidos/1.mp3'),
+            new Audio('./sonidos/2.mp3'),
+            new Audio('./sonidos/3.mp3'),
+            new Audio('./sonidos/4.mp3'),
+        ]
     }
 
+    // Inicia el juego de Simon
     iniciar() {
-        // Inicia el juego de Simon
         this.interfaz.botonInicio.onclick = () => this.iniciarJuego();
     }
 
