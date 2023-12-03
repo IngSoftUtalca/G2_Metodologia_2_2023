@@ -71,7 +71,7 @@
         plataforma1.body.setOffset(120, 100);
     
 
-        jugador = this.physics.add.sprite (40,100,'jugador')
+        jugador = this.physics.add.sprite (40,332,'jugador')
         jugador.body.setSize(40, 80);
         jugador.body.setOffset(20, 10); // mueve la hitbox respecto al sprite 
 
@@ -115,18 +115,13 @@
         saltar10.visible=false;
 
         let instrucciones = [];
-        
+
         let boton1= this.add.sprite(370,28,'saltar');
-        var pos=50;
+        
         boton1.setScale(0.7);
         boton1.setInteractive();
         boton1.on('pointerdown', () => {
                 instrucciones.push("Saltar");
-            boton1.setPosition(
-                pos+150,
-                570
-            );
-            pos=pos+150;
                 console.log('¡Botón presionado!');
                 //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
@@ -139,11 +134,6 @@
         boton2.setInteractive();
         boton2.on('pointerdown', () => {
                 instrucciones.push("Saltar Derecha");
-            boton2.setPosition(
-                pos+150,
-                570
-            );
-            pos=pos+150;
                 console.log('¡Botón presionado!');
                 //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
@@ -154,12 +144,7 @@
         boton3.setScale(0.7);
         boton3.setInteractive();
         boton3.on('pointerdown', () => {
-                instrucciones.push("Saltar izquierda");
-                boton3.setPosition(
-                pos+150,
-                570
-            );
-            pos=pos+150;
+                instrucciones.push("Saltar Izquierda");
                 console.log('¡Botón presionado!');
                 //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
@@ -178,41 +163,29 @@
         botonEjecutar.setInteractive();
        
                 // Define las acciones y sus tiempos de espera
-        acciones = {
-            "Saltar": {funcion: () => jugador.setVelocityY(-800), tiempo: 1000},
-            "Saltar Derecha": {funcion: () => {jugador.setVelocityX(200); jugador.setVelocityY(-800); direccion = 1; tiempoMovimiento = Date.now();}, tiempo: 1000},
-            "Saltar Izquierda": {funcion: () => {jugador.setVelocityX(-200); jugador.setVelocityY(-800); direccion = -1; tiempoMovimiento = Date.now();}, tiempo: 1000}
+         acciones = {
+            "Saltar": {funcion: () => {jugador.setVelocityY(-800);jugador.estado='saltando'}},
+            "Saltar Derecha": {funcion: () => {jugador.setVelocityY(-800); jugador.setVelocityX(200);jugador.estado='saltandoDer';}},
+            "Saltar Izquierda": {funcion: () => {jugador.setVelocityY(-800); jugador.setVelocityX(-200);jugador.estado='saltandoIzq';}}
         };
 
         botonEjecutar.on('pointerdown', () => {
-            botonEjecutar.setVisible(false); // Hace desaparecer el botón
-            let tiempoTotal = 0;
-            for(let i = 0; i < instrucciones.length; i++) {
-                tiempoTotal += acciones[instrucciones[i]].tiempo;
-                setTimeout(() => {
-                    if(acciones[instrucciones[i]]) {
-                        acciones[instrucciones[i]].funcion();
-                    }
-                }, tiempoTotal);
+        botonEjecutar.setVisible(false); // Hace desaparecer el botón
+
+        let tiempoEspera = 0; // Tiempo inicial de espera
+
+        for(let i = 0; i < instrucciones.length; i++) {
+            if(acciones[instrucciones[i]]) {
+                setTimeout(acciones[instrucciones[i]].funcion, tiempoEspera);
+                tiempoEspera += 1700; // Incrementa el tiempo de espera en 1000ms (1 segundo)
             }
-            // Vacía el array de instrucciones después de programarlas todas y hace reaparecer el botón
-            setTimeout(() => {instrucciones = []; botonEjecutar.setVisible(true);}, tiempoTotal);
-        });
-      
+        }
 
-    // Modifica este bloque para agregar una acción al hacer clic en cada sprite
-    acciones.forEach(function (instrucciones) {
-        acciones.setInteractive();
-
-        acciones.on('pointerdown', function () {
-            // Mueve el elemento a una nueva posición aleatoria
-            acciones.setPosition(
-                Phaser.Math.Between(0, this.sys.game.config.width),
-                Phaser.Math.Between(0, this.sys.game.config.height)
-            );
-
-            console.log('Hiciste clic en el elemento: ' + elemento.texture.key);
-        }, this);
+        // Vacía el array de instrucciones después de ejecutarlas todas y hace reaparecer el botón
+        setTimeout(() => {
+            instrucciones = [];
+            botonEjecutar.setVisible(true);
+        }, tiempoEspera);
     });
 
         
@@ -237,21 +210,28 @@
     }
 
    */
-
-   if (direccion === 1 && !jugador.body.touching.down) {
-        jugador.setVelocityX(200);
-    } 
+    //console.log(jugador.body.touching.down)
+    //console.log(jugador.estado)
     if (jugador.body.touching.down) {
-        if (direccion === 1) {
-            jugador.setVelocityX(0); // Restablece la velocidad en el eje X
-        }
-        direccion = 0; // Restablece la dirección cuando el jugador toca el suelo
-    }
-    if(jugador.y > 1000 || jugador.x<0 || jugador.x>1000){
-        this.physics.pause();
-        this.gameOver();
+        jugador.setVelocityX(0);
     }
 
+
+    if (!jugador.body.touching.down && jugador.estado==='saltandoDer'){
+        console.log('se esta cumpliendo la condicion para que se mueva a la derecha mientras esta en el aire')
+        jugador.setVelocityX(200)
+    }
+
+    if (!jugador.body.touching.down && jugador.estado==='saltandoIzq'){
+        console.log('se esta cumpliendo la condicion para que se mueva a la izquierda mientras esta en el aire')
+        jugador.setVelocityX(-200)
+    }
+
+
+    if(jugador.y > 1000 || jugador.x<0 || jugador.x>1000){
+            this.physics.pause();
+            this.gameOver();
+        }
     }
 
     gameOver(){
