@@ -115,13 +115,17 @@
         saltar10.visible=false;
 
         let instrucciones = [];
-
+        
         let boton1= this.add.sprite(370,28,'saltar');
         
         boton1.setScale(0.7);
         boton1.setInteractive();
         boton1.on('pointerdown', () => {
                 instrucciones.push("Saltar");
+            boton1.setPosition(
+                Phaser.Math.Between(0, this.sys.game.config.width),
+                570
+            );
                 console.log('¡Botón presionado!');
                 //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
@@ -134,6 +138,10 @@
         boton2.setInteractive();
         boton2.on('pointerdown', () => {
                 instrucciones.push("Saltar Derecha");
+            boton2.setPosition(
+                Phaser.Math.Between(0, this.sys.game.config.width),
+                570
+            );
                 console.log('¡Botón presionado!');
                 //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
@@ -145,6 +153,10 @@
         boton3.setInteractive();
         boton3.on('pointerdown', () => {
                 instrucciones.push("Saltar izquierda");
+                boton3.setPosition(
+                ,
+                570
+            );
                 console.log('¡Botón presionado!');
                 //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
@@ -184,6 +196,21 @@
             setTimeout(() => {instrucciones = []; botonEjecutar.setVisible(true);}, tiempoTotal);
         });
       
+
+    // Modifica este bloque para agregar una acción al hacer clic en cada sprite
+    acciones.forEach(function (instrucciones) {
+        acciones.setInteractive();
+
+        acciones.on('pointerdown', function () {
+            // Mueve el elemento a una nueva posición aleatoria
+            acciones.setPosition(
+                Phaser.Math.Between(0, this.sys.game.config.width),
+                Phaser.Math.Between(0, this.sys.game.config.height)
+            );
+
+            console.log('Hiciste clic en el elemento: ' + elemento.texture.key);
+        }, this);
+    });
 
         
     }
