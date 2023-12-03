@@ -71,7 +71,7 @@
         plataforma1.body.setOffset(120, 100);
     
 
-        jugador = this.physics.add.sprite (40,100,'jugador')
+        jugador = this.physics.add.sprite (40,332,'jugador')
         jugador.body.setSize(40, 80);
         jugador.body.setOffset(20, 10); // mueve la hitbox respecto al sprite 
 
@@ -144,7 +144,7 @@
         boton3.setScale(0.7);
         boton3.setInteractive();
         boton3.on('pointerdown', () => {
-                instrucciones.push("Saltar izquierda");
+                instrucciones.push("Saltar Izquierda");
                 console.log('¡Botón presionado!');
                 //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
@@ -163,25 +163,22 @@
         botonEjecutar.setInteractive();
        
                 // Define las acciones y sus tiempos de espera
-        acciones = {
-            "Saltar": {funcion: () => jugador.setVelocityY(-800), tiempo: 1000},
-            "Saltar Derecha": {funcion: () => {jugador.setVelocityX(200); jugador.setVelocityY(-800); direccion = 1; tiempoMovimiento = Date.now();}, tiempo: 1000},
-            "Saltar Izquierda": {funcion: () => {jugador.setVelocityX(-200); jugador.setVelocityY(-800); direccion = -1; tiempoMovimiento = Date.now();}, tiempo: 1000}
+         acciones = {
+            "Saltar": {funcion: () => {jugador.setVelocityY(-800);jugador.estado='saltando'}},
+            "Saltar Derecha": {funcion: () => {jugador.setVelocityY(-800); jugador.setVelocityX(200);jugador.estado='saltandoDer';}},
+            "Saltar Izquierda": {funcion: () => {jugador.setVelocityY(-800); jugador.setVelocityX(-200);jugador.estado='saltandoIzq';}}
         };
 
         botonEjecutar.on('pointerdown', () => {
             botonEjecutar.setVisible(false); // Hace desaparecer el botón
-            let tiempoTotal = 0;
             for(let i = 0; i < instrucciones.length; i++) {
-                tiempoTotal += acciones[instrucciones[i]].tiempo;
-                setTimeout(() => {
-                    if(acciones[instrucciones[i]]) {
-                        acciones[instrucciones[i]].funcion();
-                    }
-                }, tiempoTotal);
+                if(acciones[instrucciones[i]]) {
+                    acciones[instrucciones[i]].funcion();
+                }
             }
-            // Vacía el array de instrucciones después de programarlas todas y hace reaparecer el botón
-            setTimeout(() => {instrucciones = []; botonEjecutar.setVisible(true);}, tiempoTotal);
+            // Vacía el array de instrucciones después de ejecutarlas todas y hace reaparecer el botón
+            instrucciones = [];
+            botonEjecutar.setVisible(true);
         });
       
 
@@ -207,21 +204,28 @@
     }
 
    */
-
-   if (direccion === 1 && !jugador.body.touching.down) {
-        jugador.setVelocityX(200);
-    } 
+    //console.log(jugador.body.touching.down)
+    //console.log(jugador.estado)
     if (jugador.body.touching.down) {
-        if (direccion === 1) {
-            jugador.setVelocityX(0); // Restablece la velocidad en el eje X
-        }
-        direccion = 0; // Restablece la dirección cuando el jugador toca el suelo
-    }
-    if(jugador.y > 1000 || jugador.x<0 || jugador.x>1000){
-        this.physics.pause();
-        this.gameOver();
+        jugador.setVelocityX(0);
     }
 
+
+    if (!jugador.body.touching.down && jugador.estado==='saltandoDer'){
+        console.log('se esta cumpliendo la condicion para que se mueva a la derecha mientras esta en el aire')
+        jugador.setVelocityX(200)
+    }
+
+    if (!jugador.body.touching.down && jugador.estado==='saltandoIzq'){
+        console.log('se esta cumpliendo la condicion para que se mueva a la izquierda mientras esta en el aire')
+        jugador.setVelocityX(-200)
+    }
+
+
+    if(jugador.y > 1000 || jugador.x<0 || jugador.x>1000){
+            this.physics.pause();
+            this.gameOver();
+        }
     }
 
     gameOver(){
