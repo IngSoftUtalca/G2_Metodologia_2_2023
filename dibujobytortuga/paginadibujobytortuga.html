@@ -19,12 +19,6 @@
             border: 1px solid #000;
         }
 
-        #botonejecutar{
-            position: absolute; 
-            left: 100px; 
-            top: 700px;
-        }
-
     </style>
 </head>
 <body style="margin-right:21% ; margin-top:11%; display:flex;align-items: center">
@@ -32,10 +26,10 @@
     <canvas id="canvas" width="1200" height="670"></canvas>
     
     <br>
-    <label for="instrucciones">Instrucciones:</label>
-    <input type="text" id="instrucciones" placeholder="Avanzar 50, Girar 90, ..." />
-    <button botonejecutar onclick="ejecutarInstrucciones()">Ejecutar</button>
-    <button onclick="dibujarTortuga()">Crear tortuga</button>
+    <label for="instrucciones" style="position: absolute; left: 100px; top: 250px;  width: 150px; height: 100px; font-size: 35px;">Instrucciones:</label>
+    <input type="text" id="instrucciones" placeholder="Avanzar 50, Girar 90, ..." style="position: absolute; left: 100px; top: 300px;">
+    <button onclick="ejecutarInstrucciones()" style="position: absolute; left: 80px; top: 350px; width: 150px; height: 100px; font-size: 30px; background: yellow">Ejecutar</button>
+    <button onclick="dibujarTortuga()" style="position: absolute; left: 80px; top: 530px; width: 150px; height: 100px; font-size: 30px; background: yellow;">Crear tortuga</button>
 
     <div>
         <a href="../pagina_juegos/paginajuegos.html" title="Librería de juegos">
@@ -175,11 +169,8 @@
                 ctx.lineTo(fin.x, fin.y);
                 ctx.strokeStyle = 'black';
                 ctx.stroke();
-            });
-            
+            });   
         }
-
-
         </script>
         </div>
 </body>
