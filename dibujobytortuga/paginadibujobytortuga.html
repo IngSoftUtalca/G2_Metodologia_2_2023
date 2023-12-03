@@ -126,27 +126,28 @@
             const pasos = 20;
             const duracion = 500;
             const interval = duracion / pasos;
-            const stepDeltaX = deltaX / pasos;
-            const stepDeltaY = deltaY / pasos;
 
             // Animación de movimiento suave
             let pasos_const = 0;
             const smoothMove = setInterval(() => {
                 // Actualizar las coordenadas de la tortuga
-                tortuga.x += stepDeltaX;
-                tortuga.y += stepDeltaY;
-                //Dibujar la tortuga otra vez
+                const ultimaPosicionTortuga = { x: tortuga.x, y: tortuga.y };
+                tortuga.x += deltaX / pasos;
+                tortuga.y += deltaY / pasos;
+
+                // Dibujar la tortuga y agregar la posición al rastro
                 dibujarTortuga();
+                rastroTortuga(distancia);
+
                 pasos_const++;
-                //Comprobar todos los pasos
+                // Comprobar todos los pasos
                 if (pasos_const === pasos) {
                     clearInterval(smoothMove);
-                    rastroTortuga(distancia);
                 }
             }, interval);
         }
-        
-        
+
+
         // Variable para almacenar el rastro acumulado
         const rastroAcumulado = [];
 
@@ -175,7 +176,9 @@
                 ctx.strokeStyle = 'black';
                 ctx.stroke();
             });
+            
         }
+
 
         </script>
         </div>
