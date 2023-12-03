@@ -14,23 +14,28 @@
     <style>
         #canvas {
             position: absolute; 
-            left: 360px; 
+            left: 320px; 
             top: 150px;
-            border: 1px solid #000;
+            border: 0px solid #000;
         }
 
     </style>
 </head>
 <body style="margin-right:21% ; margin-top:11%; display:flex;align-items: center">
     
-    <canvas id="canvas" width="1200" height="670"></canvas>
+    <canvas id="canvas" width="1260" height="670"></canvas>
     
     <br>
-    <label for="instrucciones" style="position: absolute; left: 100px; top: 250px;  width: 150px; height: 100px; font-size: 35px;">Instrucciones:</label>
-    <input type="text" id="instrucciones" placeholder="Avanzar 50, Girar 90, ..." style="position: absolute; left: 100px; top: 300px;">
+    <label for="instrucciones" style="position: absolute; left: 50px; top: 200px;  width: 150px; height: 100px; font-size: 35px;">Instrucciones:</label>
+    <input type="text" id="instrucciones" placeholder="Avanzar 5, Girar 90, ..." style="position: absolute; left: 50px; top: 240px; width: 225px; height: 20px;">
     <button onclick="ejecutarInstrucciones()" style="position: absolute; left: 80px; top: 350px; width: 150px; height: 100px; font-size: 30px; background: yellow">Ejecutar</button>
     <button onclick="dibujarTortuga()" style="position: absolute; left: 80px; top: 530px; width: 150px; height: 100px; font-size: 30px; background: yellow;">Crear tortuga</button>
 
+    <label for="instrucciones" style="position: absolute; left: 1650px; top: 200px;  width: 150px; height: 100px; font-size: 35px; Color: Blue">Instrucciones Predefinidas:</label>
+    <label for="instrucciones" style="position: absolute; left: 1650px; top: 300px;  width: 200px; height: 100px; font-size: 20px; Color: Blue">*avanzar X (Píxeles):</label>
+    <label for="instrucciones" style="position: absolute; left: 1650px; top: 330px;  width: 150px; height: 100px; font-size: 20px; Color: Blue">*girar X (Grados):</label>
+
+    
     <div>
         <a href="../pagina_juegos/paginajuegos.html" title="Librería de juegos">
             <button class="buttonBack-layout" tittle="Librería de juegos">Back</button>
