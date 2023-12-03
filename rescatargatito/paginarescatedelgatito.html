@@ -170,17 +170,23 @@
         };
 
         botonEjecutar.on('pointerdown', () => {
-            botonEjecutar.setVisible(false); // Hace desaparecer el botón
-            for(let i = 0; i < instrucciones.length; i++) {
-                if(acciones[instrucciones[i]]) {
-                    acciones[instrucciones[i]].funcion();
-                }
+        botonEjecutar.setVisible(false); // Hace desaparecer el botón
+
+        let tiempoEspera = 0; // Tiempo inicial de espera
+
+        for(let i = 0; i < instrucciones.length; i++) {
+            if(acciones[instrucciones[i]]) {
+                setTimeout(acciones[instrucciones[i]].funcion, tiempoEspera);
+                tiempoEspera += 1700; // Incrementa el tiempo de espera en 1000ms (1 segundo)
             }
-            // Vacía el array de instrucciones después de ejecutarlas todas y hace reaparecer el botón
+        }
+
+        // Vacía el array de instrucciones después de ejecutarlas todas y hace reaparecer el botón
+        setTimeout(() => {
             instrucciones = [];
             botonEjecutar.setVisible(true);
-        });
-      
+        }, tiempoEspera);
+    });
 
         
     }
