@@ -117,15 +117,16 @@
         let instrucciones = [];
         
         let boton1= this.add.sprite(370,28,'saltar');
-        
+        var pos=50;
         boton1.setScale(0.7);
         boton1.setInteractive();
         boton1.on('pointerdown', () => {
                 instrucciones.push("Saltar");
             boton1.setPosition(
-                Phaser.Math.Between(0, this.sys.game.config.width),
+                pos+150,
                 570
             );
+            pos=pos+150;
                 console.log('¡Botón presionado!');
                 //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
@@ -139,9 +140,10 @@
         boton2.on('pointerdown', () => {
                 instrucciones.push("Saltar Derecha");
             boton2.setPosition(
-                Phaser.Math.Between(0, this.sys.game.config.width),
+                pos+150,
                 570
             );
+            pos=pos+150;
                 console.log('¡Botón presionado!');
                 //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
@@ -154,9 +156,10 @@
         boton3.on('pointerdown', () => {
                 instrucciones.push("Saltar izquierda");
                 boton3.setPosition(
-                ,
+                pos+150,
                 570
             );
+            pos=pos+150;
                 console.log('¡Botón presionado!');
                 //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
