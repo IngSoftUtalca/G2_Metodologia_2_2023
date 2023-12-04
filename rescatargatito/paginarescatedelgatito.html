@@ -94,6 +94,7 @@
             child.body.setOffset(130, 100);
             
         });
+        var pos=50;
 
         let boton1= this.add.sprite(370,28,'saltar');
         
@@ -101,6 +102,16 @@
         boton1.setInteractive();
         boton1.on('pointerdown', () => {
                 instrucciones.push("Saltar");
+            // Clonar el botón y colocarlo en una nueva posición
+            const newButton = this.add.image(
+                pos+150,
+                570,
+                'saltar'
+            ).setInteractive();
+            newButton.setScale(0.7);
+                pos=pos+150;
+                console.log('¡Botón presionado!');
+                //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
                 console.log(instrucciones[i]);
 }
@@ -111,6 +122,13 @@
         boton2.setInteractive();
         boton2.on('pointerdown', () => {
                 instrucciones.push("Saltar Derecha");
+            const newButton = this.add.image(
+                pos+150,
+                570,
+                'saltarderecha'
+            ).setInteractive();
+            newButton.setScale(0.7);
+                pos=pos+150;
                 for(let i = 0; i < instrucciones.length; i++) {
                 console.log(instrucciones[i]);
 }
@@ -120,9 +138,18 @@
         boton3.setInteractive();
         boton3.on('pointerdown', () => {
                 instrucciones.push("Saltar Izquierda");
+            const newButton = this.add.image(
+                pos+150,
+                570,
+                'saltarizquierda'
+            ).setInteractive();
+            newButton.setScale(0.7);
+                pos=pos+150;
+                console.log('¡Botón presionado!');
+                //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
-                console.log(instrucciones[i]);
-}
+                    console.log(instrucciones[i]);
+                }
             });                
 
        
