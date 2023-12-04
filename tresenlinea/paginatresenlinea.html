@@ -75,15 +75,17 @@
 
                 particles.startFollow(logo);
 
+                var option1 = this.add.text(260, 100, ' Elige una modalidad ', { font: '60px Harlow Solid Italic', fill: '#fff' });
+
                 // botones
-                var option1 = this.add.text(525, 250, 'Jugador vs Jugador', { font: '40px Harlow Solid Italic', fill: '#fff' })
+                var option1 = this.add.text(525, 300, 'Jugador vs Jugador', { font: '40px Harlow Solid Italic', fill: '#fff' })
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
                         modalidadSeleccionada = 'Jugador vs Jugador';
                         this.scene.start('Escena_seleccionfigura');
                     });
 
-                var option2 = this.add.text(525, 350, 'Jugador vs Máquina', { font: '40px Harlow Solid Italic', fill: '#fff' })
+                var option2 = this.add.text(525, 400, 'Jugador vs Máquina', { font: '40px Harlow Solid Italic', fill: '#fff' })
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
                         modalidadSeleccionada = 'Jugador vs Maquina';
@@ -509,8 +511,16 @@
                 graphics1.lineStyle(5, 0x000000); // grosor y color del borde
                 graphics1.strokeRect(0, 0, this.game.config.width, this.game.config.height); // Dibuja el borde
 
+                if(modalidadSeleccionada== 'Jugador vs Jugador'){
+                    var option1 = this.add.text(70, 65, 'Selecciona la figura que comienza el juego', { font: '55px Harlow Solid Italic', fill: '#fff' });
+
+                }else if(modalidadSeleccionada == 'Jugador vs Maquina'){
+                    var option1 = this.add.text(300, 65, 'Selecciona tu figura ', { font: '55px Harlow Solid Italic', fill: '#fff' });
+                }
+
+
                 // botones
-                var option1 = this.add.text(525, 250, 'Figura X', { fontSize: '32px Harlow Solid Italic', fill: '#fff' })
+                var option1 = this.add.text(525, 300, 'Cruz ', { font: '50px Harlow Solid Italic', fill: '#A68960' })
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
                         figuraSeleccionada = 'x';
@@ -523,7 +533,7 @@
                         }
                     });
 
-                var option2 = this.add.text(525, 350, 'Figura O', { fontSize: '32px Harlow Solid Italic', fill: '#fff' })
+                var option2 = this.add.text(525, 400, 'Circulo ', { font: '50px Harlow Solid Italic', fill: '#A6609A' })
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
                         figuraSeleccionada = 'o';
