@@ -50,19 +50,16 @@
         this.load.image('saltar', 'saltar.png');
         this.load.image('saltarderecha', 'saltar derecha.png');
         this.load.image('saltarizquierda', 'saltar izquierda.png');
-        this.load.image('botonEjecutar', 'ejecutar.png');
     }
 
     create ()
     {   
-        let contadorInstrucciones = 0;
-        const limiteInstrucciones = 6;
         let fondo = this.add.image(600, 300, 'sky');
         fondo.displayWidth = 2000;
         fondo.displayHeight = 2000;
 
 
-        gato = this.physics.add.sprite (860,300,'gato')
+        gato = this.physics.add.sprite (810,300,'gato')
         gato.setScale(0.23)
         gato.body.setSize(250, 300);
         gato.setInteractive
@@ -97,15 +94,13 @@
             child.body.setOffset(130, 100);
             
         });
-        var pos=10;
+        var pos=50;
 
         let boton1= this.add.sprite(370,28,'saltar');
         
         boton1.setScale(0.7);
         boton1.setInteractive();
         boton1.on('pointerdown', () => {
-            if (contadorInstrucciones < limiteInstrucciones) {
-                contadorInstrucciones++;
                 instrucciones.push("Saltar");
             // Clonar el botón y colocarlo en una nueva posición
             const newButton = this.add.image(
@@ -119,17 +114,13 @@
                 //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
                 console.log(instrucciones[i]);
-                }
-            }
-        });
+}
+            });
 
         let boton2= this.add.sprite(235,30,'saltarderecha');
         boton2.setScale(0.7);
         boton2.setInteractive();
         boton2.on('pointerdown', () => {
-            
-            if (contadorInstrucciones < limiteInstrucciones) {
-                contadorInstrucciones++;
                 instrucciones.push("Saltar Derecha");
             const newButton = this.add.image(
                 pos+150,
@@ -140,16 +131,12 @@
                 pos=pos+150;
                 for(let i = 0; i < instrucciones.length; i++) {
                 console.log(instrucciones[i]);
-                }
-            }
-        });   
-        
+}
+            });    
         let boton3= this.add.sprite(95,30,'saltarizquierda');
         boton3.setScale(0.7);
         boton3.setInteractive();
         boton3.on('pointerdown', () => {
-            if (contadorInstrucciones < limiteInstrucciones) {
-                contadorInstrucciones++;
                 instrucciones.push("Saltar Izquierda");
             const newButton = this.add.image(
                 pos+150,
@@ -163,8 +150,9 @@
                 for(let i = 0; i < instrucciones.length; i++) {
                     console.log(instrucciones[i]);
                 }
-            }
-        });                
+            });                
+
+       
 
         this.physics.add.collider(jugador, plataformas);
         this.physics.add.collider(jugador, plataforma1);
@@ -173,7 +161,6 @@
 
         let botonEjecutar = this.add.sprite(500, 30, 'botonEjecutar');
         botonEjecutar.setInteractive();
-        botonEjecutar.setScale(0.4);
        
          acciones = {
             "Saltar": {funcion: () => {jugador.setVelocityY(-800);jugador.estado='saltando'}},
@@ -188,6 +175,7 @@
         boton3.setVisible(false);
         let tiempoEspera = 0; 
      
+
         for(let i = 0; i < instrucciones.length; i++) {
         if(acciones[instrucciones[i]]) {
             let temporizador = setTimeout(acciones[instrucciones[i]].funcion, tiempoEspera);
@@ -201,8 +189,9 @@
             this.gameOver();
         }, tiempoEspera);
         });
-    }
 
+        
+    }
 
     update()  {
     if (jugador.body.touching.down) {
