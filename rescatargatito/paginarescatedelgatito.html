@@ -34,6 +34,9 @@
      let direccion = 0; // 0 = quieto, -1 = izquierda, 1 = derecha
      let tiempoMovimiento = null;
      let acciones;
+     let instrucciones = [];
+     let temporizadores = [];
+     let temporizadorGameOver;
      class Example extends Phaser.Scene
 {
     preload ()
@@ -80,7 +83,7 @@
         plataformas.createMultiple({
             key: 'plataforma',
             repeat: 5,
-            setXY: {x:40,y:400,stepX: 200,stepY:0 },
+            setXY: {x:40,y:400,stepX: 210,stepY:0 },
         });
 
         plataformas.children.iterate(function(child) {
@@ -92,38 +95,12 @@
             
         });
 
-        
-        let saltar1= this.add.sprite(370,28,'saltar');
-        saltar1.visible=false;
-        let saltar2= this.add.sprite(370,28,'saltar');
-        saltar2.visible=false;
-        let saltar3= this.add.sprite(370,28,'saltar');
-        saltar3.visible=false;
-        let saltar4= this.add.sprite(370,28,'saltar');
-        saltar4.visible=false;
-        let saltar5= this.add.sprite(370,28,'saltar');
-        saltar5.visible=false;
-        let saltar6= this.add.sprite(370,28,'saltar');
-        saltar6.visible=false;
-        let saltar7= this.add.sprite(370,28,'saltar');
-        saltar7.visible=false;
-        let saltar8= this.add.sprite(370,28,'saltar');
-        saltar8.visible=false;
-        let saltar9= this.add.sprite(370,28,'saltar');
-        saltar9.visible=false;
-        let saltar10= this.add.sprite(370,28,'saltar');
-        saltar10.visible=false;
-
-        let instrucciones = [];
-
         let boton1= this.add.sprite(370,28,'saltar');
         
         boton1.setScale(0.7);
         boton1.setInteractive();
         boton1.on('pointerdown', () => {
                 instrucciones.push("Saltar");
-                console.log('¡Botón presionado!');
-                //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
                 console.log(instrucciones[i]);
 }
@@ -134,8 +111,6 @@
         boton2.setInteractive();
         boton2.on('pointerdown', () => {
                 instrucciones.push("Saltar Derecha");
-                console.log('¡Botón presionado!');
-                //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
                 console.log(instrucciones[i]);
 }
@@ -145,8 +120,6 @@
         boton3.setInteractive();
         boton3.on('pointerdown', () => {
                 instrucciones.push("Saltar Izquierda");
-                console.log('¡Botón presionado!');
-                //se imprimen las instrucciones para saber si se estan agreagando al arraylist
                 for(let i = 0; i < instrucciones.length; i++) {
                 console.log(instrucciones[i]);
 }
@@ -157,12 +130,11 @@
         this.physics.add.collider(jugador, plataformas);
         this.physics.add.collider(jugador, plataforma1);
         this.physics.add.collider(gato, plataforma1); 
-       // this.physics.add.overlap(jugador, gato, this.victory, null, this);
+       this.physics.add.overlap(jugador, gato, this.victory, null, this);
 
         let botonEjecutar = this.add.sprite(500, 30, 'botonEjecutar');
         botonEjecutar.setInteractive();
        
-                // Define las acciones y sus tiempos de espera
          acciones = {
             "Saltar": {funcion: () => {jugador.setVelocityY(-800);jugador.estado='saltando'}},
             "Saltar Derecha": {funcion: () => {jugador.setVelocityY(-800); jugador.setVelocityX(200);jugador.estado='saltandoDer';}},
@@ -170,65 +142,47 @@
         };
 
         botonEjecutar.on('pointerdown', () => {
-        botonEjecutar.setVisible(false); // Hace desaparecer el botón
-
-        let tiempoEspera = 0; // Tiempo inicial de espera
+        botonEjecutar.setVisible(false); 
+        boton1.setVisible(false);
+        boton2.setVisible(false);
+        boton3.setVisible(false);
+        let tiempoEspera = 0; 
+     
 
         for(let i = 0; i < instrucciones.length; i++) {
-            if(acciones[instrucciones[i]]) {
-                setTimeout(acciones[instrucciones[i]].funcion, tiempoEspera);
-                tiempoEspera += 1700; // Incrementa el tiempo de espera en 1000ms (1 segundo)
-            }
-        }
-
-        // Vacía el array de instrucciones después de ejecutarlas todas y hace reaparecer el botón
-        setTimeout(() => {
+        if(acciones[instrucciones[i]]) {
+            let temporizador = setTimeout(acciones[instrucciones[i]].funcion, tiempoEspera);
+            temporizadores.push(temporizador);
+            tiempoEspera += 2000; 
+          }
+         }
+        temporizadorGameOver = setTimeout(() => {
             instrucciones = [];
-            botonEjecutar.setVisible(true);
+            botonEjecutar.setVisible(false);
+            this.gameOver();
         }, tiempoEspera);
-    });
+        });
 
         
     }
 
     update()  {
-    /*if (cursors.left.isDown){
-        jugador.setVelocityX(-200);
-        jugador.setFlipX(true);
-        estado = 'moviendose';
-    } else if(cursors.right.isDown){
-        jugador.setVelocityX(200);
-        jugador.setFlipX(false); 
-        estado = 'moviendose';
-    } else {
-        jugador.setVelocityX(0);
-        estado = 'quieto';
-    }
-    if (cursors.up.isDown && jugador.body.touching.down){
-        jugador.setVelocityY(-800);
-        estado = 'saltando';
-    }
-
-   */
-    //console.log(jugador.body.touching.down)
-    //console.log(jugador.estado)
     if (jugador.body.touching.down) {
         jugador.setVelocityX(0);
     }
 
 
     if (!jugador.body.touching.down && jugador.estado==='saltandoDer'){
-        console.log('se esta cumpliendo la condicion para que se mueva a la derecha mientras esta en el aire')
+ 
         jugador.setVelocityX(200)
     }
 
     if (!jugador.body.touching.down && jugador.estado==='saltandoIzq'){
-        console.log('se esta cumpliendo la condicion para que se mueva a la izquierda mientras esta en el aire')
         jugador.setVelocityX(-200)
     }
 
 
-    if(jugador.y > 1000 || jugador.x<0 || jugador.x>1000){
+    if(jugador.y > 1100 || jugador.x<0 || jugador.x>1050 ){
             this.physics.pause();
             this.gameOver();
         }
@@ -238,13 +192,9 @@
     this.physics.pause();
     let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '32px', fill: '#FF0000' });
     gameOver.setOrigin(0.5);
-
-    // Detén el juego o haz lo que necesites hacer cuando el juego termine
-    console.log("¡Game Over!");
     let botony=400;
     let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
     let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
-
     botonReinicio.on('pointerdown', () => this.reiniciarJuego());
   
 
@@ -255,7 +205,7 @@
     let victoria = this.add.text(500, 300, '¡Victoria!', { fontSize: '32px', fill: '#00FF00' });
     victoria.setOrigin(0.5);
 
-    console.log("¡Victoria!");
+    //console.log("¡Victoria!");
     let botony=400;
     let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
     let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
@@ -264,7 +214,13 @@
     }
 
     reiniciarJuego() {
-    // Código para reiniciar el juego
+        console.log("Reiniciando el juego...");
+        for(let i = 0; i < temporizadores.length; i++) {
+        clearTimeout(temporizadores[i]);
+         }
+    clearTimeout(temporizadorGameOver);    
+    temporizadores = [];
+    instrucciones = [];
     this.scene.restart();
     }
 
