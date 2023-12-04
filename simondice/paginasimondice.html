@@ -1,53 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" type="text/css" href="paginasimondice.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="logica.js" type="text/javascript" defer></script>
     <title>Document</title>
-</head>
-<style>
+    <style>
+        body {
+            margin-right: 19%;
+            margin-top: 8%;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
 
-    /* Estilos CSS para el canvas */
-    canvas {
-            border: 1px solid #000; /* Borde negro para visualización */
-            width: 1180px; /* Ancho del canvas */
-            height: 600px; /* Alto del canvas */
+        /* Estilos CSS para el canvas */
+        canvas {
+            border: 1px solid #000000;
+            width: 1180px;
+            height: 600px;
+            background-color: white;
             position: absolute;
-            top: 197px; /* Posición desde la parte superior */
-            left: 349px; /* Posición desde la parte izquierda */
-            background-color: black;
-            
-}
-</style>
-    <canvas id="myCanvas" width="800" height="600"></canvas>
-<body style="margin-right:19% ; margin-top:8%; display:flex;align-items: center">
+            top: 40px;
+            left: 349px;
+            z-index: 1;
+        }
+
+        .buttonContainer {
+            position: relative;
+            /* relativo al contenedor padre */
+            z-index: 2;
+            top: auto;
+            left: auto;
+
+            /* Un nivel encima del resto */
+
+        }
+
+
+        #round-container {
+            position: relative;
+            /* relativo al body */
+            z-index: 4;
+
+        }
+    </style>
+</head>
+
+<body>
     <a href="../pagina_juegos/paginajuegos.html">
         <button class="buttonBack-layout" title="Librería de juegos">Back</button>
     </a>
-    <div>
-
-       
-            
-            <button id="startButton">INICIAR</button>
-            <div class="buttonContainer">
-                <div class="square red"></div>
-                <div class="square yellow"></div>
-                <div class="square blue"></div>
-                <div class="square green"></div>
-            </div>
-            <div id="round"></div>
-     
+    <canvas id="myCanvas" width="800" height="600"></canvas>
 
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const canvas = document.getElementById("myCanvas");
+            const ctx = canvas.getContext("2d");
 
+            // Dibuja un cuadrado con bordes redondeados en el canvas
+            function dibujarCuadradoRedondeado(ctx, x, y, width, height, radio) {
+                ctx.beginPath();
+                ctx.moveTo(x + radio, y);
+                ctx.arcTo(x + width, y, x + width, y + height, radio);
+                ctx.arcTo(x + width, y + height, x, y + height, radio);
+                ctx.arcTo(x, y + height, x, y, radio);
+                ctx.arcTo(x, y, x + width, y, radio);
+                ctx.closePath();
+                ctx.fillStyle = "black";
+                ctx.fill();
+            }
+            function dibujarTrianguloRectangulo(ctx, x, y, hipotenusa, angulo, color) {
+                const radianes = angulo * (Math.PI / 180); // Convertir el ángulo a radianes
+                const base = Math.cos(radianes) * hipotenusa;
+                const altura = Math.sin(radianes) * hipotenusa;
+
+                ctx.beginPath();
+                ctx.moveTo(x, y); // Esquina inferior izquierda
+                ctx.lineTo(x + base, y); // Esquina inferior derecha
+                ctx.lineTo(x, y - altura); // Esquina superior izquierda
+                ctx.closePath(); // Conecta el último punto con el primero para cerrar el triángulo
+                ctx.fillStyle = color; // Asigna el color recibido como parámetro
+                ctx.fill(); // Rellena el triángulo
+                ctx.strokeStyle = "black"; // Color del borde del triángulo (puedes modificarlo si lo deseas)
+                ctx.stroke(); // Dibuja el borde del triángulo
+            }
+
+
+            dibujarTrianguloRectangulo(ctx, 0, 0, 300, 305, "yellow");
+
+            dibujarTrianguloRectangulo(ctx, 800, 600, 300, 135, "green");
+
+
+            dibujarTrianguloRectangulo(ctx, 0, 600, 300, 45, "blue");
+
+            dibujarTrianguloRectangulo(ctx, 800, 0, 300, 225, "red");
+
+            dibujarCuadradoRedondeado(ctx, 235, 100, 280, 380, 20);
+
+
+
+
+
+        });
+    </script>
+
+
+
+    <div class="buttonContainer">
+        <button id="startButton" class="custom-start">Start</button>
+
+        <div class="square yellow"></div>
+        <div class="square blue"></div>
+        <div class="square red"></div>
+
+
+        <div class="square green"></div>
     </div>
 
+    <div id="round-container">
+        <div id="round"></div>
+    </div>
 
-
-    
-
-   
-    
 </body>
+
 </html>
