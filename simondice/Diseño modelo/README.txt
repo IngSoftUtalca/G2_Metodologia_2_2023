@@ -1,0 +1,1 @@
+Estos colores solo funcionaran con un color negro de fondo

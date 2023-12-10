@@ -5,10 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- Este código hace un párrafo 
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Tortuga</title>
+    <style>
+        #canvas {
+            position: absolute; 
+            left: 320px; 
+            top: 150px;
+            border: 0px solid #000;
+        }
 
+    </style>
 </head>
 <body style="margin-right:21% ; margin-top:11%; display:flex;align-items: center">
+    
+    <canvas id="canvas" width="1260" height="670"></canvas>
+    
+    <br>
+    <label for="instrucciones" style="position: absolute; left: 50px; top: 200px;  width: 150px; height: 100px; font-size: 35px;">Instrucciones:</label>
+    <input type="text" id="instrucciones" placeholder="Avanzar 5, Girar 90, ..." style="position: absolute; left: 50px; top: 240px; width: 225px; height: 20px;">
+    <button onclick="ejecutarInstrucciones()" style="position: absolute; left: 80px; top: 350px; width: 150px; height: 100px; font-size: 30px; background: yellow">Ejecutar</button>
+    <button onclick="dibujarTortuga()" style="position: absolute; left: 80px; top: 530px; width: 150px; height: 100px; font-size: 30px; background: yellow;">Crear tortuga</button>
+
+    <label for="instrucciones" style="position: absolute; left: 1650px; top: 200px;  width: 150px; height: 100px; font-size: 35px; Color: Blue">Instrucciones Predefinidas:</label>
+    <label for="instrucciones" style="position: absolute; left: 1650px; top: 300px;  width: 200px; height: 100px; font-size: 20px; Color: Blue">*avanzar X (Píxeles):</label>
+    <label for="instrucciones" style="position: absolute; left: 1650px; top: 330px;  width: 150px; height: 100px; font-size: 20px; Color: Blue">*girar X (Grados):</label>
+
     
     <div>
         <a href="../pagina_juegos/paginajuegos.html" title="Librería de juegos">
@@ -18,81 +44,139 @@
 
     <div id="phaser-container">
         <script>
-            class Example extends Phaser.Scene
-           {
-            preload (){
-                   
-                   this.load.image('tortuga', 'tortuga.png');
-                   this.load.image('arriba', 'arriba.png');
-                   this.load.image('abajo', 'abajo.png');
-                   this.load.image('izquierda', 'izquierda.png');
-                   this.load.image('derecha', 'derecha.png');
-                   this.load.image('avanzar', 'avanzar.png');
-               }
-       
-               create ()
-               {
+            // Código en JavaScript
+        // Obtener el lienzo y su contexto
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
 
-                
-                    let graphics = this.add.graphics();
-                    let graphics2 = this.add.graphics();
-                    graphics.lineStyle(2, 0x000000);
-                  
+        // Objeto Tortuga para mantener el estado
+        const tortuga = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            angulo: 0 // Ángulo en grados
+        };
+
+        function ejecutarInstrucciones() {
+            const instruccionesInput = document.getElementById('instrucciones');
+            const instrucciones = instruccionesInput.value.split(',');
+
+            instrucciones.forEach(instruccion => {
+                const dividir = instruccion.trim().split(' ');
+                const comando = dividir[0].toLowerCase();
+                const valor = parseInt(dividir[1]);
+
+                switch (comando) {
+                    case 'avanzar':
+                        moverTortuga(valor);
+                        break;
+                    case 'girar':
+                        girarTortuga(valor);
+                        break;  
+                    default:
+                        console.log('Instrucción no reconocida:', instruccion);
+                }
+            });
+            dibujarTortuga();
+        }
+        // Función para dibujar la tortuga en el canvas
+        function dibujarTortuga() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Dibujar el rectángulo para representar la tortuga
+            const anchoTortuga = 20;
+            const altoTortuga = 15;
+
+            ctx.save();
+            ctx.translate(tortuga.x, tortuga.y);
+            ctx.rotate(tortuga.angulo * (Math.PI / 180)); // Rotar según el ángulo
+
+            ctx.fillStyle = 'green';
+            ctx.fillRect(-anchoTortuga / 2, -altoTortuga / 2, anchoTortuga, altoTortuga);
+            ctx.strokeRect(-anchoTortuga / 2, -altoTortuga / 2, anchoTortuga, altoTortuga);
+
+            ctx.restore();
+        }
+
+        // Función para girar la tortuga suavemente
+        function girarTortuga(grados) {
+            // Número de pasos para suavizar el giro
+            const pasosgiro = 20;
+            const duracion = 500;
+            const stepAngle = grados / pasosgiro;
+            const intervalo = duracion / pasosgiro;
+
+            // Animación de giro suave
+            let step = 0;
+            const turnos = setInterval(() => {
+                tortuga.angulo += stepAngle;
+                dibujarTortuga();
+                step++;
+                if (step === pasosgiro) {
+                    clearInterval(turnos);
+                }
+            }, intervalo);
+        }
+
+        // Función para desplazar la tortuga suavemente
+        function moverTortuga(distancia) {
+            const radianes = tortuga.angulo * (Math.PI / 180);
+            const deltaX = distancia * Math.cos(radianes);
+            const deltaY = distancia * Math.sin(radianes);
+            const pasos = 20;
+            const duracion = 500;
+            const interval = duracion / pasos;
+
+            // Animación de movimiento suave
+            let pasos_const = 0;
+            const smoothMove = setInterval(() => {
+                // Actualizar las coordenadas de la tortuga
+                const ultimaPosicionTortuga = { x: tortuga.x, y: tortuga.y };
+                tortuga.x += deltaX / pasos;
+                tortuga.y += deltaY / pasos;
+
+                // Dibujar la tortuga y agregar la posición al rastro
+                dibujarTortuga();
+                rastroTortuga(distancia);
+
+                pasos_const++;
+                // Comprobar todos los pasos
+                if (pasos_const === pasos) {
+                    clearInterval(smoothMove);
+                }
+            }, interval);
+        }
 
 
-                    let line = new Phaser.Geom.Line(500, 300, 500, 400);
-                    graphics.strokeLineShape(line);
-                    let line2 = new Phaser.Geom.Line(500, 400, 800, 400);
-                    graphics.strokeLineShape(line2);
-                    graphics.lineStyle(2, 0x00999999); 
-                    let line3 = new Phaser.Geom.Line(0, 500, 1200, 500);
-                    graphics.strokeLineShape(line3);
+        // Variable para almacenar el rastro acumulado
+        const rastroAcumulado = [];
 
-                    var tortuga = this.add.image(500, 300, 'tortuga');
-                    tortuga.displayWidth = 70;
-                    tortuga.displayHeight = 60;
+        // Modifica la función para desplazar la tortuga y dibujar el rastro
+        function rastroTortuga(distancia) {
+            const radianes = tortuga.angulo * (Math.PI / 180);
 
-                    var arriba = this.add.image(150, 100, 'arriba');
-                    arriba.displayWidth = 70;
-                    arriba.displayHeight = 60;
+            // Almacena la posición actual antes de actualizarla
+            const ultimaPosicionTortuga = { x: tortuga.x, y: tortuga.y };
 
-                    var derecha = this.add.image(200, 150, 'derecha');
-                    derecha.displayWidth = 60;
-                    derecha.displayHeight = 60;
-                   
-                    var izquierda = this.add.image(100, 150, 'izquierda');
-                    izquierda.displayWidth = 70;
-                    izquierda.displayHeight = 60;
+            // Actualiza las coordenadas de la tortuga
+            tortuga.x += distancia * Math.cos(radianes);
+            tortuga.y += distancia * Math.sin(radianes);
 
-                    var abajo = this.add.image(150, 200, 'abajo');
-                    abajo.displayWidth = 80;
-                    abajo.displayHeight = 60;
+            // Agrega la posición al rastro acumulado
+            rastroAcumulado.push({ inicio: ultimaPosicionTortuga, fin: { x: tortuga.x, y: tortuga.y } });
 
-                    var avanzar = this.add.image(150, 300, 'avanzar');
-                    avanzar.displayWidth = 160;
-                    avanzar.displayHeight = 100;
+            // Dibuja todo el rastro acumulado
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            dibujarTortuga(); // Dibuja la tortuga en su posición actual
 
-                    let rectangulo = this.add.rectangle(0, 650, 55700, 400, 0x005B6363)
-                   
-                    var texto = this.add.text(500, 500, 'Instrucciones elegidas', { fill: '#FFFFFF' });
-                    texto.setFontSize(24); // Cambiar el tamaño de fuente
-                    texto.setColor('#FFFFFF'); // Cambiar el color del texto
-                    texto.setFontStyle('bold'); // Establecer estilo de fuente (normal, itálica, negrita, etc.)
-                    texto.setOrigin(0.5); // Cambiar el punto de origen (0.5 significa el centro)
-               }
-           }
-
-           const config = {
-               type: Phaser.AUTO,
-               width: 1100,
-               height: 555,
-               backgroundColor: '#ffffff',
-               scene: Example,
-           };
-       
-           const game = new Phaser.Game(config);
-       
-           </script>
+            rastroAcumulado.forEach(({ inicio, fin }) => {
+                ctx.beginPath();
+                ctx.moveTo(inicio.x, inicio.y);
+                ctx.lineTo(fin.x, fin.y);
+                ctx.strokeStyle = 'black';
+                ctx.stroke();
+            });   
+        }
+        </script>
         </div>
 </body>
 </html>
