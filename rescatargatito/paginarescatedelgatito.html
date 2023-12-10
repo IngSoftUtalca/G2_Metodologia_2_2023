@@ -242,7 +242,7 @@
     this.physics.pause();
     let victoria = this.add.text(500, 300, '¡Victoria!', { fontSize: '32px', fill: '#00FF00' });
     victoria.setOrigin(0.5);
-
+    clearTimeout(temporizadorGameOver); 
     //console.log("¡Victoria!");
     let botony=400;
     let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
