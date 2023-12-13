@@ -12,6 +12,11 @@
     <script src="./package/msg/es.js"></script>
 </head>
 <body style="margin-right:22% ; margin-top:9%; display:flex;align-items: center">
+    <div>
+        <a href="../pagina_juegos/paginajuegos.html" title="Librería de juegos">
+            <button class="buttonBack-layout" tittle="Librería de juegos">Back</button>
+        </a>
+    </div>
     <div id="phaser-container"></div>
 
     <script>
@@ -80,6 +85,10 @@
             this.load.image('saltarderecha', 'saltar derecha.png');
             this.load.image('saltarizquierda', 'saltar izquierda.png');
             this.load.image('botonEjecutar', 'ejecutar.png');
+            
+            this.load.image('saltar2', 'saltar2.png');
+            this.load.image('saltarderecha2', 'saltar derecha2.png');
+            this.load.image('saltarizquierda2', 'saltar izquierda2.png');
         }
     
         create ()
@@ -141,7 +150,7 @@
                 const newButton = this.add.image(
                     pos+150,
                     570,
-                    'saltar'
+                    'saltar2'
                 ).setInteractive();
                 newButton.setScale(0.7);
                     pos=pos+150;
@@ -164,7 +173,7 @@
                 const newButton = this.add.image(
                     pos+150,
                     570,
-                    'saltarderecha'
+                    'saltarderecha2'
                 ).setInteractive();
                 newButton.setScale(0.7);
                     pos=pos+150;
@@ -184,7 +193,7 @@
                 const newButton = this.add.image(
                     pos+150,
                     570,
-                    'saltarizquierda'
+                    'saltarizquierda2'
                 ).setInteractive();
                 newButton.setScale(0.7);
                     pos=pos+150;
@@ -308,6 +317,9 @@
             this.load.image('saltarderecha', 'saltar derecha.png');
             this.load.image('saltarizquierda', 'saltar izquierda.png');
             this.load.image('botonEjecutar', 'ejecutar.png');
+            this.load.image('saltar2', 'saltar2.png');
+            this.load.image('saltarderecha2', 'saltar derecha2.png');
+            this.load.image('saltarizquierda2', 'saltar izquierda2.png');
         }
     
         create ()
@@ -399,7 +411,7 @@
                 const newButton = this.add.image(
                     pos+150,
                     570,
-                    'saltar'
+                    'saltar2'
                 ).setInteractive();
                 newButton.setScale(0.7);
                     pos=pos+150;
@@ -422,7 +434,7 @@
                 const newButton = this.add.image(
                     pos+150,
                     570,
-                    'saltarderecha'
+                    'saltarderecha2'
                 ).setInteractive();
                 newButton.setScale(0.7);
                     pos=pos+150;
@@ -442,7 +454,7 @@
                 const newButton = this.add.image(
                     pos+150,
                     570,
-                    'saltarizquierda'
+                    'saltarizquierda2'
                 ).setInteractive();
                 newButton.setScale(0.7);
                     pos=pos+150;
