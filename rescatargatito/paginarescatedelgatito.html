@@ -51,6 +51,9 @@
         this.load.image('saltarderecha', 'saltar derecha.png');
         this.load.image('saltarizquierda', 'saltar izquierda.png');
         this.load.image('botonEjecutar', 'ejecutar.png');
+        this.load.image('saltar2', 'saltar2.png');
+        this.load.image('saltarderecha2', 'saltar derecha2.png');
+        this.load.image('saltarizquierda2', 'saltar izquierda2.png');
     }
 
     create ()
@@ -97,7 +100,7 @@
             child.body.setOffset(130, 100);
             
         });
-        var pos=10;
+        var pos=-60;
 
         let boton1= this.add.sprite(370,28,'saltar');
         
@@ -111,7 +114,7 @@
             const newButton = this.add.image(
                 pos+150,
                 570,
-                'saltar'
+                'saltar2'
             ).setInteractive();
             newButton.setScale(0.7);
                 pos=pos+150;
@@ -134,7 +137,7 @@
             const newButton = this.add.image(
                 pos+150,
                 570,
-                'saltarderecha'
+                'saltarderecha2'
             ).setInteractive();
             newButton.setScale(0.7);
                 pos=pos+150;
@@ -154,7 +157,7 @@
             const newButton = this.add.image(
                 pos+150,
                 570,
-                'saltarizquierda'
+                'saltarizquierda2'
             ).setInteractive();
             newButton.setScale(0.7);
                 pos=pos+150;
@@ -171,9 +174,9 @@
         this.physics.add.collider(gato, plataforma1); 
        this.physics.add.overlap(jugador, gato, this.victory, null, this);
 
-        let botonEjecutar = this.add.sprite(500, 30, 'botonEjecutar');
+        let botonEjecutar = this.add.sprite(980, 570, 'botonEjecutar');
         botonEjecutar.setInteractive();
-        botonEjecutar.setScale(0.4);
+        botonEjecutar.setScale(0.5);
        
          acciones = {
             "Saltar": {funcion: () => {jugador.setVelocityY(-800);jugador.estado='saltando'}},
