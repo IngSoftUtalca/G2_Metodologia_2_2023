@@ -93,7 +93,7 @@
     
         create ()
         {   
-            colisionplataforma3=False;
+            colisionplataforma3=false;
             let contadorInstrucciones = 0;
             const limiteInstrucciones = 6;
             let fondo = this.add.image(600, 300, 'sky');
@@ -101,14 +101,12 @@
             fondo.displayHeight = 2000;
     
     
-            gato = this.physics.add.sprite (860,300,'gato')
+            gato = this.physics.add.sprite (985,300,'gato')
             gato.setScale(0.23)
             gato.body.setSize(250, 300);
             gato.setInteractive
-      
-            
-    
-            let plataformagato = this.physics.add.sprite (820,400,'plataforma')
+
+            let plataformagato = this.physics.add.sprite (990,400,'plataforma')
             plataformagato.setScale(0.27)
             plataformagato.body.setAllowGravity(false);
             plataformagato.body.setImmovable(true);
@@ -124,8 +122,8 @@
             var plataformas= this.physics.add.group();
             plataformas.createMultiple({
                 key: 'plataforma',
-                repeat: 5,
-                setXY: {x:40,y:400,stepX: 210,stepY:0 },
+                repeat: 2,
+                setXY: {x:40,y:400,stepX: 315,stepY:0 },
             });
     
             plataformas.children.iterate(function(child) {
@@ -244,15 +242,20 @@
     
     
         update()  {
-        if (jugador.body.touching.down) {
+            if (jugador.body.touching.down) {
             jugador.setVelocityX(0);
         }
     
     
         if (!jugador.body.touching.down && jugador.estado==='saltandoDer'){
      
-            jugador.setVelocityX(200)
+            jugador.setVelocityX(300)
         }
+
+        if (!jugador.body.touching.down && jugador.estado==='saltandoIzq'){
+     
+                jugador.setVelocityX(-300)
+            }
     }
 
         gameOver(){
