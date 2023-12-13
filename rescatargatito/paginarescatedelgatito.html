@@ -25,6 +25,8 @@
          let instrucciones = [];
          let temporizadores = [];
          let temporizadorGameOver;
+         let colisionplataforma3=false;
+         let plataforma3;
             var nivelSeleccionado = ''; // Variable para almacenar el nivel seleccionado
     
             class MenuScene extends Phaser.Scene {
@@ -82,6 +84,7 @@
     
         create ()
         {   
+            colisionplataforma3=False;
             let contadorInstrucciones = 0;
             const limiteInstrucciones = 6;
             let fondo = this.add.image(600, 300, 'sky');
@@ -285,11 +288,14 @@
 
     class GameScene2 extends Phaser.Scene
     {
+
+         
+
         constructor() {
                     super('GameScene2'); // 'Escena_jvm' es la clave única de esta escena
                 }
     
-    
+                
         preload ()
         {
             this.load.image('sky', './fondo-abstracto-azul-degradado-estudio-azul-oscuro-liso-vineta-negra_1258-67766.webp');
@@ -306,6 +312,7 @@
     
         create ()
         {   
+            colisionplataforma3=false;
             let contadorInstrucciones = 0;
             const limiteInstrucciones = 6;
             let fondo = this.add.image(600, 300, 'sky');
@@ -313,7 +320,7 @@
             fondo.displayHeight = 2000;
     
     
-            gato = this.physics.add.sprite (860,300,'gato')
+            gato = this.physics.add.sprite (820,300,'gato')
             gato.setScale(0.23)
             gato.body.setSize(250, 300);
             gato.setInteractive
@@ -334,20 +341,26 @@
             plataformainicio.body.setSize(400, 230);
             plataformainicio.body.setOffset(120, 100);
 
-            let plataforma2 = this.physics.add.sprite (240,450,'plataforma')
+            let plataforma2 = this.physics.add.sprite (280,500,'plataforma')
             plataforma2.setScale(0.27)
             plataforma2.body.setAllowGravity(false);
             plataforma2.body.setImmovable(true);
             plataforma2.body.setSize(400, 230);
             plataforma2.body.setOffset(120, 100);
 
-            let plataforma3 = this.physics.add.sprite (40,200,'plataforma')
+            plataforma3 = this.physics.add.sprite (280,300,'plataforma')
             plataforma3.setScale(0.27)
             plataforma3.body.setAllowGravity(false);
             plataforma3.body.setImmovable(true);
             plataforma3.body.setSize(400, 230);
             plataforma3.body.setOffset(120, 100);
 
+            let plataforma4 = this.physics.add.sprite (500,300,'plataforma')
+            plataforma4.setScale(0.27)
+            plataforma4.body.setAllowGravity(false);
+            plataforma4.body.setImmovable(true);
+            plataforma4.body.setSize(400, 230);
+            plataforma4.body.setOffset(120, 100);
         
     
             jugador = this.physics.add.sprite (40,332,'jugador')
@@ -444,7 +457,7 @@
             
             this.physics.add.collider(jugador, plataformagato);
             this.physics.add.collider(jugador, plataforma2);
-            this.physics.add.collider(jugador, plataforma3);
+            this.physics.add.collider(jugador, plataforma4);
             this.physics.add.collider(jugador, plataformainicio);
             this.physics.add.collider(gato, plataformagato); 
            this.physics.add.overlap(jugador, gato, this.victory, null, this);
@@ -454,9 +467,9 @@
             botonEjecutar.setScale(0.4);
            
              acciones = {
-                "Saltar": {funcion: () => {jugador.setVelocityY(-400);jugador.estado='saltando'}},
-                "Saltar Derecha": {funcion: () => {jugador.setVelocityY(-400); jugador.setVelocityX(200);jugador.estado='saltandoDer';}},
-                "Saltar Izquierda": {funcion: () => {jugador.setVelocityY(-400); jugador.setVelocityX(-200);jugador.estado='saltandoIzq';}}
+                "Saltar": {funcion: () => {jugador.setVelocityY(-900);jugador.estado='saltando'}},
+                "Saltar Derecha": {funcion: () => {jugador.setVelocityY(-600); jugador.setVelocityX(200);jugador.estado='saltandoDer';}},
+                "Saltar Izquierda": {funcion: () => {jugador.setVelocityY(-600); jugador.setVelocityX(-200);jugador.estado='saltandoIzq';}}
             };
     
             botonEjecutar.on('pointerdown', () => {
@@ -490,7 +503,18 @@
     
         if (!jugador.body.touching.down && jugador.estado==='saltandoDer'){
      
-            jugador.setVelocityX(200)
+            jugador.setVelocityX(300)
+        }
+
+        if (!jugador.body.touching.down && jugador.estado==='saltandoIzq'){
+     
+                jugador.setVelocityX(-300)
+            }
+
+
+        if(jugador.y<210 && colisionplataforma3===false){
+            this.physics.add.collider(jugador, plataforma3);
+            colisionplataforma3=true;
         }
     }
 
