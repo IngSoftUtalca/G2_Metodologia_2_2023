@@ -58,26 +58,36 @@
 
         function ejecutarInstrucciones() {
             const instruccionesInput = document.getElementById('instrucciones');
-            const instrucciones = instruccionesInput.value.split(',');
+            const instrucciones = instruccionesInput.value.split('/');
 
-            instrucciones.forEach(instruccion => {
-                const dividir = instruccion.trim().split(' ');
-                const comando = dividir[0].toLowerCase();
-                const valor = parseInt(dividir[1]);
-
-                switch (comando) {
-                    case 'avanzar':
-                        moverTortuga(valor);
-                        break;
-                    case 'girar':
-                        girarTortuga(valor);
-                        break;  
-                    default:
-                        console.log('Instrucción no reconocida:', instruccion);
-                }
-            });
-            dibujarTortuga();
+            ejecutarSiguiente(instrucciones, 0);
         }
+
+        function ejecutarSiguiente(instrucciones, index) {
+            if (index >= instrucciones.length) return;
+
+            const dividir = instrucciones[index].trim().split(' ');
+            const comando = dividir[0].toLowerCase();
+            const valor = parseInt(dividir[1]);
+
+            switch (comando) {
+                case 'avanzar':
+                    moverTortuga(valor).then(() => {
+                        ejecutarSiguiente(instrucciones, index + 1);
+                    });
+                    break;
+                case 'girar':
+                    girarTortuga(valor).then(() => {
+                        ejecutarSiguiente(instrucciones, index + 1);
+                    });
+                    break;
+                default:
+                    console.log('Instrucción no reconocida:', instrucciones[index]);
+                    ejecutarSiguiente(instrucciones, index + 1);
+            }
+        }
+
+
         // Función para dibujar la tortuga en el canvas
         function dibujarTortuga() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);

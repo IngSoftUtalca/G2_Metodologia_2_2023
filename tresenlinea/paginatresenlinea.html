@@ -10,7 +10,7 @@
 <body style="margin-right:19% ; margin-top:8%; display:flex;align-items: center">
     <div>
         <a href="../pagina_juegos/paginajuegos.html" title="Librería de juegos">
-            <button class="buttonBack-layout" tittle="Librería de juegos">Back</button>
+            +<button class="buttonBack-layout" tittle="Librería de juegos">Back</button>
         </a>
     </div>
     <div id="phaser-container"></div>
@@ -23,19 +23,26 @@
             constructor() {
                 super('Inicio'); // 'Menu_modalidad' es la clave única de esta escena
             }
-
+            preload() {
+                this.load.image('fondo.', 'fondotres.jpg');
+            }
             create(){
-
-                this.cameras.main.setBackgroundColor('#7BB2D4');
-
-                var titulo = this.add.text(270, 100, '¡Tres en linea! ', { font: '85px Harlow Solid Italic', fill: '#344B59' });
-
-                var boton_incio = this.add.text(515, 400, 'Iniciar ', { font: '55px Harlow Solid Italic', fill: '#344B59' })
+                const backgroundImage = this.add.image(0, 0, 'fondo.').setOrigin(0).setDepth(0);
+                backgroundImage.setDisplaySize(this.game.config.width, this.game.config.height)
+               
+                var titulo = this.add.text(250, 100, '¡Tres en linea! ', { 
+                    font: '85px Georgia', 
+                    fill: 'white', 
+                     backgroundColor: '#1D1D1B' });
+                
+                var boton_incio = this.add.text(515, 400, 'Iniciar ', { font: '55px Courier New', 
+                                                                       fill: 'black',
+                                                                      backgroundColor: '#A6A6A6'
+                                                                    })
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
                         this.scene.start('Menu_modalidad');
                     });
-
                     //Animación de pulsación
                     this.tweens.add({
                         targets: boton_incio,
@@ -56,15 +63,14 @@
             }
 
             preload() {
-                this.load.setBaseURL('https://labs.phaser.io%27/');
-                this.load.image('sky', 'assets/skies/space3.png');
-                this.load.image('logo', 'assets/sprites/phaser3-logo.png');
-                this.load.image('red', 'assets/particles/red.png');
+                this.load.image('fondo.', 'fondotres.jpg');
             }
 
             create() {
-
-                this.cameras.main.setBackgroundColor('#7BB2D4');
+                const backgroundImage = this.add.image(0, 0, 'fondo.').setOrigin(0).setDepth(0);
+                backgroundImage.setDisplaySize(this.game.config.width, this.game.config.height)
+               
+                
 
                 const particles = this.add.particles(0, 0, 'red', {
                     speed: 100,
@@ -80,17 +86,17 @@
 
                 particles.startFollow(logo);
 
-                var option1 = this.add.text(260, 100, ' Elige una modalidad ', { font: '60px Harlow Solid Italic', fill: '#fff' });
+                var option1 = this.add.text(260, 100, ' Elige una modalidad ', { font: '60px Giorgia', fill: 'white', backgroundColor:'#1D1D1B' });
 
                 // botones
-                var option1 = this.add.text(525, 300, 'Jugador vs Jugador', { font: '40px Harlow Solid Italic', fill: '#fff' })
+                var option1 = this.add.text(525, 300, 'Jugador vs Jugador', { font: '40px Courier New', fill: '#fff', backgroundColor:'#1D1D1B'  })
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
                         modalidadSeleccionada = 'Jugador vs Jugador';
                         this.scene.start('Escena_seleccionfigura');
                     });
 
-                var option2 = this.add.text(525, 400, 'Jugador vs Máquina', { font: '40px Harlow Solid Italic', fill: '#fff' })
+                var option2 = this.add.text(525, 400, 'Jugador vs Máquina', { font: '40px Courier New', fill: '#fff', backgroundColor:'#1D1D1B'  })
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
                         modalidadSeleccionada = 'Jugador vs Maquina';
@@ -112,7 +118,7 @@
 
 
             create(){
-                this.cameras.main.setBackgroundColor('#608BA6'); //ajustar el color del fondo
+                this.cameras.main.setBackgroundColor('#262624'); //ajustar el color del fondo
 
                 let graphics1 = this.add.graphics();
                 graphics1.lineStyle(25, 0x5A6973); // grosor y color del borde de la ventana
@@ -140,7 +146,7 @@
                 circulo_rebotando.setVisible(false);
 
                 // Cruz invisible rebotando de fondo, que se hará visible en caso de que gane la X
-                var cruz_rebotando = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                var cruz_rebotando = self.add.graphics({ lineStyle: { width: 10, color: 0xCC9900 } });
                 this.dibuja_X(0,0, cruz_rebotando);
                 const cruz = self.physics.add.existing(cruz_rebotando);
                 cruz.body.setVelocity(200, 300);
@@ -172,7 +178,7 @@
                 var y_centrado;
                 let x;
                 let y;
-                var figura_turno_X = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960} });
+                var figura_turno_X = self.add.graphics({ lineStyle: { width: 10, color: 0xCC9900} });
                 var figura_turno_O = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A} });
                 let texto_ganador;
                 if(turnoX){
@@ -197,7 +203,7 @@
                             if(tablero[fila][columna]==1){
                                 if(turnoX){
                                     //Dibuja la cruz
-                                    var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                                    var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xCC9900 } });
                                     self.dibuja_X(x_centrado, y_centrado, lienzo);
 
                                     tablero[fila][columna]= 'x';
@@ -224,21 +230,21 @@
                                 if(verifica[0]!= 0){
 
                                     var color_linea;
-                                    if (verifica[1]=='x') {color_linea = 0xA68960;}
-                                    else {color_linea = 0xA6609A};
+                                    if (verifica[1]=='x') {color_linea = 0xCC9900;}
+                                    else {color_linea =0xCC9900};
 
                                     self.linea_ganador(verifica[0],color_linea)
 
                                     if(verifica[1]=='x'){
-                                        let texto_ganador1 = self.add.text(550, 300, '¡Ha ganado! ', { font: '70px Harlow Solid Italic', fill: '#A68960', fontStyle: 'bold' });
-                                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                                        let texto_ganador1 = self.add.text(550, 300, '¡Ha ganado! ', { font: '70px Harlow Solid Italic', fill: '0xCC9900', fontStyle: 'bold' });
+                                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xCC9900 } });
                                         self.dibuja_X(730, 450, lienzo);
                                         cruz_rebotando.setVisible(true);
 
                                         console.log('ha ganado la X');
                                     }else{
                                         let texto_ganador2 = self.add.text(550, 300, '¡Ha ganado! ', { font: '70px Harlow Solid Italic', fill: '#A6609A', fontStyle: 'bold' });
-                                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A} });
                                         self.dibuja_O(730, 450, lienzo);
                                         circulo_rebotando.setVisible(true);
                                         console.log('ha ganado el O');
@@ -265,28 +271,28 @@
             }
 
             crea_tablero(){
-                let linea1 = this.add.graphics().lineStyle(10, 0x5A6973);
+                let linea1 = this.add.graphics().lineStyle(10, 0xFFFFFF);
                 linea1.beginPath();
                 linea1.moveTo(180, 100);
                 linea1.lineTo(180, 500);
                 linea1.closePath();
                 linea1.strokePath();
 
-                let linea2 = this.add.graphics().lineStyle(10, 0x5A6973);
+                let linea2 = this.add.graphics().lineStyle(10, 0xFFFFFF);
                 linea2.beginPath();
                 linea2.moveTo(310, 100);
                 linea2.lineTo(310, 500);
                 linea2.closePath();
                 linea2.strokePath();
 
-                let linea3 = this.add.graphics().lineStyle(10, 0x5A6973);
+                let linea3 = this.add.graphics().lineStyle(10, 0xFFFFFF);
                 linea3.beginPath();
                 linea3.moveTo(45, 235);
                 linea3.lineTo(445, 235);
                 linea3.closePath();
                 linea3.strokePath();
 
-                let linea4 = this.add.graphics().lineStyle(10, 0x5A6973);
+                let linea4 = this.add.graphics().lineStyle(10, 0xFFFFFF);
                 linea4.beginPath();
                 linea4.moveTo(45, 365);
                 linea4.lineTo(445, 365);
@@ -495,10 +501,10 @@
             texto_ganador(figura_ganadora){
                 let texto;
                 if(figura_ganadora=='x'){
-                    texto = this.add.text(500, 600, 'Ha ganado la X', { font: '55px Arial', fill: '#5A6973', fontStyle: 'bold' });
+                    texto = this.add.text(500, 600, 'Ha ganado la X', { font: '55px Arial', fill: '0xCC9900', fontStyle: 'bold' });
                     console.log('ha ganado la X');
                 }else{
-                    texto = this.add.text(500, 600, 'Ha ganado el O', { font: '55px Arial', fill: '#5A6973', fontStyle: 'bold' });
+                    texto = this.add.text(500, 600, 'Ha ganado el O', { font: '55px Arial', fill: '0xA6609A', fontStyle: 'bold' });
                     console.log('ha ganado el O');
                 }
             }
@@ -508,24 +514,26 @@
             constructor() {
                 super('Escena_seleccionfigura'); // seleccionfigura' es la clave única de esta escena
             }
-
+            preload() {
+                this.load.image('fondo.', 'fondotres.jpg');
+            }
             create(){
-                this.cameras.main.setBackgroundColor('#608BA6'); //ajustar el fondo a blanco
+                this.cameras.main.setBackgroundColor('#1D1D1B'); //ajustar el fondo a blanco
 
                 let graphics1 = this.add.graphics();
                 graphics1.lineStyle(5, 0x000000); // grosor y color del borde
                 graphics1.strokeRect(0, 0, this.game.config.width, this.game.config.height); // Dibuja el borde
 
                 if(modalidadSeleccionada== 'Jugador vs Jugador'){
-                    var option1 = this.add.text(70, 65, 'Selecciona la figura que comienza el juego', { font: '55px Harlow Solid Italic', fill: '#fff' });
+                    var option1 = this.add.text(70, 65, 'Selecciona la figura que comienza el juego', { font: '50px Georgia', fill: '#fff' });
 
                 }else if(modalidadSeleccionada == 'Jugador vs Maquina'){
-                    var option1 = this.add.text(300, 65, 'Selecciona tu figura ', { font: '55px Harlow Solid Italic', fill: '#fff' });
+                    var option1 = this.add.text(300, 65, 'Selecciona tu figura ', { font: '55px Georgia', fill: '#fff' });
                 }
 
 
                 // botones
-                var option1 = this.add.text(525, 300, 'Cruz ', { font: '50px Harlow Solid Italic', fill: '#A68960' })
+                var option1 = this.add.text(525, 300, 'Cruz ', { font: '50px Georgia', fill: '0xCC9900' })
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
                         figuraSeleccionada = 'x';
@@ -565,12 +573,12 @@
                 this.cameras.main.setBackgroundColor('#60A1A6'); //ajustar el color del fondo
 
                 let graphics1 = this.add.graphics();
-                graphics1.lineStyle(25, 0x5A6973); // grosor y color del borde de la ventana
+                graphics1.lineStyle(25, 'white'); // grosor y color del borde de la ventana
                 graphics1.strokeRect(0, 0, this.game.config.width, this.game.config.height); // Dibuja el borde
 
                 this.crea_tablero(); // se dibuja el tablero de juego
 
-                let texto = this.add.text(500, 150, 'Turno actual:', { font: '60px Harlow Solid Italic', fill: '#5A6973', fontStyle: 'bold' });
+                let texto = this.add.text(500, 150, 'Turno actual:', { font: '60px Georgia', fill: '#FFFFFF', fontStyle: 'bold' });
 
                 var self = this; // Guardar el contexto de 'this'
 
@@ -590,7 +598,7 @@
                 circulo_rebotando.setVisible(false);
 
                 // Cruz invisible rebotando de fondo, que se hará visible en caso de que gane la X
-                var cruz_rebotando = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                var cruz_rebotando = self.add.graphics({ lineStyle: { width: 10, color: 0xCC9900 } });
                 this.dibuja_X(0,0, cruz_rebotando);
                 const cruz = self.physics.add.existing(cruz_rebotando);
                 cruz.body.setVelocity(200, 300);
@@ -622,7 +630,7 @@
                 var y_centrado;
                 let x;
                 let y;
-                var figura_turno_X = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960} });
+                var figura_turno_X = self.add.graphics({ lineStyle: { width: 10, color: 0xCC9900} });
                 var figura_turno_O = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A} });
                 let texto_ganador;
                 if(turnoX){
@@ -647,7 +655,7 @@
                             if(tablero[fila][columna]==1){
                                 if(turnoX){
                                     //Dibuja la cruz
-                                    var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                                    var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xCC9900 } });
                                     self.dibuja_X(x_centrado, y_centrado, lienzo);
 
                                     tablero[fila][columna]= 'x';
@@ -681,7 +689,7 @@
 
                                     if(verifica[1]=='x'){
                                         let texto_ganador1 = self.add.text(550, 300, '¡Ha ganado!', { font: '70px Harlow Solid Italic', fill: '#A68960', fontStyle: 'bold' });
-                                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xCC9900 } });
                                         self.dibuja_X(730, 450, lienzo);
                                         cruz_rebotando.setVisible(true);
 
@@ -945,10 +953,10 @@
             texto_ganador(figura_ganadora){
                 let texto;
                 if(figura_ganadora=='x'){
-                    texto = this.add.text(500, 600, 'Ha ganado la X', { font: '55px Arial', fill: '#5A6973', fontStyle: 'bold' });
+                    texto = this.add.text(500, 600, 'Ha ganado la X', { font: '55px Arial', fill: '0xCC9900', fontStyle: 'bold' });
                     console.log('ha ganado la X');
                 }else{
-                    texto = this.add.text(500, 600, 'Ha ganado el O', { font: '55px Arial', fill: '#5A6973', fontStyle: 'bold' });
+                    texto = this.add.text(500, 600, 'Ha ganado el O', { font: '55px Arial', fill: '0xA6609A', fontStyle: 'bold' });
                     console.log('ha ganado el O');
                 }
             }
