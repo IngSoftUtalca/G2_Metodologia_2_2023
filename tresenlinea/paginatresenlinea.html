@@ -7,10 +7,10 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
 </head>
-<body style="margin-right:19% ; margin-top:8%; display:flex;align-items: center">
+<body style="margin-right:24% ; margin-top:10%; display:flex;align-items: center">
     <div>
         <a href="../pagina_juegos/paginajuegos.html" title="Librería de juegos">
-            +<button class="buttonBack-layout" tittle="Librería de juegos">Back</button>
+            <button class="buttonBack-layout" tittle="Librería de juegos">Back</button>
         </a>
     </div>
     <div id="phaser-container"></div>
@@ -121,7 +121,7 @@
                 //});
 
                 // Circulo invisible rebotando de fondo, que se hará visible en caso de que gane el O
-                var circulo_rebotando = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                var circulo_rebotando = self.add.graphics({ lineStyle: { width: 10, color: 0xD9326F } });
                 this.dibuja_O(0,0, circulo_rebotando);
                 const circulo = self.physics.add.existing(circulo_rebotando);
                 circulo.body.setVelocity(200, 300);
@@ -130,7 +130,7 @@
                 circulo_rebotando.setVisible(false);
 
                 // Cruz invisible rebotando de fondo, que se hará visible en caso de que gane la X
-                var cruz_rebotando = self.add.graphics({ lineStyle: { width: 10, color: 0xCC9900 } });
+                var cruz_rebotando = self.add.graphics({ lineStyle: { width: 10, color: '0xCC9900' } });
                 this.dibuja_X(0,0, cruz_rebotando);
                 const cruz = self.physics.add.existing(cruz_rebotando);
                 cruz.body.setVelocity(200, 300);
@@ -163,7 +163,7 @@
                 let x;
                 let y;
                 var figura_turno_X = self.add.graphics({ lineStyle: { width: 10, color: 0xCC9900} });
-                var figura_turno_O = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A} });
+                var figura_turno_O = self.add.graphics({ lineStyle: { width: 10, color: 0xD9326F} });
                 let texto_ganador;
                 if(turnoX){
                     self.dibuja_X(880, 180, figura_turno_X);
@@ -198,7 +198,7 @@
                                 }
                                 else{
                                     //Dibujo el circulo
-                                    var figura = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                                    var figura = self.add.graphics({ lineStyle: { width: 10, color: 0xD9326F } });
                                     self.dibuja_O(x_centrado, y_centrado, figura);
                                     tablero[fila][columna]= 'o';
 
@@ -215,20 +215,20 @@
 
                                     var color_linea;
                                     if (verifica[1]=='x') {color_linea = 0xCC9900;}
-                                    else {color_linea =0xA6609A};
+                                    else {color_linea =0xD9326F};
 
                                     self.linea_ganador(verifica[0],color_linea)
 
                                     if(verifica[1]=='x'){
-                                        let texto_ganador1 = self.add.text(550, 300, '¡Ha ganado! ', { font: '70px Georgia', fill: '0xCC9900', fontStyle: 'bold' });
+                                        let texto_ganador1 = self.add.text(550, 300, '¡Ha ganado! ', { font: '70px Georgia', fill: 'Goldenrod', fontStyle: 'bold' });
                                         var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xCC9900 } });
                                         self.dibuja_X(730, 450, lienzo);
                                         cruz_rebotando.setVisible(true);
 
                                         console.log('ha ganado la X');
                                     }else{
-                                        let texto_ganador2 = self.add.text(550, 300, '¡Ha ganado! ', { font: '70px Georgia', fill: '#A6609A', fontStyle: 'bold' });
-                                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A} });
+                                        let texto_ganador2 = self.add.text(550, 300, '¡Ha ganado! ', { font: '70px Georgia', fill: '#D9326F', fontStyle: 'bold' });
+                                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xD9326F} });
                                         self.dibuja_O(730, 450, lienzo);
                                         circulo_rebotando.setVisible(true);
                                         console.log('ha ganado el O');
@@ -485,10 +485,10 @@
             texto_ganador(figura_ganadora){
                 let texto;
                 if(figura_ganadora=='x'){
-                    texto = this.add.text(500, 600, 'Ha ganado la X', { font: '55px Arial', fill: '0xCC9900', fontStyle: 'bold' });
+                    texto = this.add.text(500, 600, 'Ha ganado la X', { font: '55px Arial', fill: 'Goldenrod', fontStyle: 'bold' });
                     console.log('ha ganado la X');
                 }else{
-                    texto = this.add.text(500, 600, 'Ha ganado el O', { font: '55px Arial', fill: '0xA6609A', fontStyle: 'bold' });
+                    texto = this.add.text(500, 600, 'Ha ganado el O', { font: '55px Arial', fill: 'Dark Pink', fontStyle: 'bold' });
                     console.log('ha ganado el O');
                 }
             }
@@ -518,7 +518,7 @@
 
 
                 // botones
-                var option1 = this.add.text(525, 300, 'Cruz ', { font: '50px Harlow Solid Italic', fill: '#A6609A' })
+                var option1 = this.add.text(525, 300, 'Cruz ', { font: '50px Georgia', fill: 'Goldenrod', backgroundColor:'#1D1D1B' })
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
                         figuraSeleccionada = 'x';
@@ -531,7 +531,7 @@
                         }
                     });
 
-                var option2 = this.add.text(525, 400, 'Circulo ', { font: '50px Georgia', fill: '#A6609A' })
+                var option2 = this.add.text(525, 400, 'Círculo ', { font: '50px Georgia', fill: '#D9326F',backgroundColor:'#1D1D1B' })
                     .setOrigin(0.5).setInteractive({ useHandCursor: true })
                     .setInteractive().on('pointerdown', () => {
                         figuraSeleccionada = 'o';
@@ -574,7 +574,7 @@
                 //});
 
                 // Circulo invisible rebotando de fondo, que se hará visible en caso de que gane el O
-                var circulo_rebotando = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                var circulo_rebotando = self.add.graphics({ lineStyle: { width: 10, color: 0xD9326F } });
                 this.dibuja_O(0,0, circulo_rebotando);
                 const circulo = self.physics.add.existing(circulo_rebotando);
                 circulo.body.setVelocity(200, 300);
@@ -616,7 +616,7 @@
                 let x;
                 let y;
                 var figura_turno_X = self.add.graphics({ lineStyle: { width: 10, color: 0xCC9900} });
-                var figura_turno_O = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A} });
+                var figura_turno_O = self.add.graphics({ lineStyle: { width: 10, color: 0xD9326F} });
                 let texto_ganador;
                 if(turnoX){
                     self.dibuja_X(880, 180, figura_turno_X);
@@ -651,7 +651,7 @@
                                 }
                                 else{
                                     //Dibujo el circulo
-                                    var figura = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                                    var figura = self.add.graphics({ lineStyle: { width: 10, color: 0xD9326F} });
                                     self.dibuja_O(x_centrado, y_centrado, figura);
                                     tablero[fila][columna]= 'o';
 
@@ -680,8 +680,8 @@
 
                                         console.log('ha ganado la X');
                                     }else{
-                                        let texto_ganador2 = self.add.text(550, 300, '¡Ha ganado!', { font: '70px Georgia', fill: '#A6609A', fontStyle: 'bold' });
-                                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                                        let texto_ganador2 = self.add.text(550, 300, '¡Ha ganado!', { font: '70px Georgia', fill: '#D9326F', fontStyle: 'bold' });
+                                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xD9326F } });
                                         self.dibuja_O(730, 450, lienzo);
                                         circulo_rebotando.setVisible(true);
                                         console.log('ha ganado el O');
@@ -941,7 +941,7 @@
                     texto = this.add.text(500, 600, 'Ha ganado la X', { font: '55px Arial', fill: '0xCC9900', fontStyle: 'bold' });
                     console.log('ha ganado la X');
                 }else{
-                    texto = this.add.text(500, 600, 'Ha ganado el O', { font: '55px Arial', fill: '0xA6609A', fontStyle: 'bold' });
+                    texto = this.add.text(500, 600, 'Ha ganado el O', { font: '55px Arial', fill: '0xD9326F', fontStyle: 'bold' });
                     console.log('ha ganado el O');
                 }
             }
