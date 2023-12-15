@@ -528,6 +528,22 @@
                 this.gameOver();
             }, tiempoEspera);
             });
+            let volverAlMenuText = this.add.text(550, 5, 'Volver al Menú', {
+        fontSize: '20px',
+        fill: '#ffffff',
+        backgroundColor: '#000000',
+        padding: {
+            left: 40,
+            right: 10,
+            top: 5,
+            bottom: 5,
+        },
+    });
+
+    volverAlMenuText.setInteractive();
+    volverAlMenuText.on('pointerdown', () => {
+        this.scene.start('MenuScene'); // 
+    });
         }
     
     
