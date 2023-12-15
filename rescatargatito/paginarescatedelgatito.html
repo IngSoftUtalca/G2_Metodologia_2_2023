@@ -39,27 +39,31 @@
                     super('MenuScene'); // 'Escena_jvm' es la clave única de esta escena
                 }
                 preload() {
+                     this.load.image('fondo.', 'paisaje1.jpg');
                 }
     
                 create() {
-                    var option1 = this.add.text(260, 100, ' Elige un nivel ', { font: '60px Harlow Solid Italic', fill: '#fff' });
+                    const backgroundImage = this.add.image(0, 0, 'fondo.').setOrigin(0).setDepth(0);
+                    backgroundImage.setDisplaySize(this.game.config.width, this.game.config.height)
+               
+                    var option1 = this.add.text(350, 100, ' Elige un nivel ', { font: '60px Georgia', fill: 'black' ,fontStyle: 'bold'});
     
                     // Opciones del menú
-                    var optionNivel1 = this.add.text(525, 300, 'Nivel 1', { font: '40px Harlow Solid Italic', fill: '#fff' })
+                    var optionNivel1 = this.add.text(565, 300, 'Nivel 1', { font: '40px Courier New', fill: 'black'})
                         .setOrigin(0.5).setInteractive({ useHandCursor: true })
                         .on('pointerdown', () => {
                             nivelSeleccionado = 'Nivel 1';
                             this.scene.start('GameScene'); 
                         });
     
-                    var optionNivel2 = this.add.text(525, 400, 'Nivel 2', { font: '40px Harlow Solid Italic', fill: '#fff' })
+                    var optionNivel2 = this.add.text(565, 400, 'Nivel 2', { font: '40px Courier New', fill: 'black' })
                         .setOrigin(0.5).setInteractive({ useHandCursor: true })
                         .on('pointerdown', () => {
                             nivelSeleccionado = 'Nivel 2';
                             this.scene.start('GameScene2'); 
                         });
     
-                    var optionNivel3 = this.add.text(525, 500, 'Nivel 3', { font: '40px Harlow Solid Italic', fill: '#fff' })
+                    var optionNivel3 = this.add.text(565, 500, 'Nivel 3', { font: '40px Courier New', fill: 'black' })
                         .setOrigin(0.5).setInteractive({ useHandCursor: true })
                         .on('pointerdown', () => {
                             nivelSeleccionado = 'Nivel 3';
@@ -136,9 +140,9 @@
                 child.body.setOffset(130, 100);
                 
             });
-            var pos=10;
+            var pos=-50;
     
-            let boton1= this.add.sprite(370,28,'saltar');
+            let boton1= this.add.sprite(470,28,'saltar');
             
             boton1.setScale(0.7);
             boton1.setInteractive();
@@ -162,7 +166,7 @@
                 }
             });
     
-            let boton2= this.add.sprite(235,30,'saltarderecha');
+            let boton2= this.add.sprite(335,30,'saltarderecha');
             boton2.setScale(0.7);
             boton2.setInteractive();
             boton2.on('pointerdown', () => {
@@ -183,7 +187,7 @@
                 }
             });   
             
-            let boton3= this.add.sprite(95,30,'saltarizquierda');
+            let boton3= this.add.sprite(195,30,'saltarizquierda');
             boton3.setScale(0.7);
             boton3.setInteractive();
             boton3.on('pointerdown', () => {
@@ -210,9 +214,9 @@
             this.physics.add.collider(gato, plataformagato); 
            this.physics.add.overlap(jugador, gato, this.victory, null, this);
     
-            let botonEjecutar = this.add.sprite(500, 30, 'botonEjecutar');
+            let botonEjecutar = this.add.sprite(990, 570, 'botonEjecutar');
             botonEjecutar.setInteractive();
-            botonEjecutar.setScale(0.4);
+            botonEjecutar.setScale(0.5);
            
              acciones = {
                 "Saltar": {funcion: () => {jugador.setVelocityY(-800);jugador.estado='saltando'}},
@@ -243,17 +247,11 @@
 
 
             });
-            let volverAlMenuText = this.add.text(550, 5, 'Volver al Menú', {
-        fontSize: '20px',
-        fill: '#ffffff',
-        backgroundColor: '#000000',
-        padding: {
-            left: 40,
-            right: 10,
-            top: 5,
-            bottom: 5,
-        },
-    });
+            let volverAlMenuText = this.add.text(20, 20, 'Volver', { 
+                font: '25px Courier New',
+                fill: 'black',fontStyle: 'bold'
+        
+            });
 
     volverAlMenuText.setInteractive();
     volverAlMenuText.on('pointerdown', () => {
@@ -281,7 +279,7 @@
 
         gameOver(){
         this.physics.pause();
-        let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '32px', fill: '#FF0000' });
+        let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '32px', fill: '#FF0000', fontStyle:'bold' });
         gameOver.setOrigin(0.5);
         let botony=400;
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
@@ -293,7 +291,7 @@
 
         victory(){
         this.physics.pause();
-        let victoria = this.add.text(500, 300, '¡Victoria!', { fontSize: '32px', fill: '#00FF00' });
+        let victoria = this.add.text(500, 350, '¡Victoria!', { fontSize: '32px', fill: '#00FF00', fontStyle:'bold' });
         victoria.setOrigin(0.5);
         clearTimeout(temporizadorGameOver); 
         //console.log("¡Victoria!");
@@ -421,9 +419,9 @@
             });*/
 
 
-            var pos=10;
+            var pos=-50;
     
-            let boton1= this.add.sprite(370,28,'saltar');
+            let boton1= this.add.sprite(470,28,'saltar');
             
             boton1.setScale(0.7);
             boton1.setInteractive();
@@ -447,7 +445,7 @@
                 }
             });
     
-            let boton2= this.add.sprite(235,30,'saltarderecha');
+            let boton2= this.add.sprite(335,30,'saltarderecha');
             boton2.setScale(0.7);
             boton2.setInteractive();
             boton2.on('pointerdown', () => {
@@ -468,7 +466,7 @@
                 }
             });   
             
-            let boton3= this.add.sprite(95,30,'saltarizquierda');
+            let boton3= this.add.sprite(195,30,'saltarizquierda');
             boton3.setScale(0.7);
             boton3.setInteractive();
             boton3.on('pointerdown', () => {
@@ -498,9 +496,9 @@
             this.physics.add.collider(gato, plataformagato); 
            this.physics.add.overlap(jugador, gato, this.victory, null, this);
     
-            let botonEjecutar = this.add.sprite(500, 30, 'botonEjecutar');
+            let botonEjecutar = this.add.sprite(990, 570, 'botonEjecutar');
             botonEjecutar.setInteractive();
-            botonEjecutar.setScale(0.4);
+            botonEjecutar.setScale(0.5);
            
              acciones = {
                 "Saltar": {funcion: () => {jugador.setVelocityY(-900);jugador.estado='saltando'}},
@@ -528,17 +526,11 @@
                 this.gameOver();
             }, tiempoEspera);
             });
-            let volverAlMenuText = this.add.text(550, 5, 'Volver al Menú', {
-        fontSize: '20px',
-        fill: '#ffffff',
-        backgroundColor: '#000000',
-        padding: {
-            left: 40,
-            right: 10,
-            top: 5,
-            bottom: 5,
-        },
-    });
+            let volverAlMenuText = this.add.text(20, 20, 'Volver', { 
+                font: '25px Courier New',
+                fill: 'black',fontStyle: 'bold'
+        
+            });
 
     volverAlMenuText.setInteractive();
     volverAlMenuText.on('pointerdown', () => {
@@ -572,7 +564,7 @@
 
         gameOver(){
         this.physics.pause();
-        let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '32px', fill: '#FF0000' });
+        let gameOver = this.add.text(500, 350, 'Game Over', { fontSize: '32px', fill: '#FF0000', fontStyle:'bold' });
         gameOver.setOrigin(0.5);
         let botony=400;
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
@@ -584,14 +576,19 @@
 
         victory(){
         this.physics.pause();
-        let victoria = this.add.text(500, 300, '¡Victoria!', { fontSize: '32px', fill: '#00FF00' });
+        let victoria = this.add.text(500, 350, '¡Victoria!', { fontSize: '32px', fill: '#00FF00', fontStyle:'bold' });
         victoria.setOrigin(0.5);
         clearTimeout(temporizadorGameOver); 
         //console.log("¡Victoria!");
         let botony=400;
+        let botonx=300;
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
+        let botonNext=this.add.rectangle(500, botonx, 350, 50, 0xFFFFFF).setInteractive();
         let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
-
+        let textoBotonNext = this.add.text(500, botonx, 'Siguiente Nivel ', { fontSize: '20px', fill: '#000000' }).setOrigin(0.250);
+        botonNext.on('pointerdown', () => {
+        this.scene.start('GameScene'); // 
+    });
         botonReinicio.on('pointerdown', () => this.reiniciarJuego());
         }
 
