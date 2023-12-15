@@ -35,10 +35,8 @@
             var nivelSeleccionado = ''; // Variable para almacenar el nivel seleccionado
     
             class MenuScene extends Phaser.Scene {
-                constructor() {
-                    super('MenuScene'); // 'Escena_jvm' es la clave única de esta escena
-                }
                 preload() {
+                    // ... (tu código de precarga actual) ...
                 }
     
                 create() {
@@ -49,21 +47,21 @@
                         .setOrigin(0.5).setInteractive({ useHandCursor: true })
                         .on('pointerdown', () => {
                             nivelSeleccionado = 'Nivel 1';
-                            this.scene.start('GameScene'); 
+                            this.scene.start('GameScene'); // Ajusta el nombre de la escena del juego
                         });
     
                     var optionNivel2 = this.add.text(525, 400, 'Nivel 2', { font: '40px Harlow Solid Italic', fill: '#fff' })
                         .setOrigin(0.5).setInteractive({ useHandCursor: true })
                         .on('pointerdown', () => {
                             nivelSeleccionado = 'Nivel 2';
-                            this.scene.start('GameScene2'); 
+                            this.scene.start('GameScene2'); // Ajusta el nombre de la escena del juego
                         });
     
                     var optionNivel3 = this.add.text(525, 500, 'Nivel 3', { font: '40px Harlow Solid Italic', fill: '#fff' })
                         .setOrigin(0.5).setInteractive({ useHandCursor: true })
                         .on('pointerdown', () => {
                             nivelSeleccionado = 'Nivel 3';
-                            this.scene.start('GameScene'); 
+                            this.scene.start('GameScene'); // Ajusta el nombre de la escena del juego
                         });
                 }
             }
@@ -102,7 +100,7 @@
             fondo.displayWidth = 2000;
             fondo.displayHeight = 2000;
     
-        
+    
             gato = this.physics.add.sprite (985,300,'gato')
             gato.setScale(0.23)
             gato.body.setSize(250, 300);
@@ -239,26 +237,7 @@
                 botonEjecutar.setVisible(false);
                 this.gameOver();
             }, tiempoEspera);
-
-
-
             });
-            let volverAlMenuText = this.add.text(550, 5, 'Volver al Menú', {
-        fontSize: '20px',
-        fill: '#ffffff',
-        backgroundColor: '#000000',
-        padding: {
-            left: 40,
-            right: 10,
-            top: 5,
-            bottom: 5,
-        },
-    });
-
-    volverAlMenuText.setInteractive();
-    volverAlMenuText.on('pointerdown', () => {
-        this.scene.start('MenuScene'); // 
-    });
         }
     
     
@@ -528,22 +507,6 @@
                 this.gameOver();
             }, tiempoEspera);
             });
-            let volverAlMenuText = this.add.text(550, 5, 'Volver al Menú', {
-        fontSize: '20px',
-        fill: '#ffffff',
-        backgroundColor: '#000000',
-        padding: {
-            left: 40,
-            right: 10,
-            top: 5,
-            bottom: 5,
-        },
-    });
-
-    volverAlMenuText.setInteractive();
-    volverAlMenuText.on('pointerdown', () => {
-        this.scene.start('MenuScene'); // 
-    });
         }
     
     
