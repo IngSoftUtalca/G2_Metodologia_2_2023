@@ -296,8 +296,14 @@
         clearTimeout(temporizadorGameOver); 
         //console.log("¡Victoria!");
         let botony=400;
+        let botonx=480;
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
+        let botonNext=this.add.rectangle(500, botonx, 200, 50, 0xFFFFFF).setInteractive();
         let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
+        let textoBotonNext = this.add.text(500, botonx, 'Siguiente Nivel ', { fontSize: '20px', fill: '#000000' }).setOrigin(0.51);
+        botonNext.on('pointerdown', () => {
+        this.scene.start('GameScene2'); // 
+    });
 
         botonReinicio.on('pointerdown', () => this.reiniciarJuego());
         }
@@ -587,7 +593,7 @@
         let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
         let textoBotonNext = this.add.text(500, botonx, 'Siguiente Nivel ', { fontSize: '20px', fill: '#000000' }).setOrigin(0.51);
         botonNext.on('pointerdown', () => {
-        this.scene.start('GameScene'); // 
+        this.scene.start('GameScene'); // cambiar a la escena 3 cuando este implementada
     });
         botonReinicio.on('pointerdown', () => this.reiniciarJuego());
         }
