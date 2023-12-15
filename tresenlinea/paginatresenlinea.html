@@ -104,8 +104,6 @@
                 super('Escena_jvj'); // 'Escena_jvj' es la clave única de esta escena
             }
 
-
-
             create(){
                 this.cameras.main.setBackgroundColor('#608BA6'); //ajustar el color del fondo
 
@@ -554,8 +552,6 @@
                 super('Escena_jvm'); // 'Escena_jvm' es la clave única de esta escena
             }
 
-
-
             create(){
                 this.cameras.main.setBackgroundColor('#FFFFFF'); //ajustar el color del fondo
 
@@ -634,13 +630,14 @@
                         columna = self.determina_columna(x);
                         if(fila!=-1 && columna !=-1){ //Verifica que la posición en donde se hizo click esté dentro del tablero
 
-                            //centra las coordenadas del click para que la figura se dibuje en el centro de la celda
-                            x_centrado = self.centra_X(columna);
-                            y_centrado = self.centra_Y(fila);
-
                             //verifica que la celda seleccionada no esté ocupada
                             if(tablero[fila][columna]==1){
-                                if(turnoX){
+
+                                //centra las coordenadas del click para que la figura se dibuje en el centro de la celda
+                                x_centrado = self.centra_X(columna);
+                                 y_centrado = self.centra_Y(fila);
+
+                                if(figuraSeleccionada=='x'){
                                     //Dibuja la cruz
                                     var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
                                     self.dibuja_X(x_centrado, y_centrado, lienzo);
@@ -649,9 +646,9 @@
                                     figura_turno_X.clear();
                                     self.dibuja_O(880, 180, figura_turno_O);
                                     
-                                    turnoX = false;
+                                    
                                 }
-                                else{
+                                else if(figuraSeleccionada=='o'){
                                     //Dibujo el circulo
                                     var figura = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
                                     self.dibuja_O(x_centrado, y_centrado, figura);
@@ -947,6 +944,49 @@
                     console.log('ha ganado el O');
                 }
             }
+
+            analiza_jugada(tablero,turno_maquina){
+                //1.- verifica si el jugador tiene una jugada ganadora
+
+                //2.- verifica si la maquina tiene jugada ganadora
+
+                //3.- verifica si puede usar la celda del centro
+                if(celda_desocupada(1,1,tablero)){
+                    if(turno_maquina=='x'){
+                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                        self.dibuja_X(365, 300, lienzo);
+                        tablero[1][1] = 'x';
+                        return lienzo;
+                    }else if(turno_maquina=='o'){
+                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                        self.dibuja_O(365, 300, lienzo);
+                        tablero[1][1] = 'o';
+                    }
+
+                    return lienzo;
+                }
+                //4.- verifica si puede usar una celda de una esquina
+
+                //5.- dibuja la figura en una celda aleatoria
+            }
+
+            celda_desocupada(fila,columna, tablero){
+                if(tablero[fila][columna]!=1){
+                    return true; 
+                }else{
+                    return false;
+                }
+            }
+
+            analiza_filas(){
+
+            }
+            analiza_columnas(){
+
+            }
+            analiza_diagonales(){}
+
+
         }
 
         const config = {
