@@ -28,13 +28,14 @@
     <br>
     <label for="instrucciones" style="position: absolute; left: 50px; top: 200px;  width: 150px; height: 100px; font-size: 35px;">Instrucciones:</label>
     <input type="text" id="instrucciones" placeholder="Avanzar 5, Girar 90, ..." style="position: absolute; left: 50px; top: 240px; width: 225px; height: 20px;">
-    <button onclick="ejecutarInstrucciones()" style="position: absolute; left: 80px; top: 350px; width: 150px; height: 100px; font-size: 30px; background: yellow">Ejecutar</button>
-    <button onclick="dibujarTortuga()" style="position: absolute; left: 80px; top: 530px; width: 150px; height: 100px; font-size: 30px; background: yellow;">Crear tortuga</button>
-
+    <button onclick="ejecutarInstrucciones()" style="position: absolute; left: 80px; top: 320px; width: 150px; height: 100px; font-size: 30px; background: yellow">Ejecutar</button>
+    <button onclick="dibujarTortuga()" style="position: absolute; left: 80px; top: 550px; width: 150px; height: 100px; font-size: 30px; background: yellow;">Crear tortuga</button>
+    <button onclick="reiniciar()" style="position: absolute; left: 80px; top: 750px; width: 150px; height: 100px; font-size: 30px; background: darkgreen;">Reiniciar Pantalla</button>
+    
     <label for="instrucciones" style="position: absolute; left: 1650px; top: 200px;  width: 150px; height: 100px; font-size: 35px; Color: Blue">Instrucciones Predefinidas:</label>
     <label for="instrucciones" style="position: absolute; left: 1650px; top: 300px;  width: 200px; height: 100px; font-size: 20px; Color: Blue">*avanzar X (Píxeles):</label>
     <label for="instrucciones" style="position: absolute; left: 1650px; top: 330px;  width: 150px; height: 100px; font-size: 20px; Color: Blue">*girar X (Grados):</label>
-
+    
     
     <div>
         <a href="../pagina_juegos/paginajuegos.html" title="Librería de juegos">
@@ -44,8 +45,7 @@
 
     <div id="phaser-container">
         <script>
-            // Código en JavaScript
-        // Obtener el lienzo y su contexto
+        // Obtener el canvas
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
@@ -56,24 +56,38 @@
             angulo: 0 // Ángulo en grados
         };
 
+        function reiniciar() {
+            tortuga.x = canvas.width / 2;
+            tortuga.y = canvas.height / 2;
+            tortuga.angulo = 0;
+            rastroAcumulado.length = 0;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        
         //avanzar 5 & girar 90 & avanzar 5 & girar 90 & avanzar 5 & girar 90 & avanzar 10 & girar -90 & avanzar 5  & girar -90 & avanzar 5  & girar -90 & avanzar 5 & avanzar 0 
+        
         //Fcunción para ejecutar la instrucción solicitada por el usuario
         function ejecutarInstrucciones() {
             const instruccionesInput = document.getElementById('instrucciones');
-            const instrucciones = instruccionesInput.value.trim().split('&');
+            const instrucciones = instruccionesInput.value.trim();
 
-            if (instrucciones.length < 2) {
-                alert('Por favor, ingrese al menos dos instrucciones separadas por "&".');
-                return;
+            // Verificar si se ingresaron al menos dos instrucciones separadas por "&"
+            if (instrucciones.includes('&')) {
+                const instruccionesSeparadas = instrucciones.split('&');
+
+                // Limpiar el rastro acumulado antes de iniciar nuevas instrucciones
+                rastroAcumulado.length = 0;
+
+                instruccionesSeparadas.forEach((instruccion, index) => {
+                    setTimeout(() => {
+                        ejecutarSiguiente(instruccionesSeparadas, index);
+                    }, index * 1000); // Ajusta el intervalo de tiempo según tus necesidades
+                });
+            } else {
+                // Ejecutar una sola instrucción
+                ejecutarSiguiente([instrucciones], 0);
             }
-            //arreglo de instrucciones
-            rastroAcumulado.length = 0;
- 
-            instrucciones.forEach((instruccion, index) => {
-                setTimeout(() => {
-                    ejecutarSiguiente(instrucciones, index);
-                }, index * 1000);
-            });
         }
 
         //Función que en caso de que sean más de 2 instruciones a la ves, ejecute cada instrucción en base al índice de un arrelgo 
@@ -95,7 +109,7 @@
             const finalizarInstruccion = () => {
                 ejecutarSiguiente(instrucciones, index + 1);
             };
-
+            //Comandos que el código reconoce
             switch (comando) {
                 case 'avanzar':
                     moverTortuga(valor).then(finalizarInstruccion);
@@ -136,7 +150,7 @@
             const stepAngle = grados / pasosgiro;
             const intervalo = duracion / pasosgiro;
 
-            // Animación de giro suave
+            // Animación que hace que el giro no sea brusco
             let step = 0;
             const turnos = setInterval(() => {
                 tortuga.angulo += stepAngle;
@@ -148,7 +162,7 @@
             }, intervalo);
         }
 
-        // Función para desplazar la tortuga suavemente
+        // Función para desplazar la tortuga suavemente (Crearle una pequeña animación)
         function moverTortuga(distancia) {
             const radianes = tortuga.angulo * (Math.PI / 180);
             const deltaX = distancia * Math.cos(radianes);
@@ -181,7 +195,7 @@
         // Variable para almacenar el rastro acumulado
         const rastroAcumulado = [];
 
-        // Modifica la función para desplazar la tortuga y dibujar el rastro
+        // Función que se encarga de dibujar el rastro
         function rastroTortuga(distancia) {
             const radianes = tortuga.angulo * (Math.PI / 180);
 
