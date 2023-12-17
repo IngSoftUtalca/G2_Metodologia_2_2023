@@ -36,7 +36,10 @@
     <label for="instrucciones" style="position: absolute; left: 1650px; top: 300px;  width: 200px; height: 100px; font-size: 20px; Color: Blue">*avanzar X (Píxeles):</label>
     <label for="instrucciones" style="position: absolute; left: 1650px; top: 330px;  width: 150px; height: 100px; font-size: 20px; Color: Blue">*girar X (Grados):</label>
     
-    
+    <div id="canvas-container">
+        <canvas id="canvas" width="1260" height="670"></canvas>
+    </div>
+
     <div>
         <a href="../pagina_juegos/paginajuegos.html" title="Librería de juegos">
             <button class="buttonBack-layout" tittle="Librería de juegos">Back</button>
@@ -65,7 +68,7 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
         
-        //avanzar 5 & girar 90 & avanzar 5 & girar 90 & avanzar 5 & girar 90 & avanzar 10 & girar -90 & avanzar 5  & girar -90 & avanzar 5  & girar -90 & avanzar 5 & avanzar 0 
+        //avanzar 5 & girar 90 & avanzar 5 & girar 90 & avanzar 5 & girar 90 & avanzar 10 & girar -90 & avanzar 5  & girar -90 & avanzar 5  & girar -90 & avanzar 5 & girar -45 & avanzar 6 & girar 180 & avanzar 12
         
         //Fcunción para ejecutar la instrucción solicitada por el usuario
         function ejecutarInstrucciones() {
@@ -128,20 +131,63 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Dibujar el rectángulo para representar la tortuga
-            const anchoTortuga = 20;
-            const altoTortuga = 15;
+            const anchoTortuga = 25;
+            const altoTortuga = 20;
 
             ctx.save();
             ctx.translate(tortuga.x, tortuga.y);
             ctx.rotate(tortuga.angulo * (Math.PI / 180)); // Rotar según el ángulo
 
-            ctx.fillStyle = 'green';
+            ctx.fillStyle = '#00000000';
             ctx.fillRect(-anchoTortuga / 2, -altoTortuga / 2, anchoTortuga, altoTortuga);
-            ctx.strokeRect(-anchoTortuga / 2, -altoTortuga / 2, anchoTortuga, altoTortuga);
+            //ctx.strokeRect(-anchoTortuga / 2, -altoTortuga / 2, anchoTortuga, altoTortuga);
+            ctx.lineWidth = '0,01';
+
+            //Cabeza Tortuga
+            const radioCirculo2 = 5;
+            ctx.beginPath();
+            ctx.arc(7, 0, radioCirculo2, 0, 2 * Math.PI);
+            ctx.fillStyle = 'darkgreen';
+            ctx.fill();
+            ctx.stroke();
+
+            //Patas Tortuga
+            ctx.beginPath();
+            ctx.moveTo(3,-14);
+            ctx.lineTo(-1,1);
+            ctx.strokeStyle = 'green';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(3,15);
+            ctx.lineTo(-1,1);
+            ctx.strokeStyle = 'green';
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(-8,8);
+            ctx.lineTo(-10,15);
+            ctx.strokeStyle = 'green';
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(-8,-8);
+            ctx.lineTo(-10,-15);
+            ctx.strokeStyle = 'green';
+            ctx.stroke();
+
+            // Cuerpo Tortuga
+            const radioCirculo = 8;
+            ctx.beginPath();
+            ctx.arc(-3, 0, radioCirculo, 0, 2 * Math.PI);
+            ctx.fillStyle = 'darkgreen';
+            ctx.fill();
+            ctx.stroke();
 
             ctx.restore();
         }
-
+        
         // Función para girar la tortuga suavemente
         function girarTortuga(grados) {
             // Número de pasos para suavizar el giro
