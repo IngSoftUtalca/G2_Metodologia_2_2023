@@ -6,20 +6,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
-    
-
+    <script src="./package/blockly_compressed.js"></script>
+    <script src="./package/blocks_compressed.js"></script>
+    <script src="./package/javascript_compressed.js"></script>
+    <script src="./package/msg/es.js"></script>
 </head>
 <body style="margin-right:22% ; margin-top:9%; display:flex;align-items: center">
-
     <div>
-        <a href="../pagina_juegos/paginajuegos.html">
-            <button class="buttonBack" title="Librería de juegos">Back</button>
+        <a href="../pagina_juegos/paginajuegos.html" title="Librería de juegos">
+            <button class="buttonBack-layout" tittle="Librería de juegos">Back</button>
         </a>
     </div>
-    <div id="phaser-container">
+    <div id="phaser-container"></div>
+
     <script>
-      class Example extends Phaser.Scene
+        var gato;
+         var jugador;
+         let cursors;
+         var estado = 'idle';
+         let direccion = 0; // 0 = quieto, -1 = izquierda, 1 = derecha
+         let tiempoMovimiento = null;
+         let acciones;
+         let instrucciones = [];
+         let temporizadores = [];
+         let temporizadorGameOver;
+         let colisionplataforma3=false;
+         let plataforma3;
+            var nivelSeleccionado = ''; // Variable para almacenar el nivel seleccionado
+    
+            class MenuScene extends Phaser.Scene {
+                constructor() {
+                    super('MenuScene'); // 'Escena_jvm' es la clave única de esta escena
+                }
+                preload() {
+                     this.load.image('fondo.', 'paisaje1.jpg');
+                }
+    
+                create() {
+                    const backgroundImage = this.add.image(0, 0, 'fondo.').setOrigin(0).setDepth(0);
+                    backgroundImage.setDisplaySize(this.game.config.width, this.game.config.height)
+               
+                    var option1 = this.add.text(350, 100, ' Elige un nivel ', { font: '60px Georgia', fill: 'black' ,fontStyle: 'bold'});
+    
+                    // Opciones del menú
+                    var optionNivel1 = this.add.text(565, 300, 'Nivel 1', { font: '40px Courier New', fill: 'black'})
+                        .setOrigin(0.5).setInteractive({ useHandCursor: true })
+                        .on('pointerdown', () => {
+                            nivelSeleccionado = 'Nivel 1';
+                            this.scene.start('GameScene'); 
+                            console.log("Reiniciando el juego...");
+                            for(let i = 0; i < temporizadores.length; i++) {
+                            clearTimeout(temporizadores[i]);
+                            }
+                            clearTimeout(temporizadorGameOver);    
+                            temporizadores = [];
+                            instrucciones = [];
+                        });
+    
+                    var optionNivel2 = this.add.text(565, 400, 'Nivel 2', { font: '40px Courier New', fill: 'black' })
+                        .setOrigin(0.5).setInteractive({ useHandCursor: true })
+                        .on('pointerdown', () => {
+                            nivelSeleccionado = 'Nivel 2';
+                            this.scene.start('GameScene2'); 
+                            for(let i = 0; i < temporizadores.length; i++) {
+                            clearTimeout(temporizadores[i]);
+                            }
+                            clearTimeout(temporizadorGameOver);    
+                            temporizadores = [];
+                            instrucciones = [];
+                        });
+    
+                    var optionNivel3 = this.add.text(565, 500, 'Nivel 3', { font: '40px Courier New', fill: 'black' })
+                        .setOrigin(0.5).setInteractive({ useHandCursor: true })
+                        .on('pointerdown', () => {
+                            nivelSeleccionado = 'Nivel 3';
+                            this.scene.start('GameScene3'); 
+                            for(let i = 0; i < temporizadores.length; i++) {
+                            clearTimeout(temporizadores[i]);
+                            }
+                            clearTimeout(temporizadorGameOver);    
+                            temporizadores = [];
+                            instrucciones = [];
+                        });
+                }
+            }
+    
+         class GameScene extends Phaser.Scene
     {
+        constructor() {
+                    super('GameScene'); // 'Escena_jvm' es la clave única de esta escena
+                }
+    
+    
         preload ()
         {
             this.load.image('sky', './fondo-abstracto-azul-degradado-estudio-azul-oscuro-liso-vineta-negra_1258-67766.webp');
@@ -31,102 +109,876 @@
             this.load.image('saltar', 'saltar.png');
             this.load.image('saltarderecha', 'saltar derecha.png');
             this.load.image('saltarizquierda', 'saltar izquierda.png');
-
+            this.load.image('botonEjecutar', 'ejecutar.png');
+            
+            this.load.image('saltar2', 'saltar2.png');
+            this.load.image('saltarderecha2', 'saltar derecha2.png');
+            this.load.image('saltarizquierda2', 'saltar izquierda2.png');
         }
-
+    
         create ()
-        {
+        {   
+            colisionplataforma3=false;
+            let contadorInstrucciones = 0;
+            const limiteInstrucciones = 6;
             let fondo = this.add.image(600, 300, 'sky');
             fondo.displayWidth = 2000;
             fondo.displayHeight = 2000;
+    
+        
+            gato = this.physics.add.sprite (985,300,'gato')
+            gato.setScale(0.23)
+            gato.body.setSize(250, 300);
+            gato.setInteractive
 
-            let gato = this.add.sprite (810,330,'gato')
-            gato.displayWidth = 80;
-            gato.displayHeight = 100;
-
-            let plataforma = this.add.sprite (820,400,'plataforma')
-            plataforma.displayWidth = 140;
-            plataforma.displayHeight = 140;
-
-            let plataforma2 = this.add.sprite (40,560,'plataforma')
-            plataforma2.displayWidth = 140;
-            plataforma2.displayHeight = 140;
-
-            let plataforma3 = this.add.sprite (120,560,'plataforma')
-            plataforma3.displayWidth = 140;
-            plataforma3.displayHeight = 140;
+            let plataformagato = this.physics.add.sprite (990,400,'plataforma')
+            plataformagato.setScale(0.27)
+            plataformagato.body.setAllowGravity(false);
+            plataformagato.body.setImmovable(true);
+            plataformagato.body.setSize(400, 230);
+            plataformagato.body.setOffset(120, 100);
+        
+    
+            jugador = this.physics.add.sprite (40,332,'jugador')
+            jugador.body.setSize(40, 80);
+            jugador.body.setOffset(20, 10); // mueve la hitbox respecto al sprite 
+    
+            cursors = this.input.keyboard.createCursorKeys();
+            var plataformas= this.physics.add.group();
+            plataformas.createMultiple({
+                key: 'plataforma',
+                repeat: 2,
+                setXY: {x:40,y:400,stepX: 315,stepY:0 },
+            });
+    
+            plataformas.children.iterate(function(child) {
+                child.setScale(0.27, 0.27);
+                child.body.setAllowGravity(false);
+                child.body.setImmovable(true);
+                child.body.setSize(380, 230);
+                child.body.setOffset(130, 100);
+                
+            });
+            var pos=-50;
+    
+            let boton1= this.add.sprite(470,28,'saltar');
             
-            let plataforma4 = this.add.sprite (180,560,'plataforma')
-            plataforma4.displayWidth = 140;
-            plataforma4.displayHeight = 140;
+            boton1.setScale(0.7);
+            boton1.setInteractive();
+            boton1.on('pointerdown', () => {
+                if (contadorInstrucciones < limiteInstrucciones) {
+                    contadorInstrucciones++;
+                    instrucciones.push("Saltar");
+                // Clonar el botón y colocarlo en una nueva posición
+                const newButton = this.add.image(
+                    pos+150,
+                    570,
+                    'saltar2'
+                ).setInteractive();
+                newButton.setScale(0.7);
+                    pos=pos+150;
+                    console.log('¡Botón presionado!');
+                    //se imprimen las instrucciones para saber si se estan agreagando al arraylist
+                    for(let i = 0; i < instrucciones.length; i++) {
+                    console.log(instrucciones[i]);
+                    }
+                }
+            });
+    
+            let boton2= this.add.sprite(335,30,'saltarderecha');
+            boton2.setScale(0.7);
+            boton2.setInteractive();
+            boton2.on('pointerdown', () => {
+                
+                if (contadorInstrucciones < limiteInstrucciones) {
+                    contadorInstrucciones++;
+                    instrucciones.push("Saltar Derecha");
+                const newButton = this.add.image(
+                    pos+150,
+                    570,
+                    'saltarderecha2'
+                ).setInteractive();
+                newButton.setScale(0.7);
+                    pos=pos+150;
+                    for(let i = 0; i < instrucciones.length; i++) {
+                    console.log(instrucciones[i]);
+                    }
+                }
+            });   
+            
+            let boton3= this.add.sprite(195,30,'saltarizquierda');
+            boton3.setScale(0.7);
+            boton3.setInteractive();
+            boton3.on('pointerdown', () => {
+                if (contadorInstrucciones < limiteInstrucciones) {
+                    contadorInstrucciones++;
+                    instrucciones.push("Saltar Izquierda");
+                const newButton = this.add.image(
+                    pos+150,
+                    570,
+                    'saltarizquierda2'
+                ).setInteractive();
+                newButton.setScale(0.7);
+                    pos=pos+150;
+                    console.log('¡Botón presionado!');
+                    //se imprimen las instrucciones para saber si se estan agreagando al arraylist
+                    for(let i = 0; i < instrucciones.length; i++) {
+                        console.log(instrucciones[i]);
+                    }
+                }
+            });                
+    
+            this.physics.add.collider(jugador, plataformas);
+            this.physics.add.collider(jugador, plataformagato);
+            this.physics.add.collider(gato, plataformagato); 
+           this.physics.add.overlap(jugador, gato, this.victory, null, this);
+    
+            let botonEjecutar = this.add.sprite(990, 570, 'botonEjecutar');
+            botonEjecutar.setInteractive();
+            botonEjecutar.setScale(0.5);
+           
+             acciones = {
+                "Saltar": {funcion: () => {jugador.setVelocityY(-800);jugador.estado='saltando'}},
+                "Saltar Derecha": {funcion: () => {jugador.setVelocityY(-800); jugador.setVelocityX(200);jugador.estado='saltandoDer';}},
+                "Saltar Izquierda": {funcion: () => {jugador.setVelocityY(-800); jugador.setVelocityX(-200);jugador.estado='saltandoIzq';}}
+            };
+    
+            botonEjecutar.on('pointerdown', () => {
+            botonEjecutar.setVisible(false); 
+            boton1.setVisible(false);
+            boton2.setVisible(false);
+            boton3.setVisible(false);
+            let tiempoEspera = 0; 
+         
+            for(let i = 0; i < instrucciones.length; i++) {
+            if(acciones[instrucciones[i]]) {
+                let temporizador = setTimeout(acciones[instrucciones[i]].funcion, tiempoEspera);
+                temporizadores.push(temporizador);
+                tiempoEspera += 2000; 
+              }
+             }
+            temporizadorGameOver = setTimeout(() => {
+                instrucciones = [];
+                botonEjecutar.setVisible(false);
+                this.gameOver();
+            }, tiempoEspera);
 
-            let plataforma5 = this.add.sprite (260,400,'plataforma')
-            plataforma5.displayWidth = 140;
-            plataforma5.displayHeight = 140;
 
-            let plataforma6 = this.add.sprite (340,400,'plataforma')
-            plataforma6.displayWidth = 140;
-            plataforma6.displayHeight = 140;
 
-            let plataforma7 = this.add.sprite (420,560,'plataforma')
-            plataforma7.displayWidth = 140;
-            plataforma7.displayHeight = 140;
+            });
+            let volverAlMenuText = this.add.text(20, 20, 'Volver', { 
+                font: '25px Courier New',
+                fill: 'black',fontStyle: 'bold'
+        
+            });
 
-            let plataforma8 = this.add.sprite (500,560,'plataforma')
-            plataforma8.displayWidth = 140;
-            plataforma8.displayHeight = 140;
+    volverAlMenuText.setInteractive();
+    volverAlMenuText.on('pointerdown', () => {
+        this.scene.start('MenuScene'); // 
+        console.log("Reiniciando el juego...");
+            for(let i = 0; i < temporizadores.length; i++) {
+            clearTimeout(temporizadores[i]);
+            }
+        clearTimeout(temporizadorGameOver);    
+        temporizadores = [];
+        instrucciones = [];
+    });
+        }
+    
+    
+        update()  {
+            if (jugador.body.touching.down) {
+            jugador.setVelocityX(0);
+        }
+    
+    
+        if (!jugador.body.touching.down && jugador.estado==='saltandoDer'){
+     
+            jugador.setVelocityX(300)
+        }
 
-            let plataforma9 = this.add.sprite (500,400,'plataforma')
-            plataforma9.displayWidth = 140;
-            plataforma9.displayHeight = 140;
+        if (!jugador.body.touching.down && jugador.estado==='saltandoIzq'){
+     
+                jugador.setVelocityX(-300)
+            }
+    }
 
-            let plataforma10 = this.add.sprite (660,400,'plataforma')
-            plataforma10.displayWidth = 140;
-            plataforma10.displayHeight = 140;
+        gameOver(){
+        this.physics.pause();
+        let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '50px', fill: '#FF0000', fontFamily:'Showcard Gothic' });
+        gameOver.setOrigin(0.5);
+        let botony=400;
+        let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
+        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
+        botonReinicio.on('pointerdown', () => this.reiniciarJuego());
+    
 
-            let jugador = this.add.sprite (40,500,'jugador')
+        }
 
-            let nubes = this.add.sprite (40,100,'nubes')
-            nubes.displayWidth = 300;
-            nubes.displayHeight = 140;
+        victory(){
+        this.physics.pause();
+       let victoria = this.add.text(500, 300, '¡Victoria!', { fontSize: '50px', fill: '#39CD00', fontFamily:'Goudy Stout'  });
+        victoria.setOrigin(0.5);
+        clearTimeout(temporizadorGameOver); 
+        //console.log("¡Victoria!");
+        let botony=400;
+        let botonx=480;
+        let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
+        let botonNext=this.add.rectangle(500,botonx, 200, 50, 0x86FF51).setInteractive();
+        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
+        let textoBotonNext = this.add.text(500, botonx, 'Siguiente Nivel\n       ->      ', { 
+            backgroundColor:'#86FF51',
+            fontSize: '20px', 
+            fill: 'black',
+            fontStyle: 'bold' }).setOrigin(0.51);
+        botonNext.on('pointerdown', () => {
+            for(let i = 0; i < temporizadores.length; i++) {
+            clearTimeout(temporizadores[i]);
+            }
+            clearTimeout(temporizadorGameOver);    
+            temporizadores = [];
+            instrucciones = [];   
+        this.scene.start('GameScene2'); // 
+    });
 
-            let nubes2 = this.add.sprite (800,100,'nubes')
-            nubes2.displayWidth = 300;
-            nubes2.displayHeight = 140;
+        botonReinicio.on('pointerdown', () => this.reiniciarJuego());
+        }
 
-            let saltar = this.add.sprite (100,180,'saltar')
-            saltar.displayWidth = 180;
-            saltar.displayHeight = 40;
+        reiniciarJuego() {
+            console.log("Reiniciando el juego...");
+            for(let i = 0; i < temporizadores.length; i++) {
+            clearTimeout(temporizadores[i]);
+            }
+        clearTimeout(temporizadorGameOver);    
+        temporizadores = [];
+        instrucciones = [];
+        this.scene.restart();
+        }
 
-            let saltarderecha = this.add.sprite (230,180,'saltarderecha')
-            saltarderecha.displayWidth = 180;
-            saltarderecha.displayHeight = 45;
+    
+        
+    }
 
-            let saltarizquierda = this.add.sprite (370,179,'saltarizquierda')
-            saltarizquierda.displayWidth = 180;
-            saltarizquierda.displayHeight = 43;      
+    class GameScene2 extends Phaser.Scene
+    {
+
+         
+
+        constructor() {
+                    super('GameScene2'); // 'Escena_jvm' es la clave única de esta escena
+                }
+    
+                
+        preload ()
+        {
+            this.load.image('sky', './fondo-abstracto-azul-degradado-estudio-azul-oscuro-liso-vineta-negra_1258-67766.webp');
+            this.load.image('gato', 'gato.png');
+            this.load.image('plataforma', 'plataforma.png');
+            this.load.image('red', 'assets/particles/red.png');
+            this.load.image('jugador', 'jugador.png');
+            this.load.image('nubes', 'nubes.png');
+            this.load.image('saltar', 'saltar.png');
+            this.load.image('saltarderecha', 'saltar derecha.png');
+            this.load.image('saltarizquierda', 'saltar izquierda.png');
+            this.load.image('botonEjecutar', 'ejecutar.png');
+            this.load.image('saltar2', 'saltar2.png');
+            this.load.image('saltarderecha2', 'saltar derecha2.png');
+            this.load.image('saltarizquierda2', 'saltar izquierda2.png');
+        }
+    
+        create ()
+        {   
+            colisionplataforma3=false;
+            let contadorInstrucciones = 0;
+            const limiteInstrucciones = 6;
+            let fondo = this.add.image(600, 300, 'sky');
+            fondo.displayWidth = 2000;
+            fondo.displayHeight = 2000;
+    
+    
+            gato = this.physics.add.sprite (820,300,'gato')
+            gato.setScale(0.23)
+            gato.body.setSize(250, 300);
+            gato.setInteractive
+      
+            
+    
+            let plataformagato = this.physics.add.sprite (820,400,'plataforma')
+            plataformagato.setScale(0.27)
+            plataformagato.body.setAllowGravity(false);
+            plataformagato.body.setImmovable(true);
+            plataformagato.body.setSize(400, 230);
+            plataformagato.body.setOffset(120, 100);
+
+            let plataformainicio = this.physics.add.sprite (40,500,'plataforma')
+            plataformainicio.setScale(0.27)
+            plataformainicio.body.setAllowGravity(false);
+            plataformainicio.body.setImmovable(true);
+            plataformainicio.body.setSize(400, 230);
+            plataformainicio.body.setOffset(120, 100);
+
+            let plataforma2 = this.physics.add.sprite (280,500,'plataforma')
+            plataforma2.setScale(0.27)
+            plataforma2.body.setAllowGravity(false);
+            plataforma2.body.setImmovable(true);
+            plataforma2.body.setSize(400, 230);
+            plataforma2.body.setOffset(120, 100);
+
+            plataforma3 = this.physics.add.sprite (280,300,'plataforma')
+            plataforma3.setScale(0.27)
+            plataforma3.body.setAllowGravity(false);
+            plataforma3.body.setImmovable(true);
+            plataforma3.body.setSize(400, 230);
+            plataforma3.body.setOffset(120, 100);
+
+            let plataforma4 = this.physics.add.sprite (500,300,'plataforma')
+            plataforma4.setScale(0.27)
+            plataforma4.body.setAllowGravity(false);
+            plataforma4.body.setImmovable(true);
+            plataforma4.body.setSize(400, 230);
+            plataforma4.body.setOffset(120, 100);
+        
+    
+            jugador = this.physics.add.sprite (40,332,'jugador')
+            jugador.body.setSize(40, 80);
+            jugador.body.setOffset(20, 10); // mueve la hitbox respecto al sprite 
+    
+            cursors = this.input.keyboard.createCursorKeys();
+            /*var plataformas= this.physics.add.group();
+            plataformas.createMultiple({
+                key: 'plataforma',
+                repeat: 5,
+                setXY: {x:40,y:400,stepX: 210,stepY:0 },
+            });
+    
+            plataformas.children.iterate(function(child) {
+                child.setScale(0.27, 0.27);
+                child.body.setAllowGravity(false);
+                child.body.setImmovable(true);
+                child.body.setSize(380, 230);
+                child.body.setOffset(130, 100);
+                
+            });*/
+
+
+            var pos=-50;
+    
+            let boton1= this.add.sprite(470,28,'saltar');
+            
+            boton1.setScale(0.7);
+            boton1.setInteractive();
+            boton1.on('pointerdown', () => {
+                if (contadorInstrucciones < limiteInstrucciones) {
+                    contadorInstrucciones++;
+                    instrucciones.push("Saltar");
+                // Clonar el botón y colocarlo en una nueva posición
+                const newButton = this.add.image(
+                    pos+150,
+                    570,
+                    'saltar2'
+                ).setInteractive();
+                newButton.setScale(0.7);
+                    pos=pos+150;
+                    console.log('¡Botón presionado!');
+                    //se imprimen las instrucciones para saber si se estan agreagando al arraylist
+                    for(let i = 0; i < instrucciones.length; i++) {
+                    console.log(instrucciones[i]);
+                    }
+                }
+            });
+    
+            let boton2= this.add.sprite(335,30,'saltarderecha');
+            boton2.setScale(0.7);
+            boton2.setInteractive();
+            boton2.on('pointerdown', () => {
+                
+                if (contadorInstrucciones < limiteInstrucciones) {
+                    contadorInstrucciones++;
+                    instrucciones.push("Saltar Derecha");
+                const newButton = this.add.image(
+                    pos+150,
+                    570,
+                    'saltarderecha2'
+                ).setInteractive();
+                newButton.setScale(0.7);
+                    pos=pos+150;
+                    for(let i = 0; i < instrucciones.length; i++) {
+                    console.log(instrucciones[i]);
+                    }
+                }
+            });   
+            
+            let boton3= this.add.sprite(195,30,'saltarizquierda');
+            boton3.setScale(0.7);
+            boton3.setInteractive();
+            boton3.on('pointerdown', () => {
+                if (contadorInstrucciones < limiteInstrucciones) {
+                    contadorInstrucciones++;
+                    instrucciones.push("Saltar Izquierda");
+                const newButton = this.add.image(
+                    pos+150,
+                    570,
+                    'saltarizquierda2'
+                ).setInteractive();
+                newButton.setScale(0.7);
+                    pos=pos+150;
+                    console.log('¡Botón presionado!');
+                    //se imprimen las instrucciones para saber si se estan agreagando al arraylist
+                    for(let i = 0; i < instrucciones.length; i++) {
+                        console.log(instrucciones[i]);
+                    }
+                }
+            });                
+    
+            
+            this.physics.add.collider(jugador, plataformagato);
+            this.physics.add.collider(jugador, plataforma2);
+            this.physics.add.collider(jugador, plataforma4);
+            this.physics.add.collider(jugador, plataformainicio);
+            this.physics.add.collider(gato, plataformagato); 
+           this.physics.add.overlap(jugador, gato, this.victory, null, this);
+    
+            let botonEjecutar = this.add.sprite(990, 570, 'botonEjecutar');
+            botonEjecutar.setInteractive();
+            botonEjecutar.setScale(0.5);
+           
+             acciones = {
+                "Saltar": {funcion: () => {jugador.setVelocityY(-900);jugador.estado='saltando'}},
+                "Saltar Derecha": {funcion: () => {jugador.setVelocityY(-600); jugador.setVelocityX(200);jugador.estado='saltandoDer';}},
+                "Saltar Izquierda": {funcion: () => {jugador.setVelocityY(-600); jugador.setVelocityX(-200);jugador.estado='saltandoIzq';}}
+            };
+    
+            botonEjecutar.on('pointerdown', () => {
+            botonEjecutar.setVisible(false); 
+            boton1.setVisible(false);
+            boton2.setVisible(false);
+            boton3.setVisible(false);
+            let tiempoEspera = 0; 
+         
+            for(let i = 0; i < instrucciones.length; i++) {
+            if(acciones[instrucciones[i]]) {
+                let temporizador = setTimeout(acciones[instrucciones[i]].funcion, tiempoEspera);
+                temporizadores.push(temporizador);
+                tiempoEspera += 2000; 
+              }
+             }
+            temporizadorGameOver = setTimeout(() => {
+                instrucciones = [];
+                botonEjecutar.setVisible(false);
+                this.gameOver();
+            }, tiempoEspera);
+            });
+            let volverAlMenuText = this.add.text(20, 20, 'Volver', { 
+                font: '25px Courier New',
+                fill: 'black',fontStyle: 'bold'
+        
+            });
+
+    volverAlMenuText.setInteractive();
+    volverAlMenuText.on('pointerdown', () => {
+        for(let i = 0; i < temporizadores.length; i++) {
+            clearTimeout(temporizadores[i]);
+            }
+            clearTimeout(temporizadorGameOver);    
+            temporizadores = [];
+            instrucciones = [];
+        this.scene.start('MenuScene'); // 
+    });
+        }
+    
+    
+        update()  {
+        if (jugador.body.touching.down) {
+            jugador.setVelocityX(0);
+        }
+    
+    
+        if (!jugador.body.touching.down && jugador.estado==='saltandoDer'){
+     
+            jugador.setVelocityX(300)
+        }
+
+        if (!jugador.body.touching.down && jugador.estado==='saltandoIzq'){
+     
+                jugador.setVelocityX(-300)
+            }
+
+
+        if(jugador.y<210 && colisionplataforma3===false){
+            this.physics.add.collider(jugador, plataforma3);
+            colisionplataforma3=true;
         }
     }
 
+        gameOver(){
+        this.physics.pause();
+        let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '50px', fill: '#FF0000', fontFamily:'Showcard Gothic' });
+        gameOver.setOrigin(0.5);
+        let botony=400;
+        let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
+        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
+        botonReinicio.on('pointerdown', () => this.reiniciarJuego());
+    
+
+        }
+
+        victory(){
+        this.physics.pause();
+         let victoria = this.add.text(500, 200, '¡Victoria!', { fontSize: '50px', fill: '#39CD00', fontFamily:'Goudy Stout'  });
+        victoria.setOrigin(0.5);
+        clearTimeout(temporizadorGameOver); 
+        //console.log("¡Victoria!");
+        let botony=400;
+        let botonx=480;
+        let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
+        let botonNext=this.add.rectangle(500, botonx, 200, 50, 0x86FF51).setInteractive();
+        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
+        let textoBotonNext = this.add.text(500, botonx, 'Siguiente Nivel ', { backgroundColor:'#86FF51',fontSize: '20px', fill: '#000000', fontStyle:'bold' }).setOrigin(0.51);
+        botonNext.on('pointerdown', () => {
+            for(let i = 0; i < temporizadores.length; i++) {
+            clearTimeout(temporizadores[i]);
+            }
+            clearTimeout(temporizadorGameOver);    
+            temporizadores = [];
+            instrucciones = [];   
+        this.scene.start('GameScene3'); // cambiar a la escena 3 cuando este implementada
+    });
+        botonReinicio.on('pointerdown', () => this.reiniciarJuego());
+        }
+
+        reiniciarJuego() {
+            console.log("Reiniciando el juego...");
+            for(let i = 0; i < temporizadores.length; i++) {
+            clearTimeout(temporizadores[i]);
+            }
+        clearTimeout(temporizadorGameOver);    
+        temporizadores = [];
+        instrucciones = [];
+        this.scene.restart();
+        }
+
+    
+        
+    }
+
+
+    class GameScene3 extends Phaser.Scene
+    {
+
+         
+
+        constructor() {
+                    super('GameScene3'); // 'Escena_jvm' es la clave única de esta escena
+                }
+    
+                
+        preload ()
+        {
+            this.load.image('sky', './fondo-abstracto-azul-degradado-estudio-azul-oscuro-liso-vineta-negra_1258-67766.webp');
+            this.load.image('gato', 'gato.png');
+            this.load.image('plataforma', 'plataforma.png');
+            this.load.image('red', 'assets/particles/red.png');
+            this.load.image('jugador', 'jugador.png');
+            this.load.image('nubes', 'nubes.png');
+            this.load.image('saltar', 'saltar.png');
+            this.load.image('saltarderecha', 'saltar derecha.png');
+            this.load.image('saltarizquierda', 'saltar izquierda.png');
+            this.load.image('botonEjecutar', 'ejecutar.png');
+            this.load.image('saltar2', 'saltar2.png');
+            this.load.image('saltarderecha2', 'saltar derecha2.png');
+            this.load.image('saltarizquierda2', 'saltar izquierda2.png');
+        }
+    
+        create ()
+        {   
+            colisionplataforma3=false;
+            let contadorInstrucciones = 0;
+            const limiteInstrucciones = 6;
+            let fondo = this.add.image(600, 300, 'sky');
+            fondo.displayWidth = 2000;
+            fondo.displayHeight = 2000;
+    
+    
+            gato = this.physics.add.sprite (820,300,'gato')
+            gato.setScale(0.23)
+            gato.body.setSize(250, 300);
+            gato.setInteractive
+      
+            
+    
+            let plataformagato = this.physics.add.sprite (820,400,'plataforma')
+            plataformagato.setScale(0.27)
+            plataformagato.body.setAllowGravity(false);
+            plataformagato.body.setImmovable(true);
+            plataformagato.body.setSize(400, 230);
+            plataformagato.body.setOffset(120, 100);
+
+            let plataformainicio = this.physics.add.sprite (40,500,'plataforma')
+            plataformainicio.setScale(0.27)
+            plataformainicio.body.setAllowGravity(false);
+            plataformainicio.body.setImmovable(true);
+            plataformainicio.body.setSize(400, 230);
+            plataformainicio.body.setOffset(120, 100);
+
+            let plataforma2 = this.physics.add.sprite (280,500,'plataforma')
+            plataforma2.setScale(0.27)
+            plataforma2.body.setAllowGravity(false);
+            plataforma2.body.setImmovable(true);
+            plataforma2.body.setSize(400, 230);
+            plataforma2.body.setOffset(120, 100);
+
+            plataforma3 = this.physics.add.sprite (280,300,'plataforma')
+            plataforma3.setScale(0.27)
+            plataforma3.body.setAllowGravity(false);
+            plataforma3.body.setImmovable(true);
+            plataforma3.body.setSize(400, 230);
+            plataforma3.body.setOffset(120, 100);
+
+            let plataforma4 = this.physics.add.sprite (500,300,'plataforma')
+            plataforma4.setScale(0.27)
+            plataforma4.body.setAllowGravity(false);
+            plataforma4.body.setImmovable(true);
+            plataforma4.body.setSize(400, 230);
+            plataforma4.body.setOffset(120, 100);
+        
+    
+            jugador = this.physics.add.sprite (40,332,'jugador')
+            jugador.body.setSize(40, 80);
+            jugador.body.setOffset(20, 10); // mueve la hitbox respecto al sprite 
+    
+            cursors = this.input.keyboard.createCursorKeys();
+            /*var plataformas= this.physics.add.group();
+            plataformas.createMultiple({
+                key: 'plataforma',
+                repeat: 5,
+                setXY: {x:40,y:400,stepX: 210,stepY:0 },
+            });
+    
+            plataformas.children.iterate(function(child) {
+                child.setScale(0.27, 0.27);
+                child.body.setAllowGravity(false);
+                child.body.setImmovable(true);
+                child.body.setSize(380, 230);
+                child.body.setOffset(130, 100);
+                
+            });*/
+
+
+            var pos=-50;
+    
+            let boton1= this.add.sprite(470,28,'saltar');
+            
+            boton1.setScale(0.7);
+            boton1.setInteractive();
+            boton1.on('pointerdown', () => {
+                if (contadorInstrucciones < limiteInstrucciones) {
+                    contadorInstrucciones++;
+                    instrucciones.push("Saltar");
+                // Clonar el botón y colocarlo en una nueva posición
+                const newButton = this.add.image(
+                    pos+150,
+                    570,
+                    'saltar2'
+                ).setInteractive();
+                newButton.setScale(0.7);
+                    pos=pos+150;
+                    console.log('¡Botón presionado!');
+                    //se imprimen las instrucciones para saber si se estan agreagando al arraylist
+                    for(let i = 0; i < instrucciones.length; i++) {
+                    console.log(instrucciones[i]);
+                    }
+                }
+            });
+    
+            let boton2= this.add.sprite(335,30,'saltarderecha');
+            boton2.setScale(0.7);
+            boton2.setInteractive();
+            boton2.on('pointerdown', () => {
+                
+                if (contadorInstrucciones < limiteInstrucciones) {
+                    contadorInstrucciones++;
+                    instrucciones.push("Saltar Derecha");
+                const newButton = this.add.image(
+                    pos+150,
+                    570,
+                    'saltarderecha2'
+                ).setInteractive();
+                newButton.setScale(0.7);
+                    pos=pos+150;
+                    for(let i = 0; i < instrucciones.length; i++) {
+                    console.log(instrucciones[i]);
+                    }
+                }
+            });   
+            
+            let boton3= this.add.sprite(195,30,'saltarizquierda');
+            boton3.setScale(0.7);
+            boton3.setInteractive();
+            boton3.on('pointerdown', () => {
+                if (contadorInstrucciones < limiteInstrucciones) {
+                    contadorInstrucciones++;
+                    instrucciones.push("Saltar Izquierda");
+                const newButton = this.add.image(
+                    pos+150,
+                    570,
+                    'saltarizquierda2'
+                ).setInteractive();
+                newButton.setScale(0.7);
+                    pos=pos+150;
+                    console.log('¡Botón presionado!');
+                    //se imprimen las instrucciones para saber si se estan agreagando al arraylist
+                    for(let i = 0; i < instrucciones.length; i++) {
+                        console.log(instrucciones[i]);
+                    }
+                }
+            });                
+    
+            
+            this.physics.add.collider(jugador, plataformagato);
+            this.physics.add.collider(jugador, plataforma2);
+            this.physics.add.collider(jugador, plataforma4);
+            this.physics.add.collider(jugador, plataformainicio);
+            this.physics.add.collider(gato, plataformagato); 
+           this.physics.add.overlap(jugador, gato, this.victory, null, this);
+    
+            let botonEjecutar = this.add.sprite(990, 570, 'botonEjecutar');
+            botonEjecutar.setInteractive();
+            botonEjecutar.setScale(0.5);
+           
+             acciones = {
+                "Saltar": {funcion: () => {jugador.setVelocityY(-900);jugador.estado='saltando'}},
+                "Saltar Derecha": {funcion: () => {jugador.setVelocityY(-600); jugador.setVelocityX(200);jugador.estado='saltandoDer';}},
+                "Saltar Izquierda": {funcion: () => {jugador.setVelocityY(-600); jugador.setVelocityX(-200);jugador.estado='saltandoIzq';}}
+            };
+    
+            botonEjecutar.on('pointerdown', () => {
+            botonEjecutar.setVisible(false); 
+            boton1.setVisible(false);
+            boton2.setVisible(false);
+            boton3.setVisible(false);
+            let tiempoEspera = 0; 
+         
+            for(let i = 0; i < instrucciones.length; i++) {
+            if(acciones[instrucciones[i]]) {
+                let temporizador = setTimeout(acciones[instrucciones[i]].funcion, tiempoEspera);
+                temporizadores.push(temporizador);
+                tiempoEspera += 2000; 
+              }
+             }
+            temporizadorGameOver = setTimeout(() => {
+                instrucciones = [];
+                botonEjecutar.setVisible(false);
+                this.gameOver();
+            }, tiempoEspera);
+            });
+            let volverAlMenuText = this.add.text(20, 20, 'Volver', { 
+                font: '25px Courier New',
+                fill: 'black',fontStyle: 'bold'
+        
+            });
+
+    volverAlMenuText.setInteractive();
+    volverAlMenuText.on('pointerdown', () => {
+        this.scene.start('MenuScene'); // 
+    });
+        }
+    
+    
+        update()  {
+        if (jugador.body.touching.down) {
+            jugador.setVelocityX(0);
+        }
+    
+    
+        if (!jugador.body.touching.down && jugador.estado==='saltandoDer'){
+     
+            jugador.setVelocityX(300)
+        }
+
+        if (!jugador.body.touching.down && jugador.estado==='saltandoIzq'){
+     
+                jugador.setVelocityX(-300)
+            }
+
+
+        if(jugador.y<210 && colisionplataforma3===false){
+            this.physics.add.collider(jugador, plataforma3);
+            colisionplataforma3=true;
+        }
+    }
+
+        gameOver(){
+        this.physics.pause();
+        let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '50px', fill: '#FF0000', fontFamily:'Showcard Gothic' });
+        gameOver.setOrigin(0.5);
+        let botony=400;
+        let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
+        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
+        botonReinicio.on('pointerdown', () => this.reiniciarJuego());
+    
+
+        }
+
+        victory(){
+        this.physics.pause();
+         let victoria = this.add.text(500, 200, '¡Victoria!', { fontSize: '50px', fill: '#39CD00', fontFamily:'Goudy Stout'  });
+        victoria.setOrigin(0.5);
+        clearTimeout(temporizadorGameOver); 
+        //console.log("¡Victoria!");
+        let botony=400;
+        let botonx=480;
+        let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
+        let botonNext=this.add.rectangle(500, botonx, 200, 50, 0x86FF51).setInteractive();
+        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
+        let textoBotonNext = this.add.text(500, botonx, 'Siguiente Nivel ', { backgroundColor:'#86FF51',fontSize: '20px', fill: '#000000', fontStyle:'bold' }).setOrigin(0.51);
+        botonNext.on('pointerdown', () => {
+            for(let i = 0; i < temporizadores.length; i++) {
+            clearTimeout(temporizadores[i]);
+            }
+            clearTimeout(temporizadorGameOver);    
+            temporizadores = [];
+            instrucciones = [];
+        this.scene.start('GameScene'); // cambiar a la escena 3 cuando este implementada
+        
+    });
+        botonReinicio.on('pointerdown', () => this.reiniciarJuego());
+        }
+
+        reiniciarJuego() {
+            console.log("Reiniciando el juego...");
+            for(let i = 0; i < temporizadores.length; i++) {
+            clearTimeout(temporizadores[i]);
+            }
+        clearTimeout(temporizadorGameOver);    
+        temporizadores = [];
+        instrucciones = [];
+        this.scene.restart();
+        }
+
+    
+        
+    }
+    
     const config = {
         type: Phaser.AUTO,
         width: 1050,
         height: 600,
-        scene: Example,
+       
+        scene: [MenuScene,GameScene,GameScene2,GameScene3],
         physics: {
             default: 'arcade',
             arcade: {
-                gravity: { y: 200 }
+                gravity: { y: 1500 },
+                debug: true
             }
         }
     };
-
-    const game = new Phaser.Game(config);
-
-    </script>
-
- </div>
-   
     
-</body>
-</html>
+    
+    const game = new Phaser.Game(config);
+      
+    
+    
+    
+    
+        </script>
