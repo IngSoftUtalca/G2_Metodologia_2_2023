@@ -930,7 +930,7 @@
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
         let botonNext=this.add.rectangle(500, botonx, 200, 50, 0x86FF51).setInteractive();
         let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
-        let textoBotonNext = this.add.text(500, botonx, 'Siguiente Nivel ', { backgroundColor:'#86FF51',fontSize: '20px', fill: '#000000', fontStyle:'bold' }).setOrigin(0.51);
+        let textoBotonNext = this.add.text(500, botonx, 'Volver al Menú ', { backgroundColor:'#86FF51',fontSize: '20px', fill: '#000000', fontStyle:'bold' }).setOrigin(0.51);
         botonNext.on('pointerdown', () => {
             for(let i = 0; i < temporizadores.length; i++) {
             clearTimeout(temporizadores[i]);
@@ -938,7 +938,7 @@
             clearTimeout(temporizadorGameOver);    
             temporizadores = [];
             instrucciones = [];
-        this.scene.start('GameScene'); // cambiar a la escena 3 cuando este implementada
+        this.scene.start('MenuScene'); // cambiar a la escena 3 cuando este implementada
         
     });
         botonReinicio.on('pointerdown', () => this.reiniciarJuego());
