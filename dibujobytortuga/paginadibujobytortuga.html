@@ -56,37 +56,58 @@
             angulo: 0 // Ángulo en grados
         };
 
+        //avanzar 5 & girar 90 & avanzar 5 & girar 90 & avanzar 5 & girar 90 & avanzar 10 & girar -90 & avanzar 5  & girar -90 & avanzar 5  & girar -90 & avanzar 5 & avanzar 0 
+        //Fcunción para ejecutar la instrucción solicitada por el usuario
         function ejecutarInstrucciones() {
             const instruccionesInput = document.getElementById('instrucciones');
-            const instrucciones = instruccionesInput.value.split('/');
+            const instrucciones = instruccionesInput.value.trim().split('&');
 
-            ejecutarSiguiente(instrucciones, 0);
+            if (instrucciones.length < 2) {
+                alert('Por favor, ingrese al menos dos instrucciones separadas por "&".');
+                return;
+            }
+            //arreglo de instrucciones
+            rastroAcumulado.length = 0;
+ 
+            instrucciones.forEach((instruccion, index) => {
+                setTimeout(() => {
+                    ejecutarSiguiente(instrucciones, index);
+                }, index * 1000);
+            });
         }
 
+        //Función que en caso de que sean más de 2 instruciones a la ves, ejecute cada instrucción en base al índice de un arrelgo 
         function ejecutarSiguiente(instrucciones, index) {
             if (index >= instrucciones.length) return;
 
-            const dividir = instrucciones[index].trim().split(' ');
-            const comando = dividir[0].toLowerCase();
-            const valor = parseInt(dividir[1]);
+            const instruccionActual = instrucciones[index].trim();
+
+            // Validar la estructura de la instrucción actual
+            const match = /^(avanzar|girar) (-?\d+)$/.exec(instruccionActual);
+            if (!match) {
+                alert('Instrucción no válida: ' + instruccionActual);
+                return;
+            }
+
+            const comando = match[1].toLowerCase();
+            const valor = parseInt(match[2]);
+
+            const finalizarInstruccion = () => {
+                ejecutarSiguiente(instrucciones, index + 1);
+            };
 
             switch (comando) {
                 case 'avanzar':
-                    moverTortuga(valor).then(() => {
-                        ejecutarSiguiente(instrucciones, index + 1);
-                    });
+                    moverTortuga(valor).then(finalizarInstruccion);
                     break;
                 case 'girar':
-                    girarTortuga(valor).then(() => {
-                        ejecutarSiguiente(instrucciones, index + 1);
-                    });
+                    girarTortuga(valor).then(finalizarInstruccion);
                     break;
                 default:
-                    console.log('Instrucción no reconocida:', instrucciones[index]);
-                    ejecutarSiguiente(instrucciones, index + 1);
+                    console.log('Instrucción no reconocida:', instruccionActual);
+                    finalizarInstruccion();
             }
         }
-
 
         // Función para dibujar la tortuga en el canvas
         function dibujarTortuga() {
