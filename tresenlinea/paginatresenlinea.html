@@ -1074,16 +1074,20 @@
                     // Verificar columnas
                         for(var j=0; j<3 ; j++){
                             celdas_maquina = 0;
+                            var fila_celda_desocupada = i;
                             var columna_celda_desocupada = j;
 
                             for(var i=0; i<3; i++){
                                 if(tablero[i][j]==turno_maquina){ //Consulta si la celda esta ocupada por la máquina
                                     celdas_maquina++;
-                                }else if(tablero[i][j]==1){
+                                }else{
+                                    console.log('valor asignado a fila_celda_desocupada: ',i);
                                     fila_celda_desocupada = i;
                                 }
                             }
                             console.log('  columna verificada');
+                            console.log(fila_celda_desocupada);
+                            console.log(columna_celda_desocupada);
 
                             if(celdas_maquina==2 && tablero[fila_celda_desocupada][columna_celda_desocupada]==1){
                                 coordenadas[0] = fila_celda_desocupada;
@@ -1119,11 +1123,14 @@
 
                         //Verifica la primera diagonal
                         celdas_maquina=0;
+                        console.log('verificando diagonales');
                         for(var i = 0, j = 0; i<3 && j<3; i++, j++){ 
+                            console.log(i,',',j);
                             if(tablero[i][j]==turno_maquina){ //Consulta si la celda esta ocupada por la máquina
                                 celdas_maquina++;
-                            }else if(tablero[i][j]==1){
+                            }else{
                                 fila_celda_desocupada = i;
+                                console.log('columna_celda_desocupada =',j);
                                 columna_celda_desocupada = j;
                             }
                         }
@@ -1197,7 +1204,7 @@
                             if(celdas_jugador==2 && tablero[fila_celda_desocupada][columna_celda_desocupada]==1){
                                 coordenadas[0] = fila_celda_desocupada;
                                 coordenadas[1] = columna_celda_desocupada;
-                                console.log('   FIN ANALISIS DE LA JUGADA DE LA MÁQUINA');
+                                console.log('   FIN ANALISIS DE LA JUGADA DE LA MÁQUINA(filas)');
                                 return coordenadas;
                             }
                         }
@@ -1218,25 +1225,24 @@
                         if(celdas_jugador==2 && tablero[fila_celda_desocupada][columna_celda_desocupada]==1){
                             coordenadas[0] = fila_celda_desocupada;
                             coordenadas[1] = columna_celda_desocupada;
-                            console.log('   FIN ANALISIS DE LA JUGADA DE LA MÁQUINA');
+                            console.log('   FIN ANALISIS DE LA JUGADA DE LA MÁQUINA(primera diagonal)');
                             return coordenadas;
                         }
 
                         //Verifica la segunda diagonal
                         celdas_jugador=0;
-                        var columna_celda_desocuapda;
                         for(var i = 0, j = 2; i<3 && j>=0; i++, j--){
                             if(tablero[i][j]==turno_jugador){ //Consulta si la celda esta ocupada por el jugador
                                 celdas_jugador++;
                             }else{
                                 fila_celda_desocupada = i;
-                                columna_celda_desocuapda = j;
+                                columna_celda_desocupada = j;
                             }
                         }
                         if(celdas_jugador==2 && tablero[fila_celda_desocupada][columna_celda_desocupada]==1){
                             coordenadas[0] = fila_celda_desocupada;
                             coordenadas[1] = columna_celda_desocupada;
-                            console.log('   FIN ANALISIS DE LA JUGADA DE LA MÁQUINA');
+                            console.log('   FIN ANALISIS DE LA JUGADA DE LA MÁQUINA(segunda diagonal)');
                             return coordenadas;
                         }                     
 
