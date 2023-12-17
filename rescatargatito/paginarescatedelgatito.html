@@ -32,6 +32,7 @@
          let temporizadorGameOver;
          let colisionplataforma3=false;
          let plataforma3;
+         let plataforma6;
             var nivelSeleccionado = ''; // Variable para almacenar el nivel seleccionado
     
             class MenuScene extends Phaser.Scene {
@@ -297,6 +298,11 @@
             jugador.setVelocityX(300)
         }
 
+        if (jugador.y>2100 ){
+            this.gameOver();
+                
+            }   
+
         if (!jugador.body.touching.down && jugador.estado==='saltandoIzq'){
      
                 jugador.setVelocityX(-300)
@@ -305,7 +311,7 @@
 
         gameOver(){
         this.physics.pause();
-        let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '32px', fill: '#FF0000', fontStyle:'bold' });
+        let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '50px', fill: '#FF0000', fontFamily:'Showcard Gothic' });
         gameOver.setOrigin(0.5);
         let botony=400;
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
@@ -317,7 +323,7 @@
 
         victory(){
         this.physics.pause();
-        let victoria = this.add.text(500, 350, '¡Victoria!', { fontSize: '32px', fill: '#00FF00', fontStyle:'bold' });
+       let victoria = this.add.text(500, 300, '¡Victoria!', { fontSize: '50px', fill: '#39CD00', fontFamily:'Goudy Stout'  });
         victoria.setOrigin(0.5);
         clearTimeout(temporizadorGameOver); 
         //console.log("¡Victoria!");
@@ -603,6 +609,11 @@
                 jugador.setVelocityX(-300)
             }
 
+        if (jugador.y>2100 ){
+            this.gameOver();
+                
+            }      
+
 
         if(jugador.y<210 && colisionplataforma3===false){
             this.physics.add.collider(jugador, plataforma3);
@@ -612,7 +623,7 @@
 
         gameOver(){
         this.physics.pause();
-        let gameOver = this.add.text(500, 350, 'Game Over', { fontSize: '32px', fill: '#FF0000', fontStyle:'bold' });
+        let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '50px', fill: '#FF0000', fontFamily:'Showcard Gothic' });
         gameOver.setOrigin(0.5);
         let botony=400;
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
@@ -624,7 +635,7 @@
 
         victory(){
         this.physics.pause();
-        let victoria = this.add.text(500, 350, '¡Victoria!', { fontSize: '32px', fill: '#00FF00', fontStyle:'bold' });
+         let victoria = this.add.text(500, 200, '¡Victoria!', { fontSize: '50px', fill: '#39CD00', fontFamily:'Goudy Stout'  });
         victoria.setOrigin(0.5);
         clearTimeout(temporizadorGameOver); 
         //console.log("¡Victoria!");
@@ -665,8 +676,6 @@
     class GameScene3 extends Phaser.Scene
     {
 
-         
-
         constructor() {
                     super('GameScene3'); // 'Escena_jvm' es la clave única de esta escena
                 }
@@ -699,52 +708,68 @@
             fondo.displayHeight = 2000;
     
     
-            gato = this.physics.add.sprite (820,300,'gato')
+            gato = this.physics.add.sprite (850,150,'gato')
             gato.setScale(0.23)
             gato.body.setSize(250, 300);
             gato.setInteractive
       
             
     
-            let plataformagato = this.physics.add.sprite (820,400,'plataforma')
+            let plataformagato = this.physics.add.sprite (850,550,'plataforma')
             plataformagato.setScale(0.27)
             plataformagato.body.setAllowGravity(false);
             plataformagato.body.setImmovable(true);
             plataformagato.body.setSize(400, 230);
             plataformagato.body.setOffset(120, 100);
 
-            let plataformainicio = this.physics.add.sprite (40,500,'plataforma')
+            jugador = this.physics.add.sprite (500,450,'jugador')
+            jugador.body.setSize(40, 80);
+            jugador.body.setOffset(20, 10); // mueve la hitbox respecto al sprite 
+            
+            let plataformainicio = this.physics.add.sprite (500,550,'plataforma')
             plataformainicio.setScale(0.27)
             plataformainicio.body.setAllowGravity(false);
             plataformainicio.body.setImmovable(true);
             plataformainicio.body.setSize(400, 230);
             plataformainicio.body.setOffset(120, 100);
 
-            let plataforma2 = this.physics.add.sprite (280,500,'plataforma')
+            let plataforma2 = this.physics.add.sprite (300,500,'plataforma')
             plataforma2.setScale(0.27)
             plataforma2.body.setAllowGravity(false);
             plataforma2.body.setImmovable(true);
             plataforma2.body.setSize(400, 230);
             plataforma2.body.setOffset(120, 100);
 
-            plataforma3 = this.physics.add.sprite (280,300,'plataforma')
+            plataforma3 = this.physics.add.sprite (100,200,'plataforma')
             plataforma3.setScale(0.27)
             plataforma3.body.setAllowGravity(false);
             plataforma3.body.setImmovable(true);
             plataforma3.body.setSize(400, 230);
             plataforma3.body.setOffset(120, 100);
 
-            let plataforma4 = this.physics.add.sprite (500,300,'plataforma')
+            let plataforma4 = this.physics.add.sprite (100,450,'plataforma')
             plataforma4.setScale(0.27)
             plataforma4.body.setAllowGravity(false);
             plataforma4.body.setImmovable(true);
             plataforma4.body.setSize(400, 230);
             plataforma4.body.setOffset(120, 100);
+
+            let plataforma5 = this.physics.add.sprite (300,150,'plataforma')
+            plataforma5.setScale(0.27)
+            plataforma5.body.setAllowGravity(false);
+            plataforma5.body.setImmovable(true);
+            plataforma5.body.setSize(400, 230);
+            plataforma5.body.setOffset(120, 100);
+
+            plataforma6 = this.physics.add.sprite (550,150,'plataforma')
+            plataforma6.setScale(0.27)
+            plataforma6.body.setAllowGravity(false);
+            plataforma6.body.setImmovable(true);
+            plataforma6.body.setSize(400, 230);
+            plataforma6.body.setOffset(120, 100);
         
     
-            jugador = this.physics.add.sprite (40,332,'jugador')
-            jugador.body.setSize(40, 80);
-            jugador.body.setOffset(20, 10); // mueve la hitbox respecto al sprite 
+            
     
             cursors = this.input.keyboard.createCursorKeys();
             /*var plataformas= this.physics.add.group();
@@ -837,6 +862,8 @@
             this.physics.add.collider(jugador, plataformagato);
             this.physics.add.collider(jugador, plataforma2);
             this.physics.add.collider(jugador, plataforma4);
+            this.physics.add.collider(jugador, plataforma5);
+            
             this.physics.add.collider(jugador, plataformainicio);
             this.physics.add.collider(gato, plataformagato); 
            this.physics.add.overlap(jugador, gato, this.victory, null, this);
@@ -899,17 +926,22 @@
      
                 jugador.setVelocityX(-300)
             }
+        if (jugador.y>2100 ){
+            this.gameOver();
+                
+            }   
 
 
-        if(jugador.y<210 && colisionplataforma3===false){
+        if(jugador.y<150 && colisionplataforma3===false){
             this.physics.add.collider(jugador, plataforma3);
+            this.physics.add.collider(jugador, plataforma6);
             colisionplataforma3=true;
         }
     }
 
         gameOver(){
         this.physics.pause();
-        let gameOver = this.add.text(500, 350, 'Game Over', { fontSize: '32px', fill: '#FF0000', fontStyle:'bold' });
+        let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '50px', fill: '#FF0000', fontFamily:'Showcard Gothic' });
         gameOver.setOrigin(0.5);
         let botony=400;
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
@@ -921,7 +953,7 @@
 
         victory(){
         this.physics.pause();
-        let victoria = this.add.text(500, 350, '¡Victoria!', { fontSize: '32px', fill: '#00FF00', fontStyle:'bold' });
+         let victoria = this.add.text(500, 200, '¡Victoria!', { fontSize: '50px', fill: '#39CD00', fontFamily:'Goudy Stout'  });
         victoria.setOrigin(0.5);
         clearTimeout(temporizadorGameOver); 
         //console.log("¡Victoria!");
