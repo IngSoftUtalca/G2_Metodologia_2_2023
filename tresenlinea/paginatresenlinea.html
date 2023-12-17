@@ -946,45 +946,185 @@
             }
 
             analiza_jugada(tablero,turno_maquina){
+
+                //Arreglo que contendrá las coordenadas de la matriz del tablero en donde será dibujada la figura que corresponda
+                var coordenada = [0,0]
+
+                var fila_celda_desocuapda;
+                var columna_celda_desocupada;
                 //1.- verifica si el jugador tiene una jugada ganadora
+                    var celdas_jugador; //contador de las celdas ocupadas por el jugador
+
+                    // Verificar columnas
+                        for(var j=0; j<3 ; j++){
+                            celdas_jugador = 0;
+                            var columna_celda_desocupada = j;
+
+                            for(var i=0; i<3; i++){
+                                if(tablero[i][j]!=turno_maquina && tablero[i][j]!=1){ //Consulta si la celda esta ocupada por el jugador
+                                    celdas_jugador++;
+                                }else{
+                                    fila_celda_desocuapda = i;
+                                }
+                            }
+
+                            if(celdas_jugador==2){
+                                coordenadas[0] = fila_celda_desocupada;
+                                coordenadas[1] = columna_celda_desocupada;
+                                return coordenadas;
+                            }
+                        }
+
+                    //Verificar filas
+                        for(var i=0; i<3 ; i++){
+                            celdas_jugador = 0;
+                            fila_celda_desocupada = i;
+
+                            for(var j=0; j<3; j++){
+                                if(tablero[i][j]!=turno_maquina && tablero[i][j]!=1){ //Consulta si la celda esta ocupada por el jugador
+                                    celdas_jugador++;
+                                }else{
+                                    columna_celda_desocupada = j;
+                                }
+                            }
+
+                            if(celdas_jugador==2){
+                                coordenadas[0] = fila_celda_desocupada;
+                                coordenadas[1] = columna_celda_desocupada;
+                                return coordenadas;
+                            }
+                        }
+                    
+
+                    //Verificar diagonales
+
+                        //Verifica la primera diagonal
+                        for(var i = 0, j = 0; i<3 && j<3; i++, j++){ 
+                            if(tablero[i][j]!=turno_maquina && tablero[i][j]!=1){ //Consulta si la celda esta ocupada por el jugador
+                                celdas_jugador++;
+                            }else{
+                                fila_celda_desocupada = i;
+                                columna_celda_desocupada = j;
+                            }
+                        }
+                        if(celdas_jugador==2){
+                            coordenadas[0] = fila_celda_desocupada;
+                            coordenadas[1] = columna_celda_desocupada;
+                            return coordenadas;
+                        }
+
+                        //Verifica la segunda diagonal
+                        for(var i = 0, j = 2; i<3 && j>=0; i++, j--){
+                            if(tablero[i][j]==turno_maquina && tablero[i][j]!=1){ //Consulta si la celda esta ocupada por el jugador
+                                celdas_jugador++;
+                            }else{
+                                fila_celda_desocupada = i;
+                                columna_celda_desocuapda = j;
+                            }
+                        }
+                        if(celdas_jugador==2){
+                            coordenadas[0] = fila_celda_desocupada;
+                            coordenadas[1] = columna_celda_desocupada;
+                            return coordenadas;
+                        }      
+
 
                 //2.- verifica si la maquina tiene jugada ganadora
+                    var celdas_maquina; //contador de las celdas ocupadas por la máquina
+
+                    // Verificar columnas
+                        for(var j=0; j<3 ; j++){
+                            celdas_maquina = 0;
+                            var columna_celda_desocupada = j;
+
+                            for(var i=0; i<3; i++){
+                                if(tablero[i][j]==turno_maquina){ //Consulta si la celda esta ocupada por la máquina
+                                    celdas_maquina++;
+                                }else if(tablero[i][j]==1){
+                                    fila_celda_desocuapda = i;
+                                }
+                            }
+
+                            if(celdas_maquina==2){
+                                coordenadas[0] = fila_celda_desocupada;
+                                coordenadas[1] = columna_celda_desocupada;
+                                return coordenadas;
+                            }
+                        }
+
+                    //Verificar filas
+                        for(var i=0; i<3 ; i++){
+                            celdas_jugador = 0;
+                            fila_celda_desocupada = i;
+
+                            for(var j=0; j<3; j++){
+                                if(tablero[i][j]==turno_maquina){ //Consulta si la celda esta ocupada por la máquina
+                                    celdas_maquina++;
+                                }else if(tablero[i][j]==1){
+                                    columna_celda_desocupada = j;
+                                }
+                            }
+
+                            if(celdas_maquina==2){
+                                coordenadas[0] = fila_celda_desocupada;
+                                coordenadas[1] = columna_celda_desocupada;
+                                return coordenadas;
+                            }
+                        }
+                    
+
+                    //Verificar diagonales
+
+                        //Verifica la primera diagonal
+                        for(var i = 0, j = 0; i<3 && j<3; i++, j++){ 
+                            if(tablero[i][j]==turno_maquina){ //Consulta si la celda esta ocupada por la máquina
+                                celdas_maquina++;
+                            }else if(tablero[i][j]==1){
+                                fila_celda_desocupada = i;
+                                columna_celda_desocupada = j;
+                            }
+                        }
+                        if(celdas_jugador==2){
+                            coordenadas[0] = fila_celda_desocupada;
+                            coordenadas[1] = columna_celda_desocupada;
+                            return coordenadas;
+                        }
+
+                        //Verifica la segunda diagonal
+                        for(var i = 0, j = 2; i<3 && j>=0; i++, j--){
+                            if(tablero[i][j]==turno_maquina){ //Consulta si la celda esta ocupada por el jugador
+                                celdas_maquina++;
+                            }else{
+                                fila_celda_desocupada = i;
+                                columna_celda_desocuapda = j;
+                            }
+                        }
+                        if(celdas_jugador==2){
+                            coordenadas[0] = fila_celda_desocupada;
+                            coordenadas[1] = columna_celda_desocupada;
+                            return coordenadas;
+                        }                    
 
                 //3.- verifica si puede usar la celda del centro
-                if(celda_desocupada(1,1,tablero)){
-                    if(turno_maquina=='x'){
-                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
-                        self.dibuja_X(365, 300, lienzo);
-                        tablero[1][1] = 'x';
-                        return lienzo;
-                    }else if(turno_maquina=='o'){
-                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
-                        self.dibuja_O(365, 300, lienzo);
-                        tablero[1][1] = 'o';
-                    }
+                    if(celda_desocupada(1,1,tablero)){
+                        if(turno_maquina=='x'){
+                            var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                            self.dibuja_X(365, 300, lienzo);
+                            tablero[1][1] = 'x';
+                            return lienzo;
+                        }else if(turno_maquina=='o'){
+                            var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                            self.dibuja_O(365, 300, lienzo);
+                            tablero[1][1] = 'o';
+                        }
 
-                    return lienzo;
-                }
+                        return lienzo;
+                    }
                 //4.- verifica si puede usar una celda de una esquina
 
                 //5.- dibuja la figura en una celda aleatoria
             }
 
-            celda_desocupada(fila,columna, tablero){
-                if(tablero[fila][columna]!=1){
-                    return true; 
-                }else{
-                    return false;
-                }
-            }
-
-            analiza_filas(){
-
-            }
-            analiza_columnas(){
-
-            }
-            analiza_diagonales(){}
 
 
         }
