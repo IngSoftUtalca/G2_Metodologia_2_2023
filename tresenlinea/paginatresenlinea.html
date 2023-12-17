@@ -616,7 +616,7 @@
                 var figura_turno_X = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960} });
                 var figura_turno_O = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A} });
                 let texto_ganador;
-                if(turnoX){
+                if(figuraSeleccionada=='x'){
                     self.dibuja_X(880, 180, figura_turno_X);
                 }else{
                     self.dibuja_O(880, 180, figura_turno_O);
@@ -635,7 +635,9 @@
 
                                 //centra las coordenadas del click para que la figura se dibuje en el centro de la celda
                                 x_centrado = self.centra_X(columna);
-                                 y_centrado = self.centra_Y(fila);
+                                y_centrado = self.centra_Y(fila);
+
+                                var jugada_maquina;
 
                                 if(figuraSeleccionada=='x'){
                                     //Dibuja la cruz
@@ -645,7 +647,74 @@
                                     tablero[fila][columna]= 'x';
                                     figura_turno_X.clear();
                                     self.dibuja_O(880, 180, figura_turno_O);
-                                    
+
+                                    //Luego de cada jugada se verifica si hay algún ganador
+                                    verifica = self.verifica_ganador(tablero);
+                                
+                                    if(verifica[0]!= 0){
+
+                                        var color_linea;
+                                        if (verifica[1]=='x') {color_linea = 0xA68960;}
+                                        else {color_linea = 0xA6609A};
+
+                                        self.linea_ganador(verifica[0],color_linea)
+
+                                        if(verifica[1]=='x'){
+                                            let texto_ganador1 = self.add.text(550, 300, '¡Ha ganado!', { font: '70px Harlow Solid Italic', fill: '#A68960', fontStyle: 'bold' });
+                                            var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                                            self.dibuja_X(730, 450, lienzo);
+                                            cruz_rebotando.setVisible(true);
+
+                                            console.log('ha ganado la X');
+                                        }else{
+                                            let texto_ganador2 = self.add.text(550, 300, '¡Ha ganado!', { font: '70px Harlow Solid Italic', fill: '#A6609A', fontStyle: 'bold' });
+                                            var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                                            self.dibuja_O(730, 450, lienzo);
+                                            circulo_rebotando.setVisible(true);
+                                            console.log('ha ganado el O');
+                                        }
+
+                                        contador = 9;
+                                    }
+
+                                    // Pausa por 2 segundos
+                                    setTimeout(function() {
+                                        //Dibujo el circulo
+                                        var figura = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+
+                                        jugada_maquina=self.analiza_jugada(tablero, 'o')
+
+                                        self.dibuja_O(self.centra_X(jugada_maquina[1]), self.centra_Y(jugada_maquina[0]), figura);
+                                        tablero[jugada_maquina[0]][jugada_maquina[1]]= 'o';
+
+                                        figura_turno_O.clear();
+                                        self.dibuja_X(880, 180, figura_turno_X);
+                                            //Luego de cada jugada se verifica si hay algún ganador
+                                        verifica = self.verifica_ganador(tablero);
+
+                                        if(verifica[0]!= 0){
+
+                                            var color_linea;
+                                            if (verifica[1]=='x') {color_linea = 0xA68960;}
+                                            else {color_linea = 0xA6609A};
+
+                                            self.linea_ganador(verifica[0],color_linea)
+
+                                            if(verifica[1]=='x'){
+                                                let texto_ganador1 = self.add.text(550, 300, '¡Ha ganado! ', { font: '70px Harlow Solid Italic', fill: '#A68960', fontStyle: 'bold' });
+                                                var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                                                self.dibuja_X(730, 450, lienzo);
+                                                cruz_rebotando.setVisible(true);
+                                            }else{
+                                                let texto_ganador2 = self.add.text(550, 300, '¡Ha ganado! ', { font: '70px Harlow Solid Italic', fill: '#A6609A', fontStyle: 'bold' });
+                                                var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                                                self.dibuja_O(730, 450, lienzo);
+                                                circulo_rebotando.setVisible(true);
+                                            }
+
+                                            contador = 9;
+                                        }
+                                    }, 750);  
                                     
                                 }
                                 else if(figuraSeleccionada=='o'){
@@ -657,10 +726,52 @@
                                     figura_turno_O.clear();
                                     self.dibuja_X(880, 180, figura_turno_X);
 
-                                    turnoX = true;
-                                }
-                                contador++;
+                                    //Luego de cada jugada se verifica si hay algún ganador
+                                verifica = self.verifica_ganador(tablero);
+                                
+                                if(verifica[0]!= 0){
 
+                                    var color_linea;
+                                    if (verifica[1]=='x') {color_linea = 0xA68960;}
+                                    else {color_linea = 0xA6609A};
+
+                                    self.linea_ganador(verifica[0],color_linea)
+
+                                    if(verifica[1]=='x'){
+                                        let texto_ganador1 = self.add.text(550, 300, '¡Ha ganado!', { font: '70px Harlow Solid Italic', fill: '#A68960', fontStyle: 'bold' });
+                                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                                        self.dibuja_X(730, 450, lienzo);
+                                        cruz_rebotando.setVisible(true);
+
+                                        console.log('ha ganado la X');
+                                    }else{
+                                        let texto_ganador2 = self.add.text(550, 300, '¡Ha ganado!', { font: '70px Harlow Solid Italic', fill: '#A6609A', fontStyle: 'bold' });
+                                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
+                                        self.dibuja_O(730, 450, lienzo);
+                                        circulo_rebotando.setVisible(true);
+                                        console.log('ha ganado el O');
+                                    }
+
+                                    contador = 9;
+                                }
+
+                                    // Pausa por 2 segundos
+                                    setTimeout(function() {
+                                        //Dibuja la cruz
+                                        var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
+                                        self.dibuja_X(self.centra_X(1), self.centra_Y(1), lienzo);
+
+                                        tablero[fila][columna]= 'x';
+                                        figura_turno_X.clear();
+                                        self.dibuja_O(880, 180, figura_turno_O);
+                                    }, 750);
+
+
+
+                                }
+                                contador=contador+2;
+                                
+                                //Luego de cada jugada se verifica si hay algún ganador
                                 verifica = self.verifica_ganador(tablero);
                                 
                                 if(verifica[0]!= 0){
@@ -947,90 +1058,18 @@
 
             analiza_jugada(tablero,turno_maquina){
 
+                var turno_jugador;
+                if(turno_maquina=='x'){turno_jugador = 'o';}
+                if(turno_maquina=='o'){turno_jugador = 'x';}
+
                 //Arreglo que contendrá las coordenadas de la matriz del tablero en donde será dibujada la figura que corresponda
-                var coordenada = [0,0]
+                var coordenadas = [0,0]
 
-                var fila_celda_desocuapda;
+                var fila_celda_desocupada;
                 var columna_celda_desocupada;
-                //1.- verifica si el jugador tiene una jugada ganadora
-                    var celdas_jugador; //contador de las celdas ocupadas por el jugador
-
-                    // Verificar columnas
-                        for(var j=0; j<3 ; j++){
-                            celdas_jugador = 0;
-                            var columna_celda_desocupada = j;
-
-                            for(var i=0; i<3; i++){
-                                if(tablero[i][j]!=turno_maquina && tablero[i][j]!=1){ //Consulta si la celda esta ocupada por el jugador
-                                    celdas_jugador++;
-                                }else{
-                                    fila_celda_desocuapda = i;
-                                }
-                            }
-
-                            if(celdas_jugador==2){
-                                coordenadas[0] = fila_celda_desocupada;
-                                coordenadas[1] = columna_celda_desocupada;
-                                return coordenadas;
-                            }
-                        }
-
-                    //Verificar filas
-                        for(var i=0; i<3 ; i++){
-                            celdas_jugador = 0;
-                            fila_celda_desocupada = i;
-
-                            for(var j=0; j<3; j++){
-                                if(tablero[i][j]!=turno_maquina && tablero[i][j]!=1){ //Consulta si la celda esta ocupada por el jugador
-                                    celdas_jugador++;
-                                }else{
-                                    columna_celda_desocupada = j;
-                                }
-                            }
-
-                            if(celdas_jugador==2){
-                                coordenadas[0] = fila_celda_desocupada;
-                                coordenadas[1] = columna_celda_desocupada;
-                                return coordenadas;
-                            }
-                        }
-                    
-
-                    //Verificar diagonales
-
-                        //Verifica la primera diagonal
-                        for(var i = 0, j = 0; i<3 && j<3; i++, j++){ 
-                            if(tablero[i][j]!=turno_maquina && tablero[i][j]!=1){ //Consulta si la celda esta ocupada por el jugador
-                                celdas_jugador++;
-                            }else{
-                                fila_celda_desocupada = i;
-                                columna_celda_desocupada = j;
-                            }
-                        }
-                        if(celdas_jugador==2){
-                            coordenadas[0] = fila_celda_desocupada;
-                            coordenadas[1] = columna_celda_desocupada;
-                            return coordenadas;
-                        }
-
-                        //Verifica la segunda diagonal
-                        for(var i = 0, j = 2; i<3 && j>=0; i++, j--){
-                            if(tablero[i][j]==turno_maquina && tablero[i][j]!=1){ //Consulta si la celda esta ocupada por el jugador
-                                celdas_jugador++;
-                            }else{
-                                fila_celda_desocupada = i;
-                                columna_celda_desocuapda = j;
-                            }
-                        }
-                        if(celdas_jugador==2){
-                            coordenadas[0] = fila_celda_desocupada;
-                            coordenadas[1] = columna_celda_desocupada;
-                            return coordenadas;
-                        }      
-
-
-                //2.- verifica si la maquina tiene jugada ganadora
-                    var celdas_maquina; //contador de las celdas ocupadas por la máquina
+                //1.- verifica si la maquina tiene jugada ganadora
+                console.log('Entra a la primera opción');
+                var celdas_maquina; //contador de las celdas ocupadas por la máquina
 
                     // Verificar columnas
                         for(var j=0; j<3 ; j++){
@@ -1041,20 +1080,22 @@
                                 if(tablero[i][j]==turno_maquina){ //Consulta si la celda esta ocupada por la máquina
                                     celdas_maquina++;
                                 }else if(tablero[i][j]==1){
-                                    fila_celda_desocuapda = i;
+                                    fila_celda_desocupada = i;
                                 }
                             }
+                            console.log('  columna verificada');
 
-                            if(celdas_maquina==2){
+                            if(celdas_maquina==2 && tablero[fila_celda_desocupada][columna_celda_desocupada]==1){
                                 coordenadas[0] = fila_celda_desocupada;
                                 coordenadas[1] = columna_celda_desocupada;
+                                console.log('   FIN ANALISIS DE LA JUGADA DE LA MÁQUINA (',fila_celda_desocupada,', ',columna_celda_desocupada,')');
                                 return coordenadas;
                             }
                         }
 
                     //Verificar filas
                         for(var i=0; i<3 ; i++){
-                            celdas_jugador = 0;
+                            celdas_maquina = 0;
                             fila_celda_desocupada = i;
 
                             for(var j=0; j<3; j++){
@@ -1065,9 +1106,10 @@
                                 }
                             }
 
-                            if(celdas_maquina==2){
+                            if(celdas_maquina==2 && tablero[fila_celda_desocupada][columna_celda_desocupada]==1){
                                 coordenadas[0] = fila_celda_desocupada;
                                 coordenadas[1] = columna_celda_desocupada;
+                                console.log('FIN ANALISIS DE LA JUGADA DE LA MÁQUINAaaaaa(',fila_celda_desocupada,',',columna_celda_desocupada,')');
                                 return coordenadas;
                             }
                         }
@@ -1076,6 +1118,7 @@
                     //Verificar diagonales
 
                         //Verifica la primera diagonal
+                        celdas_maquina=0;
                         for(var i = 0, j = 0; i<3 && j<3; i++, j++){ 
                             if(tablero[i][j]==turno_maquina){ //Consulta si la celda esta ocupada por la máquina
                                 celdas_maquina++;
@@ -1084,48 +1127,184 @@
                                 columna_celda_desocupada = j;
                             }
                         }
-                        if(celdas_jugador==2){
+                        if(celdas_maquina==2 && tablero[fila_celda_desocupada][columna_celda_desocupada]==1){
                             coordenadas[0] = fila_celda_desocupada;
                             coordenadas[1] = columna_celda_desocupada;
+                            console.log('FIN ANALISIS DE LA JUGADA DE LA MÁQUINAddd(',fila_celda_desocupada,',',columna_celda_desocupada,')');
                             return coordenadas;
                         }
 
                         //Verifica la segunda diagonal
+                        celdas_maquina=0;
                         for(var i = 0, j = 2; i<3 && j>=0; i++, j--){
-                            if(tablero[i][j]==turno_maquina){ //Consulta si la celda esta ocupada por el jugador
+                            if(tablero[i][j]==turno_maquina){ //Consulta si la celda esta ocupada por la máquina
                                 celdas_maquina++;
+                            }else{
+                                fila_celda_desocupada = i;
+                                columna_celda_desocupada = j;
+                            }
+                        }
+                        if(celdas_maquina==2 && tablero[fila_celda_desocupada][columna_celda_desocupada]==1){
+                            coordenadas[0] = fila_celda_desocupada;
+                            coordenadas[1] = columna_celda_desocupada;
+                            console.log('FIN ANALISIS DE LA JUGADA DE LA MÁQUINA2d2d2d(',fila_celda_desocupada,',',columna_celda_desocupada,')');
+                            return coordenadas;
+                        }      
+
+
+                //2.- verifica si el jugador tiene una jugada ganadora
+                console.log('Entra a la segunda opción');
+                    var celdas_jugador; //contador de las celdas ocupadas por el jugador
+
+                    // Verificar columnas
+                        for(var j=0; j<3 ; j++){
+                            celdas_jugador = 0;
+                            var columna_celda_desocupada = j;
+                            for(var i=0; i<3; i++){
+                                if(tablero[i][j]==turno_jugador){ //Consulta si la celda esta ocupada por el jugador
+                                    celdas_jugador++;
+                                }else{
+                                    fila_celda_desocupada = i;
+                                }
+                            }
+
+                            console.log('   columna verificada');
+
+                            if(celdas_jugador==2 && tablero[fila_celda_desocupada][columna_celda_desocupada]==1){
+                                coordenadas[0] = fila_celda_desocupada;
+                                coordenadas[1] = columna_celda_desocupada;
+                                console.log('   FIN ANALISIS DE LA JUGADA DE LA MÁQUINA (',fila_celda_desocupada,columna_celda_desocupada,')');
+                                return coordenadas;
+                            }
+
+                        }
+
+                        console.log("   ya verificó las columnas");
+
+                    //Verificar filas
+                        for(var i=0; i<3 ; i++){
+                            celdas_jugador = 0;
+                            var fila_celda_desocupada = i;
+
+                            for(var j=0; j<3; j++){
+                                if(tablero[i][j]==turno_jugador){ //Consulta si la celda esta ocupada por el jugador
+                                    celdas_jugador++;
+                                }else{
+                                    columna_celda_desocupada = j;
+                                }
+                            }
+
+                            if(celdas_jugador==2 && tablero[fila_celda_desocupada][columna_celda_desocupada]==1){
+                                coordenadas[0] = fila_celda_desocupada;
+                                coordenadas[1] = columna_celda_desocupada;
+                                console.log('   FIN ANALISIS DE LA JUGADA DE LA MÁQUINA');
+                                return coordenadas;
+                            }
+                        }
+                    
+
+                    //Verificar diagonales
+
+                        //Verifica la primera diagonal
+                        celdas_jugador=0;
+                        for(var i = 0, j = 0; i<3 && j<3; i++, j++){ 
+                            if(tablero[i][j]==turno_jugador){ //Consulta si la celda esta ocupada por el jugador
+                                celdas_jugador++;
+                            }else{
+                                fila_celda_desocupada = i;
+                                columna_celda_desocupada = j;
+                            }
+                        }
+                        if(celdas_jugador==2 && tablero[fila_celda_desocupada][columna_celda_desocupada]==1){
+                            coordenadas[0] = fila_celda_desocupada;
+                            coordenadas[1] = columna_celda_desocupada;
+                            console.log('   FIN ANALISIS DE LA JUGADA DE LA MÁQUINA');
+                            return coordenadas;
+                        }
+
+                        //Verifica la segunda diagonal
+                        celdas_jugador=0;
+                        var columna_celda_desocuapda;
+                        for(var i = 0, j = 2; i<3 && j>=0; i++, j--){
+                            if(tablero[i][j]==turno_jugador){ //Consulta si la celda esta ocupada por el jugador
+                                celdas_jugador++;
                             }else{
                                 fila_celda_desocupada = i;
                                 columna_celda_desocuapda = j;
                             }
                         }
-                        if(celdas_jugador==2){
+                        if(celdas_jugador==2 && tablero[fila_celda_desocupada][columna_celda_desocupada]==1){
                             coordenadas[0] = fila_celda_desocupada;
                             coordenadas[1] = columna_celda_desocupada;
+                            console.log('   FIN ANALISIS DE LA JUGADA DE LA MÁQUINA');
                             return coordenadas;
-                        }                    
+                        }                     
 
                 //3.- verifica si puede usar la celda del centro
-                    if(celda_desocupada(1,1,tablero)){
-                        if(turno_maquina=='x'){
-                            var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA68960 } });
-                            self.dibuja_X(365, 300, lienzo);
-                            tablero[1][1] = 'x';
-                            return lienzo;
-                        }else if(turno_maquina=='o'){
-                            var lienzo = self.add.graphics({ lineStyle: { width: 10, color: 0xA6609A } });
-                            self.dibuja_O(365, 300, lienzo);
-                            tablero[1][1] = 'o';
-                        }
+                console.log('Entra a la tercera opción');
+                if(tablero[1][1]==1) {
+                    coordenadas[0] = 1;
+                    coordenadas[1] = 1;
+                    console.log('FIN ANALISIS DE LA JUGADA DE LA MÁQUINA');
+                    return coordenadas;
+                }
 
-                        return lienzo;
-                    }
                 //4.- verifica si puede usar una celda de una esquina
+                console.log('Entra a la cuarta opción');
+            
 
-                //5.- dibuja la figura en una celda aleatoria
+                if(tablero[0][0]==1) {
+                    coordenadas[0] = 0;
+                    coordenadas[1] = 0;
+                    console.log('FIN ANALISIS DE LA JUGADA DE LA MÁQUINA');
+                    return coordenadas;
+                }
+                if(tablero[0][2]==1) {
+                    coordenadas[0] = 0;
+                    coordenadas[1] = 2;
+                    console.log('FIN ANALISIS DE LA JUGADA DE LA MÁQUINA');
+                    return coordenadas;
+                }
+                if(tablero[2][2]==1) {
+                    coordenadas[0] = 2;
+                    coordenadas[1] = 2;
+                    console.log('FIN ANALISIS DE LA JUGADA DE LA MÁQUINA');
+                    return coordenadas;
+                }
+                if(tablero[2][0]==1) {
+                    coordenadas[0] = 2;
+                    coordenadas[1] = 0;
+                    console.log('FIN ANALISIS DE LA JUGADA DE LA MÁQUINA');
+                    return coordenadas;
+                }    
+
+                //5.- dibuja la figura en una de las celdas laterales
+                console.log('Entra a la quinta opción');
+                if(tablero[0][1]==1) {
+                    coordenadas[0] = 0;
+                    coordenadas[1] = 1;
+                    console.log('FIN ANALISIS DE LA JUGADA DE LA MÁQUINA');
+                    return coordenadas;
+                }
+                if(tablero[1][2]==1) {
+                    coordenadas[0] = 1;
+                    coordenadas[1] = 2;
+                    console.log('FIN ANALISIS DE LA JUGADA DE LA MÁQUINA');
+                    return coordenadas;
+                }
+                if(tablero[2][1]==1) {
+                    coordenadas[0] = 2;
+                    coordenadas[1] = 1;
+                    console.log('FIN ANALISIS DE LA JUGADA DE LA MÁQUINA');
+                    return coordenadas;
+                }
+                if(tablero[1][0]==1) {
+                    coordenadas[0] = 1;
+                    coordenadas[1] = 0;
+                    console.log('FIN ANALISIS DE LA JUGADA DE LA MÁQUINA');
+                    return coordenadas;
+                }
             }
-
-
 
         }
 
