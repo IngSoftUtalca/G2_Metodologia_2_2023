@@ -279,7 +279,7 @@
 
         gameOver(){
         this.physics.pause();
-        let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '32px', fill: '#FF0000', fontStyle:'bold' });
+        let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '50px', fill: '#FF0000', fontFamily:'Showcard Gothic' });
         gameOver.setOrigin(0.5);
         let botony=400;
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
@@ -291,7 +291,7 @@
 
         victory(){
         this.physics.pause();
-        let victoria = this.add.text(500, 350, '¡Victoria!', { fontSize: '32px', fill: '#00FF00', fontStyle:'bold' });
+        let victoria = this.add.text(500, 300, '¡Victoria!', { fontSize: '50px', fill: '#39CD00', fontFamily:'Goudy Stout'  });
         victoria.setOrigin(0.5);
         clearTimeout(temporizadorGameOver); 
         //console.log("¡Victoria!");
@@ -303,8 +303,7 @@
         let textoBotonNext = this.add.text(500, botonx, 'Siguiente Nivel\n       ->      ', { 
             backgroundColor:'#86FF51',
             fontSize: '20px', 
-            fill: 'black',
-            fontStyle: 'bold' }).setOrigin(0.51);
+            fill: 'black' }).setOrigin(0.51);
         botonNext.on('pointerdown', () => {
         this.scene.start('GameScene2'); // 
     });
@@ -574,7 +573,7 @@
 
         gameOver(){
         this.physics.pause();
-        let gameOver = this.add.text(500, 350, 'Game Over', { fontSize: '32px', fill: '#FF0000', fontStyle:'bold' });
+        let gameOver = this.add.text(500, 350, 'Game Over', {  fontSize: '50px', fill: '#FF0000', fontFamily:'Showcard Gothic' });
         gameOver.setOrigin(0.5);
         let botony=400;
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
@@ -586,11 +585,10 @@
 
         victory(){
         this.physics.pause();
-        let victoria = this.add.text(500, 350, '¡Victoria!', { fontSize: '32px', fill: '#00FF00', fontStyle:'bold' });
-        victoria.setOrigin(0.5);
+        let victoria = this.add.text(250, 200, '¡Victoria!', { fontSize: '50px', fill: '#39CD00', fontFamily:'Goudy Stout'  });
         clearTimeout(temporizadorGameOver); 
         //console.log("¡Victoria!");
-        let botony=400;
+        let botony=350;
         let botonx=480;
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
         let botonNext=this.add.rectangle(500, botonx, 200, 50, 0x86FF51).setInteractive();
