@@ -25,16 +25,16 @@
     
     <canvas style="background-color: beige; top: 20rem ; right:45rem " id="canvas" width="1230" height="450"></canvas>
     
-    <br>
-    <label for="instrucciones" style="position: absolute; left: 50px; top: 200px;  width: 150px; height: 100px; font-size: 35px;">Instrucciones:</label>
-    <input type="text" id="instrucciones" placeholder="Avanzar 5, Girar 90, avanzar -5 ..." style="position: absolute; left: 50px; top: 240px; width: 225px; height: 20px;">
-    <button onclick="ejecutarInstrucciones()" style="border-radius: 30%; padding: 10px 20px; font-size: 30px; background: #F0C12F; position: absolute; left: 80px; top: 320px; width: 150px; height: 100px;">Ejecutar</button>
-    <button onclick="dibujarTortuga()" style="border-radius: 30%; padding: 10px 20px; font-size: 30px; background: #F0C12F; position: absolute; left: 80px; top: 550px; width: 150px; height: 100px;">Crear tortuga</button>
-    <button onclick="reiniciar()" style="border-radius: 30%; padding: 10px 20px; font-size: 30px; background: #6FE129; position: absolute; left: 80px; top: 750px; width: 150px; height: 100px;">Reiniciar Pantalla</button>
+    <br> 
+    <label for="instrucciones" style="position: absolute; left: 50px; top: 200px;  width: 150px; height: 100px; font-size: 35px; font-family: 'Georgia', serif; Color: yellow;">Instrucciones:</label>
+    <input type="text" id="instrucciones" placeholder="Avanzar 5, Girar 90, avanzar -5 ..." style="position: absolute; left: 50px; top: 240px; width: 225px; height: 20px; font-family: 'Georgia', serif;">
+    <button onclick="ejecutarInstrucciones()" style="border-radius: 30%; padding: 10px 20px; font-size: 30px; background: #F0C12F; position: absolute; left: 80px; top: 320px; width: 150px; height: 100px; font-family: 'Georgia', serif;">Ejecutar</button>
+    <button onclick="dibujarTortuga()" style="border-radius: 30%; padding: 10px 20px; font-size: 30px; background: #F0C12F; position: absolute; left: 80px; top: 550px; width: 150px; height: 100px; font-family: 'Georgia', serif;">Crear tortuga</button>
+    <button onclick="reiniciar()" style="border-radius: 30%; padding: 10px 10px; font-size: 30px; background: #6FE129; position: absolute; left: 80px; top: 750px; width: 150px; height: 100px;  font-family: 'Georgia', serif;">Reiniciar Pantalla</button>
 
-    <label for="instrucciones" style="position: absolute; left: 1650px; top: 200px;  width: 150px; height: 100px; font-size: 35px; Color: #43A0AB">Instrucciones Predefinidas:</label>
-    <label for="instrucciones" style="position: absolute; left: 1650px; top: 300px;  width: 200px; height: 100px; font-size: 20px; Color: #43A0AB">*Avanzar X (Píxeles)</label>
-    <label for="instrucciones" style="position: absolute; left: 1650px; top: 330px;  width: 150px; height: 100px; font-size: 20px; Color: #43A0AB">*Girar X (Grados)</label>
+    <label for="instrucciones" style="position: absolute; left: 1650px; top: 200px;  width: 150px; height: 100px; font-size: 35px; color: #43A0AB; font-family: 'Georgia', serif;">Instrucciones Predefinidas:</label>
+    <label for="instrucciones" style="position: absolute; left: 1650px; top: 300px;  width: 200px; height: 100px; font-size: 20px; Color: #43A0AB; font-family: 'Georgia', serif;">-Avanzar_X_(Píxeles)</label>
+    <label for="instrucciones" style="position: absolute; left: 1650px; top: 330px;  width: 150px; height: 100px; font-size: 20px; Color: #43A0AB; font-family: 'Georgia', serif;">-Girar_X_(Grados)</label>
     
     <div id="canvas-container">
         <canvas id="canvas" width="1260" height="670"></canvas>
