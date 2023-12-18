@@ -25,17 +25,21 @@
     
     <canvas style="background-color: beige; top: 20rem ; right:45rem " id="canvas" width="1230" height="450"></canvas>
     
-    <br>
-    <label for="instrucciones" style="position: absolute; left: 50px; top: 200px;  width: 150px; height: 100px; font-size: 35px;">Instrucciones:</label>
-    <input type="text" id="instrucciones" placeholder="Avanzar 5, Girar 90, ..." style="position: absolute; left: 50px; top: 240px; width: 225px; height: 20px;">
-    <button onclick="ejecutarInstrucciones()" style="position: absolute; left: 80px; top: 350px; width: 150px; height: 100px; font-size: 30px; background: yellow">Ejecutar</button>
-    <button onclick="dibujarTortuga()" style="position: absolute; left: 80px; top: 530px; width: 150px; height: 100px; font-size: 30px; background: yellow;">Crear tortuga</button>
+    <br> 
+    <label for="instrucciones" style="position: absolute; left: 50px; top: 200px;  width: 150px; height: 100px; font-size: 35px; font-family: 'Georgia', serif; Color: yellow;">Instrucciones:</label>
+    <input type="text" id="instrucciones" placeholder="Avanzar 5, Girar 90, avanzar -5 ..." style="position: absolute; left: 50px; top: 240px; width: 225px; height: 20px; font-family: 'Georgia', serif;">
+    <button onclick="ejecutarInstrucciones()" style="border-radius: 30%; padding: 10px 20px; font-size: 30px; background: #F0C12F; position: absolute; left: 80px; top: 320px; width: 150px; height: 100px; font-family: 'Georgia', serif;">Ejecutar</button>
+    <button onclick="dibujarTortuga()" style="border-radius: 30%; padding: 10px 20px; font-size: 30px; background: #F0C12F; position: absolute; left: 80px; top: 550px; width: 150px; height: 100px; font-family: 'Georgia', serif;">Crear tortuga</button>
+    <button onclick="reiniciar()" style="border-radius: 30%; padding: 10px 10px; font-size: 30px; background: #6FE129; position: absolute; left: 80px; top: 750px; width: 150px; height: 100px;  font-family: 'Georgia', serif;">Reiniciar Pantalla</button>
 
-    <label for="instrucciones" style="position: absolute; left: 1650px; top: 200px;  width: 150px; height: 100px; font-size: 35px; Color: Blue">Instrucciones Predefinidas:</label>
-    <label for="instrucciones" style="position: absolute; left: 1650px; top: 300px;  width: 200px; height: 100px; font-size: 20px; Color: Blue">*avanzar X (Píxeles):</label>
-    <label for="instrucciones" style="position: absolute; left: 1650px; top: 330px;  width: 150px; height: 100px; font-size: 20px; Color: Blue">*girar X (Grados):</label>
-
+    <label for="instrucciones" style="position: absolute; left: 1650px; top: 200px;  width: 150px; height: 100px; font-size: 35px; color: #43A0AB; font-family: 'Georgia', serif;">Instrucciones Predefinidas:</label>
+    <label for="instrucciones" style="position: absolute; left: 1650px; top: 300px;  width: 200px; height: 100px; font-size: 20px; Color: #43A0AB; font-family: 'Georgia', serif;">-Avanzar_X_(Píxeles)</label>
+    <label for="instrucciones" style="position: absolute; left: 1650px; top: 330px;  width: 150px; height: 100px; font-size: 20px; Color: #43A0AB; font-family: 'Georgia', serif;">-Girar_X_(Grados)</label>
     
+    <div id="canvas-container">
+        <canvas id="canvas" width="1260" height="670"></canvas>
+    </div>
+
     <div>
         <a href="../pagina_juegos/paginajuegos.html" title="Librería de juegos">
             <button class="buttonBack-layout" tittle="Librería de juegos">Back</button>
@@ -44,36 +48,52 @@
 
     <div id="phaser-container">
         <script>
-            // Código en JavaScript
-        // Obtener el lienzo y su contexto
+        // Definir el canvas
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
-        // Objeto Tortuga para mantener el estado
+        // Definimos la Tortuga para mantener el estado
         const tortuga = {
             x: canvas.width / 2,
             y: canvas.height / 2,
             angulo: 0 // Ángulo en grados
         };
 
-        //avanzar 5 & girar 90 & avanzar 5 & girar 90 & avanzar 5 & girar 90 & avanzar 10 & girar -90 & avanzar 5  & girar -90 & avanzar 5  & girar -90 & avanzar 5 & avanzar 0 
+        function reiniciar() {
+            tortuga.x = canvas.width / 2;
+            tortuga.y = canvas.height / 2;
+            tortuga.angulo = 0;
+            rastroAcumulado.length = 0;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        //Ejemplos de dibujos
+        //avanzar 5 & girar 90 & avanzar 5 & girar 90 & avanzar 5 & girar 90 & avanzar 10 & girar -90 & avanzar 5  & girar -90 & avanzar 5  & girar -90 & avanzar 5 & girar -45 & avanzar 6 & girar 180 & avanzar 12
+        //avanzar 5 & girar -45 & avanzar 7 & girar -45 & avanzar 5 & girar -45 & avanzar 7 & girar -45 & avanzar 5 & girar -45 & avanzar 7 & girar -45 & avanzar 5 & girar -45 & avanzar 7
+
         //Fcunción para ejecutar la instrucción solicitada por el usuario
         function ejecutarInstrucciones() {
             const instruccionesInput = document.getElementById('instrucciones');
-            const instrucciones = instruccionesInput.value.trim().split('&');
+            const instrucciones = instruccionesInput.value.trim();
 
-            if (instrucciones.length < 2) {
-                alert('Por favor, ingrese al menos dos instrucciones separadas por "&".');
-                return;
+            // Verificar si se ingresaron al menos dos instrucciones separadas por "&"
+            if (instrucciones.includes('&')) {
+                const instruccionesSeparadas = instrucciones.split('&');
+
+                // Limpiar el rastro acumulado antes de iniciar nuevas instrucciones
+                rastroAcumulado.length = 0;
+
+                instruccionesSeparadas.forEach((instruccion, index) => {
+                    setTimeout(() => {
+                        ejecutarSiguiente(instruccionesSeparadas, index);
+                    }, index * 1000); 
+                });
+            } else {
+                // Ejecutar una sola instrucción
+                ejecutarSiguiente([instrucciones], 0);
+                moverTortuga(0);
             }
-            //arreglo de instrucciones
-            rastroAcumulado.length = 0;
- 
-            instrucciones.forEach((instruccion, index) => {
-                setTimeout(() => {
-                    ejecutarSiguiente(instrucciones, index);
-                }, index * 1000);
-            });
         }
 
         //Función que en caso de que sean más de 2 instruciones a la ves, ejecute cada instrucción en base al índice de un arrelgo 
@@ -85,7 +105,7 @@
             // Validar la estructura de la instrucción actual
             const match = /^(avanzar|girar) (-?\d+)$/.exec(instruccionActual);
             if (!match) {
-                alert('Instrucción no válida: ' + instruccionActual);
+                alert('La instrucción: "' + instruccionActual + '" no es reconocida');
                 return;
             }
 
@@ -95,13 +115,15 @@
             const finalizarInstruccion = () => {
                 ejecutarSiguiente(instrucciones, index + 1);
             };
-
+            //Comandos que el código reconoce para compilar 
             switch (comando) {
                 case 'avanzar':
                     moverTortuga(valor).then(finalizarInstruccion);
+                    moverTortuga(0);
                     break;
                 case 'girar':
                     girarTortuga(valor).then(finalizarInstruccion);
+                    moverTortuga(0);
                     break;
                 default:
                     console.log('Instrucción no reconocida:', instruccionActual);
@@ -114,29 +136,74 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Dibujar el rectángulo para representar la tortuga
-            const anchoTortuga = 20;
-            const altoTortuga = 15;
+            //Después lo quite visualmente
+            const anchoTortuga = 25;
+            const altoTortuga = 20;
 
             ctx.save();
             ctx.translate(tortuga.x, tortuga.y);
-            ctx.rotate(tortuga.angulo * (Math.PI / 180)); // Rotar según el ángulo
+            ctx.rotate(tortuga.angulo * (Math.PI / 180));
 
-            ctx.fillStyle = 'green';
+            ctx.fillStyle = '#00000000';
             ctx.fillRect(-anchoTortuga / 2, -altoTortuga / 2, anchoTortuga, altoTortuga);
-            ctx.strokeRect(-anchoTortuga / 2, -altoTortuga / 2, anchoTortuga, altoTortuga);
+            //Borde del rectángulo
+            //ctx.strokeRect(-anchoTortuga / 2, -altoTortuga / 2, anchoTortuga, altoTortuga);
+            ctx.lineWidth = '0,01';
+
+            //Cabeza Tortuga
+            const radioCirculo2 = 5;
+            ctx.beginPath();
+            ctx.arc(7, 0, radioCirculo2, 0, 2 * Math.PI);
+            ctx.fillStyle = 'darkgreen';
+            ctx.fill();
+            ctx.stroke();
+
+            //Patas Tortuga
+            ctx.beginPath();
+            ctx.moveTo(3,-14);
+            ctx.lineTo(-1,1);
+            ctx.strokeStyle = 'green';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(3,15);
+            ctx.lineTo(-1,1);
+            ctx.strokeStyle = 'green';
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(-8,8);
+            ctx.lineTo(-10,15);
+            ctx.strokeStyle = 'green';
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(-8,-8);
+            ctx.lineTo(-10,-15);
+            ctx.strokeStyle = 'green';
+            ctx.stroke();
+
+            // Cuerpo Tortuga
+            const radioCirculo = 8;
+            ctx.beginPath();
+            ctx.arc(-3, 0, radioCirculo, 0, 2 * Math.PI);
+            ctx.fillStyle = 'darkgreen';
+            ctx.fill();
+            ctx.stroke();
 
             ctx.restore();
         }
-
+        
         // Función para girar la tortuga suavemente
         function girarTortuga(grados) {
-            // Número de pasos para suavizar el giro
+            // Número de pasos para suavizar el giro 
             const pasosgiro = 20;
             const duracion = 500;
             const stepAngle = grados / pasosgiro;
             const intervalo = duracion / pasosgiro;
 
-            // Animación de giro suave
+            // Animación que hace que el giro no sea brusco
             let step = 0;
             const turnos = setInterval(() => {
                 tortuga.angulo += stepAngle;
@@ -146,9 +213,10 @@
                     clearInterval(turnos);
                 }
             }, intervalo);
+            moverTortuga(0);
         }
 
-        // Función para desplazar la tortuga suavemente
+        // Función para desplazar la tortuga suavemente (Crearle una pequeña animación)
         function moverTortuga(distancia) {
             const radianes = tortuga.angulo * (Math.PI / 180);
             const deltaX = distancia * Math.cos(radianes);
@@ -170,7 +238,7 @@
                 rastroTortuga(distancia);
 
                 pasos_const++;
-                // Comprobar todos los pasos
+                // Comprobar que se hicieron correctamente todos los pasos
                 if (pasos_const === pasos) {
                     clearInterval(smoothMove);
                 }
@@ -181,7 +249,7 @@
         // Variable para almacenar el rastro acumulado
         const rastroAcumulado = [];
 
-        // Modifica la función para desplazar la tortuga y dibujar el rastro
+        // Función que se encarga de dibujar el rastro
         function rastroTortuga(distancia) {
             const radianes = tortuga.angulo * (Math.PI / 180);
 

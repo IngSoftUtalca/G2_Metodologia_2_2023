@@ -132,19 +132,42 @@ class JuegoSimon {
     }
 
 
+    /**
+  * Cambia el estilo visual de un botón al alternar la clase 'active'.
+  * @param {Element} boton - El botón al que se le cambiará el estilo.
+  */
     cambiarEstiloBoton(boton) {
-        // Cambia el estilo de los botones cuando se muestra la secuencia
-        // ... (cambia el estilo del botón)
+        boton.classList.toggle('active');
     }
 
+    /**
+     * Realiza acciones específicas cuando el jugador pierde en el juego de Simon.
+     * - Reproduce un sonido de error.
+     * - Habilita el botón de inicio del juego.
+     * - Bloquea los botones para evitar interacciones adicionales.
+     * - Inicia una animación de derrota.
+     */
     juegoPerdido() {
-        // Actualiza el juego de Simon cuando el jugador pierde
-        // ... (acciones cuando el jugador pierde)
+        this.sonidoError.play();
+        this.interfaz.botonInicio.disabled = false;
+        this.botonesBloqueados = true;
+        this.animacionDerrota(); // Iniciar animación de derrota
     }
 
+    /**
+     * Realiza acciones específicas cuando el jugador gana en el juego de Simon.
+     * - Habilita el botón de inicio del juego.
+     * - Bloquea los botones para evitar interacciones adicionales.
+     * - Agrega la clase 'ganador' a cada botón para una apariencia visual especial.
+     * - Actualiza la ronda con un emoji de fuego 🔥.
+     */
     juegoGanado() {
-        // Muestra la animación de victoria y actualiza el juego cuando el jugador gana
-        // ... (acciones cuando el jugador gana)
+        this.interfaz.botonInicio.disabled = false;
+        this.botonesBloqueados = true;
+        this.botones.forEach(elemento => {
+            elemento.classList.add('ganador');
+        });
+        this.actualizarRonda('🔥');
     }
 }
 
