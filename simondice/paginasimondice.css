@@ -50,11 +50,28 @@ body {
 
 
 
+/* Agrega una animación a los elementos con la clase square cuando hay derrota */
+.square.derrota {
+    animation: animacion-derrota-square 0.5s ease-in-out forwards;
+}
+
+/* Define la animación para los elementos square */
+@keyframes animacion-derrota-square {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}
+
 
 
 .square:active,
 .active {
-    filter: brightness(150%);
+    filter: brightness(1500%);
 }
 
 
@@ -79,19 +96,20 @@ body {
 #startButton {
     width: 75px;
     position: absolute;
-    top: 500px;
-    right: 600px;
+    top: 350px;
+    right: 100px;
     border: none;
     font-family: 'Merriweather', serif;
     cursor: pointer;
     border-radius: 5px;
+    rotate: 270deg;
     color: #fff;
     background-color: #587792;
     padding: 5px;
 }
 
 #startButton:disabled {
-    background-color: #eee;
+ 
 }
 
 .title {
