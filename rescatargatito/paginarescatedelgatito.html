@@ -275,9 +275,10 @@
 
 
             });
-            let volverAlMenuText = this.add.text(20, 20, 'Volver', { 
+            
+            let volverAlMenuText = this.add.text(17, 20, 'Volver', { 
                 font: '25px Courier New',
-                fill: 'black',fontStyle: 'bold'
+                fill: '#092F33',fontStyle: 'bold', backgroundColor:'#C9EEF2'
         
             });
 
@@ -322,8 +323,9 @@
         let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '50px', fill: '#FF0000', fontFamily:'Showcard Gothic' });
         gameOver.setOrigin(0.5);
         let botony=400;
+        let borde1 = this.add.rectangle(500, 400, 155, 55, 0x000000).setInteractive().setOrigin(0.5);    
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
-        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
+        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000',fontStyle:'bold' }).setOrigin(0.5);
         botonReinicio.on('pointerdown', () => this.reiniciarJuego());
     
 
@@ -331,6 +333,7 @@
 
         victory(){
         this.physics.pause();
+            
        let victoria = this.add.text(500, 300, '¡Victoria!', { fontSize: '50px', fill: '#39CD00', fontFamily:'Goudy Stout'  });
         victoria.setOrigin(0.5);
         clearTimeout(temporizadorGameOver); 
@@ -340,9 +343,11 @@
         //console.log("¡Victoria!");
         let botony=400;
         let botonx=480;
+        let borde2 = this.add.rectangle(500, 400, 155, 55, 0x000000).setInteractive().setOrigin(0.5);
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
         let botonNext=this.add.rectangle(500,botonx, 200, 50, 0x86FF51).setInteractive();
-        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
+        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000', fontStyle:'bold' }).setOrigin(0.5);
+        let borde3 = this.add.rectangle(500, 480, 200, 55, 0x39CD00).setInteractive().setOrigin(0.5);
         let textoBotonNext = this.add.text(500, botonx, 'Siguiente Nivel\n       ->      ', { 
             backgroundColor:'#86FF51',
             fontSize: '20px', 
@@ -642,11 +647,12 @@
 
         gameOver(){
         this.physics.pause();
-        let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '50px', fill: '#FF0000', fontFamily:'Showcard Gothic' });
+        let gameOver = this.add.text(500, 250, 'Game Over', { fontSize: '50px', fill: '#FF0000', fontFamily:'Showcard Gothic' });
         gameOver.setOrigin(0.5);
         let botony=400;
+        let borde1 = this.add.rectangle(500, 400, 155, 55, 0x000000).setInteractive().setOrigin(0.5); 
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
-        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
+        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000', fontStyle:'bold' }).setOrigin(0.5);
         botonReinicio.on('pointerdown', () => this.reiniciarJuego());
     
 
@@ -663,7 +669,9 @@
         //console.log("¡Victoria!");
         let botony=400;
         let botonx=480;
+        let borde2 = this.add.rectangle(500, 400, 155, 55, 0x000000).setInteractive().setOrigin(0.5);
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
+        let borde3 = this.add.rectangle(500, 480, 200, 55, 0x39CD00).setInteractive().setOrigin(0.5);
         let botonNext=this.add.rectangle(500, botonx, 200, 50, 0x86FF51).setInteractive();
         let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
         let textoBotonNext = this.add.text(500, botonx, 'Siguiente Nivel ', { backgroundColor:'#86FF51',fontSize: '20px', fill: '#000000', fontStyle:'bold' }).setOrigin(0.51);
@@ -975,8 +983,9 @@
         let gameOver = this.add.text(500, 300, 'Game Over', { fontSize: '50px', fill: '#FF0000', fontFamily:'Showcard Gothic' });
         gameOver.setOrigin(0.5);
         let botony=400;
+        let borde1 = this.add.rectangle(500, 400, 155, 55, 0x000000).setInteractive().setOrigin(0.5); 
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
-        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
+        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000', fontStyle:'bold'}).setOrigin(0.5);
         botonReinicio.on('pointerdown', () => this.reiniciarJuego());
     
 
@@ -984,7 +993,7 @@
 
         victory(){
         this.physics.pause();
-         let victoria = this.add.text(500, 200, '¡Victoria!', { fontSize: '50px', fill: '#39CD00', fontFamily:'Goudy Stout'  });
+         let victoria = this.add.text(500, 250, '¡Victoria!', { fontSize: '50px', fill: '#39CD00', fontFamily:'Goudy Stout'  });
         victoria.setOrigin(0.5);
         clearTimeout(temporizadorGameOver); 
         //console.log("¡Victoria!");
@@ -993,9 +1002,11 @@
         gatitosalvado.setVisible(true);
         let botony=400;
         let botonx=480;
+        let borde2 = this.add.rectangle(500, 400, 155, 55, 0x000000).setInteractive().setOrigin(0.5);
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
+        let borde3 = this.add.rectangle(500, 480, 200, 55, 0x39CD00).setInteractive().setOrigin(0.5);
         let botonNext=this.add.rectangle(500, botonx, 200, 50, 0x86FF51).setInteractive();
-        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000' }).setOrigin(0.5);
+        let textoBoton = this.add.text(500, botony, 'Reiniciar', { fontSize: '20px', fill: '#000000', fontStyle:'bold' }).setOrigin(0.5);
         let textoBotonNext = this.add.text(500, botonx, 'Volver al menu', { backgroundColor:'#86FF51',fontSize: '20px', fill: '#000000', fontStyle:'bold' }).setOrigin(0.51);
         botonNext.on('pointerdown', () => {
             for(let i = 0; i < temporizadores.length; i++) {
