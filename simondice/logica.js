@@ -6,7 +6,7 @@ class JuegoSimon {
     constructor(botonesSimon, botonInicio, tablero) {
         this.ronda = 0;
         this.posicionUsuario = 0;
-        this.totalRondas = 1; // Acá podemos modificar la cantidad de niveles disponibles 
+        this.totalRondas = 5; // Acá podemos modificar la cantidad de niveles disponibles 
         this.secuencia = [];
         this.velocidad = 1000;
         this.botonesBloqueados = true;
@@ -130,6 +130,7 @@ class JuegoSimon {
             }
         }, this.velocidad);
     }
+    
 
 
     /**
@@ -151,7 +152,18 @@ class JuegoSimon {
         this.sonidoError.play();
         this.interfaz.botonInicio.disabled = false;
         this.botonesBloqueados = true;
-        this.animacionDerrota(); // Iniciar animación de derrota
+
+        // Agregar la clase de animación de derrota a los elementos square
+        Array.from(this.botones).forEach(elemento => {
+            elemento.classList.add('derrota');
+        });
+
+        // Eliminar la clase después de un tiempo para permitir una nueva animación
+        setTimeout(() => {
+            Array.from(this.botones).forEach(elemento => {
+                elemento.classList.remove('derrota');
+            });
+        }, 500); // Ajusta el tiempo según la duración de tu animación en CSS
     }
 
     /**
