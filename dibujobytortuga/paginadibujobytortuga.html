@@ -27,7 +27,7 @@
     
     <br>
     <label for="instrucciones" style="position: absolute; left: 50px; top: 200px;  width: 150px; height: 100px; font-size: 35px;">Instrucciones:</label>
-    <input type="text" id="instrucciones" placeholder="Avanzar 5, Girar 90, ..." style="position: absolute; left: 50px; top: 240px; width: 225px; height: 20px;">
+    <input type="text" id="instrucciones" placeholder="Avanzar 5, Girar 90, avanzar -5 ..." style="position: absolute; left: 50px; top: 240px; width: 225px; height: 20px;">
     <button onclick="ejecutarInstrucciones()" style="border-radius: 30%; padding: 10px 20px; font-size: 30px; background: #F0C12F; position: absolute; left: 80px; top: 320px; width: 150px; height: 100px;">Ejecutar</button>
     <button onclick="dibujarTortuga()" style="border-radius: 30%; padding: 10px 20px; font-size: 30px; background: #F0C12F; position: absolute; left: 80px; top: 550px; width: 150px; height: 100px;">Crear tortuga</button>
     <button onclick="reiniciar()" style="border-radius: 30%; padding: 10px 20px; font-size: 30px; background: #6FE129; position: absolute; left: 80px; top: 750px; width: 150px; height: 100px;">Reiniciar Pantalla</button>
@@ -48,11 +48,11 @@
 
     <div id="phaser-container">
         <script>
-        // Obtener el canvas
+        // Definir el canvas
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
-        // Objeto Tortuga para mantener el estado
+        // Definimos la Tortuga para mantener el estado
         const tortuga = {
             x: canvas.width / 2,
             y: canvas.height / 2,
@@ -68,6 +68,7 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
         
+        //Ejemplos de dibujos
         //avanzar 5 & girar 90 & avanzar 5 & girar 90 & avanzar 5 & girar 90 & avanzar 10 & girar -90 & avanzar 5  & girar -90 & avanzar 5  & girar -90 & avanzar 5 & girar -45 & avanzar 6 & girar 180 & avanzar 12
         //avanzar 5 & girar -45 & avanzar 7 & girar -45 & avanzar 5 & girar -45 & avanzar 7 & girar -45 & avanzar 5 & girar -45 & avanzar 7 & girar -45 & avanzar 5 & girar -45 & avanzar 7
 
@@ -86,7 +87,7 @@
                 instruccionesSeparadas.forEach((instruccion, index) => {
                     setTimeout(() => {
                         ejecutarSiguiente(instruccionesSeparadas, index);
-                    }, index * 1000); // Ajusta el intervalo de tiempo según tus necesidades
+                    }, index * 1000); 
                 });
             } else {
                 // Ejecutar una sola instrucción
@@ -114,7 +115,7 @@
             const finalizarInstruccion = () => {
                 ejecutarSiguiente(instrucciones, index + 1);
             };
-            //Comandos que el código reconoce
+            //Comandos que el código reconoce para compilar 
             switch (comando) {
                 case 'avanzar':
                     moverTortuga(valor).then(finalizarInstruccion);
@@ -135,15 +136,17 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Dibujar el rectángulo para representar la tortuga
+            //Después lo quite visualmente
             const anchoTortuga = 25;
             const altoTortuga = 20;
 
             ctx.save();
             ctx.translate(tortuga.x, tortuga.y);
-            ctx.rotate(tortuga.angulo * (Math.PI / 180)); // Rotar según el ángulo
+            ctx.rotate(tortuga.angulo * (Math.PI / 180));
 
             ctx.fillStyle = '#00000000';
             ctx.fillRect(-anchoTortuga / 2, -altoTortuga / 2, anchoTortuga, altoTortuga);
+            //Borde del rectángulo
             //ctx.strokeRect(-anchoTortuga / 2, -altoTortuga / 2, anchoTortuga, altoTortuga);
             ctx.lineWidth = '0,01';
 
@@ -194,7 +197,7 @@
         
         // Función para girar la tortuga suavemente
         function girarTortuga(grados) {
-            // Número de pasos para suavizar el giro
+            // Número de pasos para suavizar el giro 
             const pasosgiro = 20;
             const duracion = 500;
             const stepAngle = grados / pasosgiro;
@@ -235,7 +238,7 @@
                 rastroTortuga(distancia);
 
                 pasos_const++;
-                // Comprobar todos los pasos
+                // Comprobar que se hicieron correctamente todos los pasos
                 if (pasos_const === pasos) {
                     clearInterval(smoothMove);
                 }
