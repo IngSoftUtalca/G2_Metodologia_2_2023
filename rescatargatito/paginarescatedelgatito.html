@@ -33,6 +33,7 @@
          let colisionplataforma3=false;
          let plataforma3;
          let plataforma6;
+         let gatitosalvado;
             var nivelSeleccionado = ''; // Variable para almacenar el nivel seleccionado
     
             class MenuScene extends Phaser.Scene {
@@ -111,20 +112,27 @@
             this.load.image('saltarderecha', 'saltar derecha.png');
             this.load.image('saltarizquierda', 'saltar izquierda.png');
             this.load.image('botonEjecutar', 'ejecutar.png');
-            
             this.load.image('saltar2', 'saltar2.png');
             this.load.image('saltarderecha2', 'saltar derecha2.png');
             this.load.image('saltarizquierda2', 'saltar izquierda2.png');
+            this.load.image('gatitosalvado', 'gatitosalvado.png');
         }
     
         create ()
         {   
+            gatitosalvado=null;
             colisionplataforma3=false;
             let contadorInstrucciones = 0;
             const limiteInstrucciones = 6;
             let fondo = this.add.image(600, 300, 'sky');
             fondo.displayWidth = 2000;
             fondo.displayHeight = 2000;
+
+            gatitosalvado = this.physics.add.sprite (985,295,'gatitosalvado')
+            gatitosalvado.setScale(0.28);
+            gatitosalvado.setImmovable(true);
+            gatitosalvado.body.setAllowGravity(false);
+            gatitosalvado.setVisible(false);
     
         
             gato = this.physics.add.sprite (985,300,'gato')
@@ -326,6 +334,9 @@
        let victoria = this.add.text(500, 300, '¡Victoria!', { fontSize: '50px', fill: '#39CD00', fontFamily:'Goudy Stout'  });
         victoria.setOrigin(0.5);
         clearTimeout(temporizadorGameOver); 
+        jugador.setVisible(false);
+        gato.setVisible(false);
+        gatitosalvado.setVisible(true);
         //console.log("¡Victoria!");
         let botony=400;
         let botonx=480;
@@ -390,10 +401,12 @@
             this.load.image('saltar2', 'saltar2.png');
             this.load.image('saltarderecha2', 'saltar derecha2.png');
             this.load.image('saltarizquierda2', 'saltar izquierda2.png');
+            this.load.image('gatitosalvado', 'gatitosalvado.png');
         }
     
         create ()
         {   
+            gatitosalvado=null;
             colisionplataforma3=false;
             let contadorInstrucciones = 0;
             const limiteInstrucciones = 6;
@@ -406,6 +419,12 @@
             gato.setScale(0.23)
             gato.body.setSize(250, 300);
             gato.setInteractive
+
+            gatitosalvado = this.physics.add.sprite (820,295,'gatitosalvado')
+            gatitosalvado.setScale(0.28);
+            gatitosalvado.setImmovable(true);
+            gatitosalvado.body.setAllowGravity(false);
+            gatitosalvado.setVisible(false);
       
             
     
@@ -634,6 +653,9 @@
         }
 
         victory(){
+         jugador.setVisible(false);
+        gato.setVisible(false);
+        gatitosalvado.setVisible(true);
         this.physics.pause();
          let victoria = this.add.text(500, 200, '¡Victoria!', { fontSize: '50px', fill: '#39CD00', fontFamily:'Goudy Stout'  });
         victoria.setOrigin(0.5);
@@ -696,17 +718,26 @@
             this.load.image('saltar2', 'saltar2.png');
             this.load.image('saltarderecha2', 'saltar derecha2.png');
             this.load.image('saltarizquierda2', 'saltar izquierda2.png');
+            this.load.image('gatitosalvado', 'gatitosalvado.png');
         }
     
         create ()
         {   
+            gatitosalvado=null;
             colisionplataforma3=false;
             let contadorInstrucciones = 0;
             const limiteInstrucciones = 6;
             let fondo = this.add.image(600, 300, 'sky');
             fondo.displayWidth = 2000;
             fondo.displayHeight = 2000;
-    
+
+
+            gatitosalvado = this.physics.add.sprite (850,445,'gatitosalvado')
+            gatitosalvado.setScale(0.28);
+            gatitosalvado.setImmovable(true);
+            gatitosalvado.body.setAllowGravity(false);
+            gatitosalvado.setVisible(false);
+            
     
             gato = this.physics.add.sprite (850,450,'gato')
             gato.setScale(0.23)
@@ -957,6 +988,9 @@
         victoria.setOrigin(0.5);
         clearTimeout(temporizadorGameOver); 
         //console.log("¡Victoria!");
+        jugador.setVisible(false);
+        gato.setVisible(false);
+        gatitosalvado.setVisible(true);
         let botony=400;
         let botonx=480;
         let botonReinicio = this.add.rectangle(500, botony, 150, 50, 0xFFFFFF).setInteractive();
@@ -1001,7 +1035,7 @@
             default: 'arcade',
             arcade: {
                 gravity: { y: 1500 },
-                debug: true
+                debug: false
             }
         }
     };
